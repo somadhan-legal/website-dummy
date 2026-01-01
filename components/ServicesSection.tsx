@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ArrowRight, Briefcase, Users, Home, Gavel, Scale, Shield, FileText, Globe, ChevronDown } from 'lucide-react';
+import { Briefcase, Users, Home, Gavel, Scale, Shield, FileText, Globe, ChevronDown } from 'lucide-react';
 import { useLanguage } from '../contexts/LanguageContext';
 
 const services = [
@@ -142,7 +142,7 @@ const ServicesSection: React.FC = () => {
                   <h3 className="font-bold text-base text-slate-900 mb-1.5 group-hover:text-brand-700">
                     {language === 'bn' ? service.titleBn : service.title}
                   </h3>
-                  <p className="text-sm text-slate-500 mb-4 line-clamp-2">
+                  <p className="text-sm text-slate-500 mb-3 line-clamp-2">
                     {language === 'bn' ? service.descriptionBn : service.description}
                   </p>
 
@@ -156,7 +156,7 @@ const ServicesSection: React.FC = () => {
                         transition={{ duration: 0.2 }}
                         className="overflow-hidden"
                       >
-                        <div className="flex flex-wrap gap-1.5 mb-4">
+                        <div className="flex flex-wrap gap-1.5 pt-3 border-t border-slate-100 group-hover:border-brand-200/50">
                           {service.examples.map((ex) => (
                             <span key={ex} className="text-xs px-2 py-1 bg-white text-slate-600 rounded-md shadow-sm">
                               {ex}
@@ -166,13 +166,6 @@ const ServicesSection: React.FC = () => {
                       </motion.div>
                     )}
                   </AnimatePresence>
-
-                  {/* Action Button */}
-                  <div className="flex items-center justify-end pt-3 border-t border-slate-100 group-hover:border-brand-200/50">
-                    <button className="w-9 h-9 rounded-full bg-slate-50 group-hover:bg-brand-600 flex items-center justify-center transition-all duration-300 hover:scale-110 active:scale-95">
-                      <ArrowRight className="w-4 h-4 text-slate-400 group-hover:text-white transition-colors" />
-                    </button>
-                  </div>
                 </div>
               </motion.div>
             );
@@ -230,17 +223,13 @@ const ServicesSection: React.FC = () => {
                         <p className="text-sm text-slate-600 mb-3">
                           {language === 'bn' ? service.descriptionBn : service.description}
                         </p>
-                        <div className="flex flex-wrap gap-1.5 mb-4">
+                        <div className="flex flex-wrap gap-1.5">
                           {service.examples.map((ex) => (
                             <span key={ex} className="text-xs px-2 py-1 bg-slate-50 text-slate-600 rounded-md">
                               {ex}
                             </span>
                           ))}
                         </div>
-                        <button className="w-full bg-brand-600 hover:bg-brand-700 text-white py-2.5 rounded-lg text-sm font-medium flex items-center justify-center gap-2 transition-all active:scale-[0.98]">
-                          {t('services.explore')}
-                          <ArrowRight className="w-4 h-4" />
-                        </button>
                       </div>
                     </motion.div>
                   )}

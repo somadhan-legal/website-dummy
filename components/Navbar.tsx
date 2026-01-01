@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Menu, X, Globe, Briefcase, Settings, HelpCircle, Mail } from 'lucide-react';
+import { Menu, X, Globe, Briefcase, Settings, HelpCircle } from 'lucide-react';
 import { useLanguage } from '../contexts/LanguageContext';
 
 interface NavbarProps {
@@ -96,16 +96,15 @@ const Navbar: React.FC<NavbarProps> = ({ onOpenWaitlist }) => {
                 {language === 'en' ? 'বাং' : 'EN'}
               </button>
 
-              {/* Contact Button */}
+              {/* Contact Button - No Icon */}
               <a
                 href="mailto:somadhan.legal@gmail.com"
-                className={`hidden sm:flex items-center gap-2 px-4 py-2 rounded-full text-sm font-semibold transition-all hover:scale-105 active:scale-95 ${
+                className={`hidden sm:flex items-center px-5 py-2 rounded-full text-sm font-semibold transition-all hover:scale-105 active:scale-95 ${
                   isScrolled
                     ? 'bg-brand-600 text-white hover:bg-brand-700'
                     : 'bg-white text-brand-600 hover:bg-white/90'
                 }`}
               >
-                <Mail className="w-4 h-4" />
                 {language === 'bn' ? 'যোগাযোগ' : 'Contact Us'}
               </a>
 
@@ -170,9 +169,8 @@ const Navbar: React.FC<NavbarProps> = ({ onOpenWaitlist }) => {
                   <a
                     href="mailto:somadhan.legal@gmail.com"
                     onClick={() => setIsMobileMenuOpen(false)}
-                    className="flex items-center justify-center gap-2 px-4 py-3 bg-brand-600 text-white rounded-xl font-semibold transition-colors hover:bg-brand-700"
+                    className="flex items-center justify-center px-4 py-3 bg-brand-600 text-white rounded-xl font-semibold transition-colors hover:bg-brand-700"
                   >
-                    <Mail className="w-4 h-4" />
                     {language === 'bn' ? 'যোগাযোগ' : 'Contact'}
                   </a>
                 </div>

@@ -18,6 +18,16 @@ const HeroLanding: React.FC<HeroLandingProps> = ({ onOpenWaitlist }) => {
   const backgroundY = useTransform(scrollYProgress, [0, 1], ['0%', '30%']);
   const opacity = useTransform(scrollYProgress, [0, 0.5], [1, 0]);
 
+  // Logos data
+  const logos = [
+    { type: 'image', src: '/Logos/draftwise.svg', alt: 'Draftwise', height: 'h-5 sm:h-6' },
+    { type: 'image', src: '/Logos/paxton.svg', alt: 'Paxton', height: 'h-6 sm:h-7' },
+    { type: 'image', src: '/Logos/blueshoe.avif', alt: 'Blueshoe', height: 'h-5 sm:h-6' },
+    { type: 'image', src: '/Logos/logo-off-black.webp', alt: 'Off', height: 'h-5 sm:h-6' },
+    { type: 'text', text: 'Dench' },
+    { type: 'text', text: 'Harvey' },
+  ];
+
   return (
     <section
       ref={heroRef}
@@ -47,7 +57,7 @@ const HeroLanding: React.FC<HeroLandingProps> = ({ onOpenWaitlist }) => {
       />
 
       {/* Content */}
-      <motion.div style={{ opacity }} className="relative z-10 max-w-4xl mx-auto px-4 sm:px-6 text-center pt-24 md:pt-20 pb-48 md:pb-52">
+      <motion.div style={{ opacity }} className="relative z-10 max-w-4xl mx-auto px-4 sm:px-6 text-center pt-24 md:pt-20 pb-56 md:pb-60">
         {/* Badge */}
         <motion.div
           initial={{ opacity: 0, y: 15 }}
@@ -96,40 +106,65 @@ const HeroLanding: React.FC<HeroLandingProps> = ({ onOpenWaitlist }) => {
         </motion.div>
       </motion.div>
 
-      {/* Inspired From Section */}
+      {/* Inspired From Section - More bottom margin */}
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 0.8, delay: 0.5 }}
-        className="absolute bottom-8 md:bottom-12 left-0 right-0 z-10"
+        className="absolute bottom-16 md:bottom-20 left-0 right-0 z-10"
       >
-        <p className="text-[10px] sm:text-xs text-white/40 mb-6 uppercase tracking-[0.25em] font-medium text-center">
+        <p className="text-[10px] sm:text-xs text-white/40 mb-8 uppercase tracking-[0.25em] font-medium text-center">
           {language === 'bn' ? 'অনুপ্রাণিত' : 'Inspired from'}
         </p>
         
-        {/* Logo Marquee with smooth infinite loop */}
-        <div className="relative overflow-hidden">
-          {/* Fade edges */}
-          <div className="absolute left-0 top-0 bottom-0 w-20 sm:w-32 bg-gradient-to-r from-brand-600 to-transparent z-10 pointer-events-none" />
-          <div className="absolute right-0 top-0 bottom-0 w-20 sm:w-32 bg-gradient-to-l from-brand-600 to-transparent z-10 pointer-events-none" />
-          
-          {/* Scrolling container */}
-          <div className="flex items-center gap-12 sm:gap-16 animate-scroll-infinite">
-            {/* First set */}
-            <img src="/Logos/draftwise.svg" alt="Draftwise" className="h-5 sm:h-6 opacity-60 hover:opacity-100 transition-opacity brightness-0 invert" />
-            <img src="/Logos/paxton.svg" alt="Paxton" className="h-6 sm:h-7 opacity-60 hover:opacity-100 transition-opacity brightness-0 invert" />
-            <img src="/Logos/blueshoe.avif" alt="Blueshoe" className="h-5 sm:h-6 opacity-60 hover:opacity-100 transition-opacity brightness-0 invert" />
-            <img src="/Logos/logo-off-black.webp" alt="Off" className="h-5 sm:h-6 opacity-60 hover:opacity-100 transition-opacity brightness-0 invert" />
-            <span className="text-white/60 font-serif text-xl sm:text-2xl tracking-tight hover:text-white transition-colors">Dench</span>
-            <span className="text-white/60 font-serif text-xl sm:text-2xl tracking-tight hover:text-white transition-colors">Harvey</span>
-            
-            {/* Duplicate set for seamless loop */}
-            <img src="/Logos/draftwise.svg" alt="Draftwise" className="h-5 sm:h-6 opacity-60 hover:opacity-100 transition-opacity brightness-0 invert" />
-            <img src="/Logos/paxton.svg" alt="Paxton" className="h-6 sm:h-7 opacity-60 hover:opacity-100 transition-opacity brightness-0 invert" />
-            <img src="/Logos/blueshoe.avif" alt="Blueshoe" className="h-5 sm:h-6 opacity-60 hover:opacity-100 transition-opacity brightness-0 invert" />
-            <img src="/Logos/logo-off-black.webp" alt="Off" className="h-5 sm:h-6 opacity-60 hover:opacity-100 transition-opacity brightness-0 invert" />
-            <span className="text-white/60 font-serif text-xl sm:text-2xl tracking-tight hover:text-white transition-colors">Dench</span>
-            <span className="text-white/60 font-serif text-xl sm:text-2xl tracking-tight hover:text-white transition-colors">Harvey</span>
+        {/* Logo Marquee with proper container width and CSS mask fade */}
+        <div className="max-w-6xl mx-auto px-4 sm:px-6">
+          <div 
+            className="relative overflow-hidden"
+            style={{
+              maskImage: 'linear-gradient(to right, transparent, black 10%, black 90%, transparent)',
+              WebkitMaskImage: 'linear-gradient(to right, transparent, black 10%, black 90%, transparent)',
+            }}
+          >
+            {/* Scrolling container - seamless infinite loop */}
+            <div className="flex items-center gap-14 sm:gap-20 animate-marquee-smooth whitespace-nowrap">
+              {/* First set */}
+              {logos.map((logo, i) => (
+                logo.type === 'image' ? (
+                  <img 
+                    key={`a-${i}`}
+                    src={logo.src} 
+                    alt={logo.alt} 
+                    className={`${logo.height} opacity-50 hover:opacity-80 transition-opacity brightness-0 invert flex-shrink-0`}
+                  />
+                ) : (
+                  <span 
+                    key={`a-${i}`}
+                    className="text-white/50 font-serif text-xl sm:text-2xl tracking-tight hover:text-white/80 transition-colors flex-shrink-0"
+                  >
+                    {logo.text}
+                  </span>
+                )
+              ))}
+              {/* Duplicate set for seamless loop */}
+              {logos.map((logo, i) => (
+                logo.type === 'image' ? (
+                  <img 
+                    key={`b-${i}`}
+                    src={logo.src} 
+                    alt={logo.alt} 
+                    className={`${logo.height} opacity-50 hover:opacity-80 transition-opacity brightness-0 invert flex-shrink-0`}
+                  />
+                ) : (
+                  <span 
+                    key={`b-${i}`}
+                    className="text-white/50 font-serif text-xl sm:text-2xl tracking-tight hover:text-white/80 transition-colors flex-shrink-0"
+                  >
+                    {logo.text}
+                  </span>
+                )
+              ))}
+            </div>
           </div>
         </div>
       </motion.div>
