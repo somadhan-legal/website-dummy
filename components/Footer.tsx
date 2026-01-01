@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Mail, Smartphone, Bell } from 'lucide-react';
+import { Mail, Smartphone, Bell, ArrowRight } from 'lucide-react';
 import { useLanguage } from '../contexts/LanguageContext';
 
 interface FooterProps {
@@ -28,41 +28,41 @@ const Footer: React.FC<FooterProps> = ({ onOpenWaitlist }) => {
 
   return (
     <footer className="bg-slate-50 relative">
-      {/* CTA Card Section - Floating on brand background */}
-      <div className="relative">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6">
-          <div className="bg-brand-600 rounded-3xl px-6 sm:px-12 py-12 sm:py-16 text-center relative overflow-hidden">
-            {/* Decorative elements */}
-            <div className="absolute top-0 left-0 w-64 h-64 bg-white/5 rounded-full -translate-x-1/2 -translate-y-1/2" />
-            <div className="absolute bottom-0 right-0 w-48 h-48 bg-white/5 rounded-full translate-x-1/3 translate-y-1/3" />
-            
-            <div className="relative z-10">
-              <h2 className="font-serif text-2xl sm:text-3xl md:text-4xl text-white mb-3">
+      {/* CTA Section - Compact & Clean */}
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 pt-8">
+        <div className="bg-brand-600 rounded-2xl px-6 sm:px-10 py-8 sm:py-10 relative overflow-hidden">
+          {/* Subtle decorative circle */}
+          <div className="absolute -right-16 -top-16 w-48 h-48 bg-white/5 rounded-full" />
+          
+          <div className="relative z-10 flex flex-col sm:flex-row items-center justify-between gap-6">
+            <div className="text-center sm:text-left">
+              <h2 className="font-serif text-xl sm:text-2xl text-white mb-1.5">
                 {language === 'bn' ? 'আজই শুরু করুন' : 'Ready to get started?'}
               </h2>
-              <p className="text-white/60 text-sm sm:text-base max-w-md mx-auto mb-8">
+              <p className="text-white/50 text-sm max-w-sm">
                 {language === 'bn' 
                   ? 'ওয়েটলিস্টে যোগ দিন এবং প্রথম আপডেট পান।' 
-                  : 'Join our waitlist and be among the first to experience legal support, simplified.'}
+                  : 'Join our waitlist for early access.'}
               </p>
-              <button
-                onClick={onOpenWaitlist}
-                className="bg-white text-brand-600 px-8 py-3.5 rounded-full font-semibold text-sm hover:bg-white/90 transition-all hover:scale-105 active:scale-95 shadow-lg shadow-black/10"
-              >
-                {t('hero.joinWaitlist')}
-              </button>
             </div>
+            <button
+              onClick={onOpenWaitlist}
+              className="bg-white text-brand-600 px-6 py-3 rounded-full font-semibold text-sm hover:bg-white/90 transition-all hover:scale-105 active:scale-95 flex items-center gap-2 shadow-lg shadow-black/10 flex-shrink-0"
+            >
+              {t('hero.joinWaitlist')}
+              <ArrowRight className="w-4 h-4" />
+            </button>
           </div>
         </div>
       </div>
 
       {/* Main Footer Content */}
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 py-16">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 py-12">
         <div className="grid grid-cols-2 md:grid-cols-12 gap-8 md:gap-6">
           {/* Brand Column */}
           <div className="col-span-2 md:col-span-4">
-            <img src="/Logo.svg" alt="Somadhan" className="h-7 mb-5" />
-            <p className="text-slate-500 text-sm leading-relaxed mb-5 max-w-[260px]">
+            <img src="/Logo.svg" alt="Somadhan" className="h-7 mb-4" />
+            <p className="text-slate-500 text-sm leading-relaxed mb-4 max-w-[260px]">
               {t('footer.tagline')}
             </p>
             <a 
@@ -77,7 +77,7 @@ const Footer: React.FC<FooterProps> = ({ onOpenWaitlist }) => {
           {/* Quick Links */}
           <div className="md:col-span-2">
             <h4 className="font-semibold text-sm text-slate-900 mb-4">{language === 'bn' ? 'লিংক' : 'Links'}</h4>
-            <ul className="space-y-3">
+            <ul className="space-y-2.5">
               <li>
                 <a href="#services" onClick={(e) => scrollToSection(e, 'services')} className="text-slate-500 hover:text-brand-600 text-sm transition-colors">
                   {t('nav.services')}
@@ -96,46 +96,46 @@ const Footer: React.FC<FooterProps> = ({ onOpenWaitlist }) => {
             </ul>
           </div>
 
-          {/* Company */}
+          {/* Company - With inline Coming Soon */}
           <div className="md:col-span-2">
             <h4 className="font-semibold text-sm text-slate-900 mb-4">{t('footer.company')}</h4>
-            <ul className="space-y-3">
-              <li className="relative">
+            <ul className="space-y-2.5">
+              <li className="flex items-center gap-2">
                 <button
                   onClick={() => handleComingSoonClick('about')}
-                  className="text-slate-500 hover:text-slate-700 text-sm transition-colors text-left"
+                  className="text-slate-500 hover:text-slate-700 text-sm transition-colors"
                 >
                   {t('footer.about')}
                 </button>
                 <AnimatePresence>
                   {showComingSoon === 'about' && (
                     <motion.span
-                      initial={{ opacity: 0, x: -5, scale: 0.9 }}
-                      animate={{ opacity: 1, x: 0, scale: 1 }}
-                      exit={{ opacity: 0, x: -5, scale: 0.9 }}
-                      className="absolute left-full ml-2 top-0 px-2 py-0.5 bg-brand-600 text-white text-[10px] font-medium rounded-md whitespace-nowrap"
+                      initial={{ opacity: 0, scale: 0.8 }}
+                      animate={{ opacity: 1, scale: 1 }}
+                      exit={{ opacity: 0, scale: 0.8 }}
+                      className="px-1.5 py-0.5 bg-brand-600 text-white text-[9px] font-medium rounded whitespace-nowrap"
                     >
-                      Coming Soon
+                      Soon
                     </motion.span>
                   )}
                 </AnimatePresence>
               </li>
-              <li className="relative">
+              <li className="flex items-center gap-2">
                 <button
                   onClick={() => handleComingSoonClick('careers')}
-                  className="text-slate-500 hover:text-slate-700 text-sm transition-colors text-left"
+                  className="text-slate-500 hover:text-slate-700 text-sm transition-colors"
                 >
                   {t('footer.careers')}
                 </button>
                 <AnimatePresence>
                   {showComingSoon === 'careers' && (
                     <motion.span
-                      initial={{ opacity: 0, x: -5, scale: 0.9 }}
-                      animate={{ opacity: 1, x: 0, scale: 1 }}
-                      exit={{ opacity: 0, x: -5, scale: 0.9 }}
-                      className="absolute left-full ml-2 top-0 px-2 py-0.5 bg-brand-600 text-white text-[10px] font-medium rounded-md whitespace-nowrap"
+                      initial={{ opacity: 0, scale: 0.8 }}
+                      animate={{ opacity: 1, scale: 1 }}
+                      exit={{ opacity: 0, scale: 0.8 }}
+                      className="px-1.5 py-0.5 bg-brand-600 text-white text-[9px] font-medium rounded whitespace-nowrap"
                     >
-                      Coming Soon
+                      Soon
                     </motion.span>
                   )}
                 </AnimatePresence>
@@ -145,22 +145,22 @@ const Footer: React.FC<FooterProps> = ({ onOpenWaitlist }) => {
                   {t('footer.contact')}
                 </a>
               </li>
-              <li className="relative">
+              <li className="flex items-center gap-2">
                 <button
                   onClick={() => handleComingSoonClick('blog')}
-                  className="text-slate-500 hover:text-slate-700 text-sm transition-colors text-left"
+                  className="text-slate-500 hover:text-slate-700 text-sm transition-colors"
                 >
                   {t('footer.blog')}
                 </button>
                 <AnimatePresence>
                   {showComingSoon === 'blog' && (
                     <motion.span
-                      initial={{ opacity: 0, x: -5, scale: 0.9 }}
-                      animate={{ opacity: 1, x: 0, scale: 1 }}
-                      exit={{ opacity: 0, x: -5, scale: 0.9 }}
-                      className="absolute left-full ml-2 top-0 px-2 py-0.5 bg-brand-600 text-white text-[10px] font-medium rounded-md whitespace-nowrap"
+                      initial={{ opacity: 0, scale: 0.8 }}
+                      animate={{ opacity: 1, scale: 1 }}
+                      exit={{ opacity: 0, scale: 0.8 }}
+                      className="px-1.5 py-0.5 bg-brand-600 text-white text-[9px] font-medium rounded whitespace-nowrap"
                     >
-                      Coming Soon
+                      Soon
                     </motion.span>
                   )}
                 </AnimatePresence>
@@ -168,24 +168,24 @@ const Footer: React.FC<FooterProps> = ({ onOpenWaitlist }) => {
             </ul>
           </div>
 
-          {/* Get the App */}
+          {/* Get the App - Clean Card */}
           <div className="col-span-2 md:col-span-4">
             <h4 className="font-semibold text-sm text-slate-900 mb-4">{t('footer.getApp')}</h4>
-            <div className="bg-white rounded-2xl border border-slate-100 p-5 shadow-sm">
-              <div className="flex items-start gap-4 mb-4">
-                <div className="w-12 h-12 bg-brand-50 rounded-xl flex items-center justify-center flex-shrink-0">
-                  <Smartphone className="w-6 h-6 text-brand-600" />
+            <div className="bg-white rounded-xl border border-slate-100 p-4 shadow-sm">
+              <div className="flex items-center gap-3 mb-3">
+                <div className="w-10 h-10 bg-brand-50 rounded-lg flex items-center justify-center flex-shrink-0">
+                  <Smartphone className="w-5 h-5 text-brand-600" />
                 </div>
                 <div>
                   <p className="font-medium text-slate-900 text-sm">{t('footer.appComingSoon')}</p>
-                  <p className="text-slate-400 text-xs mt-0.5">iOS & Android</p>
+                  <p className="text-slate-400 text-xs">iOS & Android</p>
                 </div>
               </div>
               <button
                 onClick={onOpenWaitlist}
-                className="w-full py-2.5 bg-brand-50 hover:bg-brand-100 text-brand-700 rounded-xl text-sm font-medium transition-colors flex items-center justify-center gap-2"
+                className="w-full py-2 bg-slate-50 hover:bg-slate-100 text-slate-700 rounded-lg text-xs font-medium transition-colors flex items-center justify-center gap-1.5"
               >
-                <Bell className="w-4 h-4" />
+                <Bell className="w-3.5 h-3.5" />
                 {t('footer.notifyMe')}
               </button>
             </div>
@@ -193,25 +193,25 @@ const Footer: React.FC<FooterProps> = ({ onOpenWaitlist }) => {
         </div>
 
         {/* Bottom Bar */}
-        <div className="mt-12 pt-8 border-t border-slate-200 flex flex-col sm:flex-row items-center justify-between gap-4">
+        <div className="mt-10 pt-6 border-t border-slate-200 flex flex-col sm:flex-row items-center justify-between gap-4">
           <p className="text-slate-400 text-xs">
             {t('footer.copyright')}
           </p>
           
           {/* Social Links */}
-          <div className="flex items-center gap-2">
-            <a href="#" className="w-9 h-9 bg-white border border-slate-100 hover:border-slate-200 hover:bg-slate-50 rounded-xl flex items-center justify-center transition-all text-slate-400 hover:text-slate-600">
-              <svg className="w-4 h-4" viewBox="0 0 24 24" fill="currentColor">
+          <div className="flex items-center gap-1.5">
+            <a href="#" className="w-8 h-8 bg-white border border-slate-100 hover:border-slate-200 hover:bg-slate-50 rounded-lg flex items-center justify-center transition-all text-slate-400 hover:text-slate-600">
+              <svg className="w-3.5 h-3.5" viewBox="0 0 24 24" fill="currentColor">
                 <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
               </svg>
             </a>
-            <a href="#" className="w-9 h-9 bg-white border border-slate-100 hover:border-slate-200 hover:bg-slate-50 rounded-xl flex items-center justify-center transition-all text-slate-400 hover:text-slate-600">
-              <svg className="w-4 h-4" viewBox="0 0 24 24" fill="currentColor">
+            <a href="#" className="w-8 h-8 bg-white border border-slate-100 hover:border-slate-200 hover:bg-slate-50 rounded-lg flex items-center justify-center transition-all text-slate-400 hover:text-slate-600">
+              <svg className="w-3.5 h-3.5" viewBox="0 0 24 24" fill="currentColor">
                 <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
               </svg>
             </a>
-            <a href="#" className="w-9 h-9 bg-white border border-slate-100 hover:border-slate-200 hover:bg-slate-50 rounded-xl flex items-center justify-center transition-all text-slate-400 hover:text-slate-600">
-              <svg className="w-4 h-4" viewBox="0 0 24 24" fill="currentColor">
+            <a href="#" className="w-8 h-8 bg-white border border-slate-100 hover:border-slate-200 hover:bg-slate-50 rounded-lg flex items-center justify-center transition-all text-slate-400 hover:text-slate-600">
+              <svg className="w-3.5 h-3.5" viewBox="0 0 24 24" fill="currentColor">
                 <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
               </svg>
             </a>

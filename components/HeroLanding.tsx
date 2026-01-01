@@ -56,14 +56,14 @@ const HeroLanding: React.FC<HeroLandingProps> = ({ onOpenWaitlist }) => {
         }}
       />
 
-      {/* Content */}
-      <motion.div style={{ opacity }} className="relative z-10 max-w-4xl mx-auto px-4 sm:px-6 text-center pt-24 md:pt-20 pb-56 md:pb-60">
+      {/* Content - More top padding */}
+      <motion.div style={{ opacity }} className="relative z-10 max-w-4xl mx-auto px-4 sm:px-6 text-center pt-32 md:pt-28 pb-56 md:pb-60">
         {/* Badge */}
         <motion.div
           initial={{ opacity: 0, y: 15 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.1 }}
-          className="inline-flex items-center gap-2.5 px-4 py-2 rounded-full bg-white/10 backdrop-blur-sm border border-white/15 mb-8"
+          className="inline-flex items-center gap-2.5 px-4 py-2 rounded-full bg-white/10 backdrop-blur-sm border border-white/15 mb-6"
         >
           <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
           <span className="text-sm text-white/90 font-medium tracking-wide">{t('hero.badge')}</span>
@@ -86,7 +86,7 @@ const HeroLanding: React.FC<HeroLandingProps> = ({ onOpenWaitlist }) => {
           initial={{ opacity: 0, y: 15 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
-          className="text-base md:text-lg text-white/60 leading-relaxed max-w-xl mx-auto mb-10"
+          className="text-base md:text-lg text-white/60 leading-relaxed max-w-xl mx-auto mb-8"
         >
           {t('hero.subtext')}
         </motion.p>
@@ -106,7 +106,7 @@ const HeroLanding: React.FC<HeroLandingProps> = ({ onOpenWaitlist }) => {
         </motion.div>
       </motion.div>
 
-      {/* Inspired From Section - More bottom margin */}
+      {/* Inspired From Section */}
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
@@ -117,7 +117,7 @@ const HeroLanding: React.FC<HeroLandingProps> = ({ onOpenWaitlist }) => {
           {language === 'bn' ? 'অনুপ্রাণিত' : 'Inspired from'}
         </p>
         
-        {/* Logo Marquee with proper container width and CSS mask fade */}
+        {/* Logo Marquee */}
         <div className="max-w-6xl mx-auto px-4 sm:px-6">
           <div 
             className="relative overflow-hidden"
@@ -126,7 +126,6 @@ const HeroLanding: React.FC<HeroLandingProps> = ({ onOpenWaitlist }) => {
               WebkitMaskImage: 'linear-gradient(to right, transparent, black 10%, black 90%, transparent)',
             }}
           >
-            {/* Scrolling container - seamless infinite loop */}
             <div className="flex items-center gap-14 sm:gap-20 animate-marquee-smooth whitespace-nowrap">
               {/* First set */}
               {logos.map((logo, i) => (
@@ -146,7 +145,7 @@ const HeroLanding: React.FC<HeroLandingProps> = ({ onOpenWaitlist }) => {
                   </span>
                 )
               ))}
-              {/* Duplicate set for seamless loop */}
+              {/* Duplicate set */}
               {logos.map((logo, i) => (
                 logo.type === 'image' ? (
                   <img 

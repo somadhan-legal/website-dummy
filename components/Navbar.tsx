@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Menu, X, Globe, Briefcase, Settings, HelpCircle } from 'lucide-react';
+import { Menu, X, Globe, ChevronRight } from 'lucide-react';
 import { useLanguage } from '../contexts/LanguageContext';
 
 interface NavbarProps {
@@ -13,9 +13,9 @@ const Navbar: React.FC<NavbarProps> = ({ onOpenWaitlist }) => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   const navLinks = [
-    { label: t('nav.services'), href: '#services', icon: Briefcase },
-    { label: t('nav.process'), href: '#process', icon: Settings },
-    { label: t('nav.faq'), href: '#faq', icon: HelpCircle },
+    { label: t('nav.services'), href: '#services' },
+    { label: t('nav.process'), href: '#process' },
+    { label: t('nav.faq'), href: '#faq' },
   ];
 
   useEffect(() => {
@@ -25,6 +25,15 @@ const Navbar: React.FC<NavbarProps> = ({ onOpenWaitlist }) => {
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
+
+  useEffect(() => {
+    if (isMobileMenuOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'unset';
+    }
+    return () => { document.body.style.overflow = 'unset'; };
+  }, [isMobileMenuOpen]);
 
   const scrollToSection = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
     e.preventDefault();
@@ -96,7 +105,7 @@ const Navbar: React.FC<NavbarProps> = ({ onOpenWaitlist }) => {
                 {language === 'en' ? 'বাং' : 'EN'}
               </button>
 
-              {/* Contact Button - No Icon */}
+              {/* Contact Button */}
               <a
                 href="mailto:somadhan.legal@gmail.com"
                 className={`hidden sm:flex items-center px-5 py-2 rounded-full text-sm font-semibold transition-all hover:scale-105 active:scale-95 ${
@@ -122,61 +131,81 @@ const Navbar: React.FC<NavbarProps> = ({ onOpenWaitlist }) => {
         </div>
       </motion.nav>
 
-      {/* Mobile Menu */}
+      {/* Modern Full-Screen Mobile Menu */}
       <AnimatePresence>
         {isMobileMenuOpen && (
-          <motion.div
-            initial={{ opacity: 0, y: -10 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -10 }}
-            transition={{ duration: 0.2 }}
-            className="fixed inset-x-0 top-16 z-40 bg-white border-b border-slate-100 shadow-xl md:hidden"
-          >
-            <div className="px-4 py-5">
-              {/* Menu Items */}
-              <div className="space-y-1 mb-5">
-                {navLinks.map((link) => {
-                  const Icon = link.icon;
-                  return (
+          <>
+            {/* Backdrop */}
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.2 }}
+              onClick={() => setIsMobileMenuOpen(false)}
+              className="fixed inset-0 z-40 bg-black/20 backdrop-blur-sm md:hidden"
+            />
+            
+            {/* Menu Panel - Slide from right */}
+            <motion.div
+              initial={{ x: '100%' }}
+              animate={{ x: 0 }}
+              exit={{ x: '100%' }}
+              transition={{ duration: 0.3, ease: [0.32, 0.72, 0, 1] }}
+              className="fixed top-0 right-0 bottom-0 w-[280px] z-50 bg-white shadow-2xl md:hidden"
+            >
+              {/* Header */}
+              <div className="flex items-center justify-between p-5 border-b border-slate-100">
+                <img src="/Logo.svg" alt="Somadhan" className="h-6" />
+                <button
+                  onClick={() => setIsMobileMenuOpen(false)}
+                  className="w-9 h-9 bg-slate-100 hover:bg-slate-200 rounded-full flex items-center justify-center transition-colors"
+                >
+                  <X className="w-4 h-4 text-slate-600" />
+                </button>
+              </div>
+
+              {/* Navigation Links */}
+              <div className="p-4">
+                <p className="text-[10px] font-semibold text-slate-400 uppercase tracking-wider mb-3 px-3">
+                  {language === 'bn' ? 'নেভিগেশন' : 'Navigate'}
+                </p>
+                <div className="space-y-1">
+                  {navLinks.map((link) => (
                     <a
                       key={link.href}
                       href={link.href}
                       onClick={(e) => scrollToSection(e, link.href)}
-                      className="flex items-center gap-3 px-4 py-3.5 text-slate-700 hover:bg-slate-50 rounded-xl font-medium transition-colors"
+                      className="flex items-center justify-between px-3 py-3 text-slate-700 hover:bg-slate-50 rounded-xl font-medium transition-colors"
                     >
-                      <div className="w-9 h-9 bg-slate-100 rounded-lg flex items-center justify-center">
-                        <Icon className="w-4 h-4 text-slate-500" />
-                      </div>
-                      {link.label}
+                      <span>{link.label}</span>
+                      <ChevronRight className="w-4 h-4 text-slate-300" />
                     </a>
-                  );
-                })}
-              </div>
-
-              {/* Divider */}
-              <div className="border-t border-slate-100 pt-4">
-                <div className="grid grid-cols-2 gap-3">
-                  {/* Language Toggle */}
-                  <button
-                    onClick={toggleLanguage}
-                    className="flex items-center justify-center gap-2 px-4 py-3 bg-slate-50 text-slate-600 rounded-xl font-medium transition-colors hover:bg-slate-100"
-                  >
-                    <Globe className="w-4 h-4" />
-                    {language === 'en' ? 'বাংলা' : 'English'}
-                  </button>
-
-                  {/* Contact Button */}
-                  <a
-                    href="mailto:somadhan.legal@gmail.com"
-                    onClick={() => setIsMobileMenuOpen(false)}
-                    className="flex items-center justify-center px-4 py-3 bg-brand-600 text-white rounded-xl font-semibold transition-colors hover:bg-brand-700"
-                  >
-                    {language === 'bn' ? 'যোগাযোগ' : 'Contact'}
-                  </a>
+                  ))}
                 </div>
               </div>
-            </div>
-          </motion.div>
+
+              {/* Actions */}
+              <div className="absolute bottom-0 left-0 right-0 p-4 border-t border-slate-100 bg-slate-50/50">
+                {/* Language Toggle */}
+                <button
+                  onClick={toggleLanguage}
+                  className="w-full flex items-center justify-center gap-2 px-4 py-2.5 mb-3 bg-white text-slate-600 rounded-xl font-medium transition-colors hover:bg-slate-100 border border-slate-100"
+                >
+                  <Globe className="w-4 h-4" />
+                  {language === 'en' ? 'বাংলা' : 'English'}
+                </button>
+
+                {/* Contact Button */}
+                <a
+                  href="mailto:somadhan.legal@gmail.com"
+                  onClick={() => setIsMobileMenuOpen(false)}
+                  className="w-full flex items-center justify-center px-4 py-3 bg-brand-600 text-white rounded-xl font-semibold transition-colors hover:bg-brand-700"
+                >
+                  {language === 'bn' ? 'যোগাযোগ করুন' : 'Contact Us'}
+                </a>
+              </div>
+            </motion.div>
+          </>
         )}
       </AnimatePresence>
     </>
