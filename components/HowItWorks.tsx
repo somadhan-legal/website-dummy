@@ -1,6 +1,6 @@
 import React, { useRef } from 'react';
 import { motion, useInView } from 'framer-motion';
-import { MessageSquare, Search, Users, CalendarCheck, CheckCircle, ArrowRight, Star, Video, Phone } from 'lucide-react';
+import { MessageSquare, Search, Users, CalendarCheck, CheckCircle, ArrowRight, Star } from 'lucide-react';
 import { useLanguage } from '../contexts/LanguageContext';
 
 const HowItWorks: React.FC = () => {
@@ -89,9 +89,7 @@ const HowItWorks: React.FC = () => {
           <div className="space-y-3">
             {[1, 2, 3].map((i) => (
               <div key={i} className="flex items-center gap-3 p-3 bg-slate-50 rounded-xl animate-pulse">
-                <div className="w-10 h-10 bg-gradient-to-br from-brand-200 to-brand-300 rounded-full flex items-center justify-center text-brand-700 font-bold text-sm">
-                  {['FR', 'KH', 'SA'][i-1]}
-                </div>
+                <div className="w-10 h-10 bg-gradient-to-br from-slate-200 to-slate-300 rounded-full" />
                 <div className="flex-1 space-y-2">
                   <div className="h-3 bg-slate-200 rounded w-3/4" />
                   <div className="h-2 bg-slate-100 rounded w-1/2" />
@@ -105,9 +103,9 @@ const HowItWorks: React.FC = () => {
 
     if (stepIndex === 2) {
       const lawyers = [
-        { initials: 'FR', name: 'Farzana Rahman', rating: 4.9, price: 1200 },
-        { initials: 'KH', name: 'Kamal Hossain', rating: 4.8, price: 2000 },
-        { initials: 'SA', name: 'Sarah Ali', rating: 5.0, price: 1500 },
+        { initials: 'FR', name: 'Farzana Rahman', rating: 4.9 },
+        { initials: 'KH', name: 'Kamal Hossain', rating: 4.8 },
+        { initials: 'SA', name: 'Sarah Ali', rating: 5.0 },
       ];
       return (
         <div className="bg-white rounded-2xl shadow-xl border border-slate-100 overflow-hidden w-full max-w-xs hover:shadow-2xl transition-shadow duration-300">
@@ -126,10 +124,6 @@ const HowItWorks: React.FC = () => {
                   <div className="flex items-center gap-1 text-xs text-amber-500">
                     <Star className="w-3 h-3 fill-current" /> {lawyer.rating}
                   </div>
-                </div>
-                <div className="text-right">
-                  <div className="font-bold text-slate-900 text-sm">৳{lawyer.price}</div>
-                  <div className="text-[10px] text-slate-400">/ 30 MIN</div>
                 </div>
               </div>
             ))}
@@ -200,8 +194,16 @@ const HowItWorks: React.FC = () => {
               </div>
               <div className="bg-slate-50 rounded-xl p-3 hover:bg-slate-100 transition-colors cursor-pointer">
                 <div className="text-[10px] text-slate-400 uppercase tracking-wider">{language === 'bn' ? 'ধরন' : 'Type'}</div>
-                <div className="font-bold text-slate-900 text-sm flex items-center justify-center gap-1">
-                  <Video className="w-3.5 h-3.5" /> / <Phone className="w-3.5 h-3.5" />
+                <div className="font-bold text-slate-900 text-sm flex items-center justify-center gap-1.5">
+                  {/* Filled Video Icon */}
+                  <svg className="w-4 h-4 text-brand-600" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M17 10.5V7c0-.55-.45-1-1-1H4c-.55 0-1 .45-1 1v10c0 .55.45 1 1 1h12c.55 0 1-.45 1-1v-3.5l4 4v-11l-4 4z"/>
+                  </svg>
+                  <span className="text-slate-400">/</span>
+                  {/* Filled Phone Icon */}
+                  <svg className="w-4 h-4 text-brand-600" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M20.01 15.38c-1.23 0-2.42-.2-3.53-.56-.35-.12-.74-.03-1.01.24l-1.57 1.97c-2.83-1.35-5.48-3.9-6.89-6.83l1.95-1.66c.27-.28.35-.67.24-1.02-.37-1.11-.56-2.3-.56-3.53 0-.54-.45-.99-.99-.99H4.19C3.65 3 3 3.24 3 3.99 3 13.28 10.73 21 20.01 21c.71 0 .99-.63.99-1.18v-3.45c0-.54-.45-.99-.99-.99z"/>
+                  </svg>
                 </div>
               </div>
             </div>

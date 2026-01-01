@@ -12,7 +12,6 @@ const services = [
     description: 'Formation, M&A, contracts, and compliance',
     descriptionBn: 'গঠন, একীভূতকরণ, চুক্তি এবং সম্মতি',
     examples: ['Business Formation', 'Mergers & Acquisitions', 'Contract Law'],
-    startPrice: 2000,
   },
   {
     id: 'family',
@@ -22,7 +21,6 @@ const services = [
     description: 'Divorce, custody, marriage, and inheritance',
     descriptionBn: 'বিবাহবিচ্ছেদ, হেফাজত, বিবাহ এবং উত্তরাধিকার',
     examples: ['Divorce & Separation', 'Child Custody', 'Marriage Registration'],
-    startPrice: 800,
   },
   {
     id: 'property',
@@ -32,7 +30,6 @@ const services = [
     description: 'Transactions, disputes, and land matters',
     descriptionBn: 'লেনদেন, বিরোধ এবং জমি সংক্রান্ত বিষয়',
     examples: ['Land Disputes', 'Property Transfer', 'Title Verification'],
-    startPrice: 1200,
   },
   {
     id: 'criminal',
@@ -42,7 +39,6 @@ const services = [
     description: 'Defense, bail, and criminal matters',
     descriptionBn: 'প্রতিরক্ষা, জামিন এবং ফৌজদারি বিষয়',
     examples: ['Bail Applications', 'Criminal Defense', 'FIR/GD Filing'],
-    startPrice: 2500,
   },
   {
     id: 'litigation',
@@ -52,7 +48,6 @@ const services = [
     description: 'Civil suits, arbitration, and mediation',
     descriptionBn: 'দেওয়ানী মামলা, সালিশ এবং মধ্যস্থতা',
     examples: ['Civil Litigation', 'Arbitration', 'Mediation'],
-    startPrice: 1500,
   },
   {
     id: 'ip',
@@ -62,7 +57,6 @@ const services = [
     description: 'Patents, trademarks, and copyrights',
     descriptionBn: 'পেটেন্ট, ট্রেডমার্ক এবং কপিরাইট',
     examples: ['Trademark Registration', 'Patent Filing', 'Copyright'],
-    startPrice: 3000,
   },
   {
     id: 'employment',
@@ -72,7 +66,6 @@ const services = [
     description: 'Workplace rights, contracts, and disputes',
     descriptionBn: 'কর্মক্ষেত্রের অধিকার, চুক্তি এবং বিরোধ',
     examples: ['Employment Contracts', 'Wrongful Termination', 'Disputes'],
-    startPrice: 1000,
   },
   {
     id: 'immigration',
@@ -82,7 +75,6 @@ const services = [
     description: 'Visas, work permits, and citizenship',
     descriptionBn: 'ভিসা, ওয়ার্ক পারমিট এবং নাগরিকত্ব',
     examples: ['Work Visas', 'Green Cards', 'Citizenship'],
-    startPrice: 2000,
   },
 ];
 
@@ -175,14 +167,8 @@ const ServicesSection: React.FC = () => {
                     )}
                   </AnimatePresence>
 
-                  {/* Price & Action */}
-                  <div className="flex items-center justify-between pt-3 border-t border-slate-100 group-hover:border-brand-200/50">
-                    <div>
-                      <span className="text-[10px] uppercase tracking-wider text-slate-400 font-semibold">
-                        {t('services.startingFrom')}
-                      </span>
-                      <div className="font-bold text-slate-900 text-sm">৳{service.startPrice.toLocaleString()}</div>
-                    </div>
+                  {/* Action Button */}
+                  <div className="flex items-center justify-end pt-3 border-t border-slate-100 group-hover:border-brand-200/50">
                     <button className="w-9 h-9 rounded-full bg-slate-50 group-hover:bg-brand-600 flex items-center justify-center transition-all duration-300 hover:scale-110 active:scale-95">
                       <ArrowRight className="w-4 h-4 text-slate-400 group-hover:text-white transition-colors" />
                     </button>
@@ -221,9 +207,6 @@ const ServicesSection: React.FC = () => {
                     <h3 className="font-semibold text-sm text-slate-900">
                       {language === 'bn' ? service.titleBn : service.title}
                     </h3>
-                    <p className="text-xs text-slate-500">
-                      {t('services.startingFrom')} ৳{service.startPrice.toLocaleString()}
-                    </p>
                   </div>
                   <motion.div
                     animate={{ rotate: isExpanded ? 180 : 0 }}

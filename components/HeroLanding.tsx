@@ -6,10 +6,8 @@ interface HeroLandingProps {
   onOpenWaitlist: () => void;
 }
 
-const trustedLogos = ['BUET', 'DU Law', 'BRAC', 'NSU', 'IBA', 'AIUB', 'UIU', 'EWU'];
-
 const HeroLanding: React.FC<HeroLandingProps> = ({ onOpenWaitlist }) => {
-  const { t } = useLanguage();
+  const { t, language } = useLanguage();
   const heroRef = useRef<HTMLDivElement>(null);
   
   const { scrollYProgress } = useScroll({
@@ -49,7 +47,7 @@ const HeroLanding: React.FC<HeroLandingProps> = ({ onOpenWaitlist }) => {
       />
 
       {/* Content */}
-      <motion.div style={{ opacity }} className="relative z-10 max-w-4xl mx-auto px-4 sm:px-6 text-center pt-24 md:pt-20 pb-40 md:pb-44">
+      <motion.div style={{ opacity }} className="relative z-10 max-w-4xl mx-auto px-4 sm:px-6 text-center pt-24 md:pt-20 pb-48 md:pb-52">
         {/* Badge */}
         <motion.div
           initial={{ opacity: 0, y: 15 }}
@@ -98,29 +96,40 @@ const HeroLanding: React.FC<HeroLandingProps> = ({ onOpenWaitlist }) => {
         </motion.div>
       </motion.div>
 
-      {/* Trusted By Marquee */}
+      {/* Inspired From Section */}
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 0.8, delay: 0.5 }}
-        className="absolute bottom-12 md:bottom-16 left-0 right-0 z-10"
+        className="absolute bottom-8 md:bottom-12 left-0 right-0 z-10"
       >
-        <p className="text-[10px] sm:text-xs text-white/40 mb-4 uppercase tracking-[0.25em] font-medium text-center">
-          {t('hero.trustedBy')}
+        <p className="text-[10px] sm:text-xs text-white/40 mb-6 uppercase tracking-[0.25em] font-medium text-center">
+          {language === 'bn' ? 'অনুপ্রাণিত' : 'Inspired from'}
         </p>
         
-        {/* Marquee Container with CSS mask for smooth fade */}
-        <div className="relative max-w-3xl mx-auto overflow-hidden marquee-fade-left">
-          {/* Scrolling content - duplicated for seamless loop */}
-          <div className="flex animate-marquee whitespace-nowrap">
-            {[...trustedLogos, ...trustedLogos, ...trustedLogos, ...trustedLogos].map((name, idx) => (
-              <span
-                key={idx}
-                className="inline-block px-6 sm:px-8 text-white/50 font-medium text-sm tracking-wide"
-              >
-                {name}
-              </span>
-            ))}
+        {/* Logo Marquee with smooth infinite loop */}
+        <div className="relative overflow-hidden">
+          {/* Fade edges */}
+          <div className="absolute left-0 top-0 bottom-0 w-20 sm:w-32 bg-gradient-to-r from-brand-600 to-transparent z-10 pointer-events-none" />
+          <div className="absolute right-0 top-0 bottom-0 w-20 sm:w-32 bg-gradient-to-l from-brand-600 to-transparent z-10 pointer-events-none" />
+          
+          {/* Scrolling container */}
+          <div className="flex items-center gap-12 sm:gap-16 animate-scroll-infinite">
+            {/* First set */}
+            <img src="/Logos/draftwise.svg" alt="Draftwise" className="h-5 sm:h-6 opacity-60 hover:opacity-100 transition-opacity brightness-0 invert" />
+            <img src="/Logos/paxton.svg" alt="Paxton" className="h-6 sm:h-7 opacity-60 hover:opacity-100 transition-opacity brightness-0 invert" />
+            <img src="/Logos/blueshoe.avif" alt="Blueshoe" className="h-5 sm:h-6 opacity-60 hover:opacity-100 transition-opacity brightness-0 invert" />
+            <img src="/Logos/logo-off-black.webp" alt="Off" className="h-5 sm:h-6 opacity-60 hover:opacity-100 transition-opacity brightness-0 invert" />
+            <span className="text-white/60 font-serif text-xl sm:text-2xl tracking-tight hover:text-white transition-colors">Dench</span>
+            <span className="text-white/60 font-serif text-xl sm:text-2xl tracking-tight hover:text-white transition-colors">Harvey</span>
+            
+            {/* Duplicate set for seamless loop */}
+            <img src="/Logos/draftwise.svg" alt="Draftwise" className="h-5 sm:h-6 opacity-60 hover:opacity-100 transition-opacity brightness-0 invert" />
+            <img src="/Logos/paxton.svg" alt="Paxton" className="h-6 sm:h-7 opacity-60 hover:opacity-100 transition-opacity brightness-0 invert" />
+            <img src="/Logos/blueshoe.avif" alt="Blueshoe" className="h-5 sm:h-6 opacity-60 hover:opacity-100 transition-opacity brightness-0 invert" />
+            <img src="/Logos/logo-off-black.webp" alt="Off" className="h-5 sm:h-6 opacity-60 hover:opacity-100 transition-opacity brightness-0 invert" />
+            <span className="text-white/60 font-serif text-xl sm:text-2xl tracking-tight hover:text-white transition-colors">Dench</span>
+            <span className="text-white/60 font-serif text-xl sm:text-2xl tracking-tight hover:text-white transition-colors">Harvey</span>
           </div>
         </div>
       </motion.div>

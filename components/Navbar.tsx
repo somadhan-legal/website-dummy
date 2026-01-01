@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Menu, X, Globe } from 'lucide-react';
+import { Menu, X, Globe, Briefcase, Settings, HelpCircle, Mail } from 'lucide-react';
 import { useLanguage } from '../contexts/LanguageContext';
 
 interface NavbarProps {
@@ -13,9 +13,9 @@ const Navbar: React.FC<NavbarProps> = ({ onOpenWaitlist }) => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   const navLinks = [
-    { label: t('nav.services'), href: '#services' },
-    { label: t('nav.process'), href: '#process' },
-    { label: t('nav.faq'), href: '#faq' },
+    { label: t('nav.services'), href: '#services', icon: Briefcase },
+    { label: t('nav.process'), href: '#process', icon: Settings },
+    { label: t('nav.faq'), href: '#faq', icon: HelpCircle },
   ];
 
   useEffect(() => {
@@ -96,17 +96,18 @@ const Navbar: React.FC<NavbarProps> = ({ onOpenWaitlist }) => {
                 {language === 'en' ? 'বাং' : 'EN'}
               </button>
 
-              {/* CTA Button */}
-              <button
-                onClick={onOpenWaitlist}
-                className={`hidden sm:block px-4 py-2 rounded-full text-sm font-semibold transition-all hover:scale-105 active:scale-95 ${
+              {/* Contact Button */}
+              <a
+                href="mailto:somadhan.legal@gmail.com"
+                className={`hidden sm:flex items-center gap-2 px-4 py-2 rounded-full text-sm font-semibold transition-all hover:scale-105 active:scale-95 ${
                   isScrolled
                     ? 'bg-brand-600 text-white hover:bg-brand-700'
                     : 'bg-white text-brand-600 hover:bg-white/90'
                 }`}
               >
-                {t('hero.joinWaitlist')}
-              </button>
+                <Mail className="w-4 h-4" />
+                {language === 'bn' ? 'যোগাযোগ' : 'Contact Us'}
+              </a>
 
               {/* Mobile Menu Button */}
               <button
@@ -130,33 +131,51 @@ const Navbar: React.FC<NavbarProps> = ({ onOpenWaitlist }) => {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -10 }}
             transition={{ duration: 0.2 }}
-            className="fixed inset-x-0 top-16 z-40 bg-white border-b border-slate-100 shadow-lg md:hidden"
+            className="fixed inset-x-0 top-16 z-40 bg-white border-b border-slate-100 shadow-xl md:hidden"
           >
-            <div className="px-4 py-4 space-y-1">
-              {navLinks.map((link) => (
-                <a
-                  key={link.href}
-                  href={link.href}
-                  onClick={(e) => scrollToSection(e, link.href)}
-                  className="block px-4 py-3 text-slate-700 hover:bg-slate-50 rounded-xl font-medium transition-colors"
-                >
-                  {link.label}
-                </a>
-              ))}
-              <div className="pt-3 border-t border-slate-100 mt-3 flex items-center gap-2">
-                <button
-                  onClick={toggleLanguage}
-                  className="flex-1 flex items-center justify-center gap-2 px-4 py-3 bg-slate-50 text-slate-600 rounded-xl font-medium"
-                >
-                  <Globe className="w-4 h-4" />
-                  {language === 'en' ? 'বাংলা' : 'English'}
-                </button>
-                <button
-                  onClick={() => { onOpenWaitlist(); setIsMobileMenuOpen(false); }}
-                  className="flex-1 px-4 py-3 bg-brand-600 text-white rounded-xl font-semibold"
-                >
-                  {t('hero.joinWaitlist')}
-                </button>
+            <div className="px-4 py-5">
+              {/* Menu Items */}
+              <div className="space-y-1 mb-5">
+                {navLinks.map((link) => {
+                  const Icon = link.icon;
+                  return (
+                    <a
+                      key={link.href}
+                      href={link.href}
+                      onClick={(e) => scrollToSection(e, link.href)}
+                      className="flex items-center gap-3 px-4 py-3.5 text-slate-700 hover:bg-slate-50 rounded-xl font-medium transition-colors"
+                    >
+                      <div className="w-9 h-9 bg-slate-100 rounded-lg flex items-center justify-center">
+                        <Icon className="w-4 h-4 text-slate-500" />
+                      </div>
+                      {link.label}
+                    </a>
+                  );
+                })}
+              </div>
+
+              {/* Divider */}
+              <div className="border-t border-slate-100 pt-4">
+                <div className="grid grid-cols-2 gap-3">
+                  {/* Language Toggle */}
+                  <button
+                    onClick={toggleLanguage}
+                    className="flex items-center justify-center gap-2 px-4 py-3 bg-slate-50 text-slate-600 rounded-xl font-medium transition-colors hover:bg-slate-100"
+                  >
+                    <Globe className="w-4 h-4" />
+                    {language === 'en' ? 'বাংলা' : 'English'}
+                  </button>
+
+                  {/* Contact Button */}
+                  <a
+                    href="mailto:somadhan.legal@gmail.com"
+                    onClick={() => setIsMobileMenuOpen(false)}
+                    className="flex items-center justify-center gap-2 px-4 py-3 bg-brand-600 text-white rounded-xl font-semibold transition-colors hover:bg-brand-700"
+                  >
+                    <Mail className="w-4 h-4" />
+                    {language === 'bn' ? 'যোগাযোগ' : 'Contact'}
+                  </a>
+                </div>
               </div>
             </div>
           </motion.div>
