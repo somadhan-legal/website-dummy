@@ -237,8 +237,8 @@ const faqCategories = [
       {
         qEn: "How do I contact Somadhan support?",
         qBn: "Somadhan সাপোর্টে কীভাবে যোগাযোগ করবো?",
-        aEn: "You can contact support through the app or email us at somadhan.legal@gmail.com",
-        aBn: "অ্যাপ বা somadhan.legal@gmail.com এ ইমেইল করে যোগাযোগ করা যাবে।"
+        aEn: "You can contact support through the app or email us at info@somadhan.com",
+        aBn: "অ্যাপ বা info@somadhan.com এ ইমেইল করে যোগাযোগ করা যাবে।"
       },
       {
         qEn: "Can I give feedback on a service?",
@@ -399,11 +399,11 @@ const FAQ: React.FC = () => {
             {language === 'bn' ? 'আরও প্রশ্ন আছে? আমাদের ইমেইল করুন' : "Still have questions? Email us"}
           </p>
           <a 
-            href="mailto:somadhan.legal@gmail.com"
+            href="mailto:info@somadhan.com"
             className="inline-flex items-center gap-2 px-5 py-2.5 bg-white hover:bg-slate-50 border border-slate-200 text-slate-700 rounded-full text-sm font-medium transition-all hover:scale-105 active:scale-95"
           >
             <Mail className="w-4 h-4" />
-            somadhan.legal@gmail.com
+            info@somadhan.com
           </a>
         </motion.div>
       </div>

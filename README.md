@@ -41,7 +41,7 @@ npm run build
 
 ## Contact
 
-- Email: somadhan.legal@gmail.com
+- Email: info@somadhan.com
 
 ## License
 

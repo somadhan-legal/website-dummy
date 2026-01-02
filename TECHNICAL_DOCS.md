@@ -240,5 +240,5 @@ Key mobile adaptations:
 
 ## Contact
 
-- Email: somadhan.legal@gmail.com
+- Email: info@somadhan.com
 - Website: somadhan.com (coming soon)
