@@ -72,8 +72,11 @@
         -webkit-font-smoothing: antialiased;
         overflow-x: hidden;
       }
-      [lang="bn"], .font-bengali {
-        font-family: "Anek Bangla", sans-serif;
+      /* Apply Anek Bangla font for Bengali text only */
+      [lang="bn"], 
+      .font-bengali,
+      html[lang="bn"] * {
+        font-family: "Anek Bangla", sans-serif !important;
       }
       ::-webkit-scrollbar {
         width: 6px;
