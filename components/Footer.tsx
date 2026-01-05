@@ -41,7 +41,7 @@ const Footer: React.FC<FooterProps> = ({ onOpenWaitlist }) => {
               </h2>
               <p className="text-white/50 text-sm max-w-sm">
                 {language === 'bn' 
-                  ? 'ওয়েটলিস্টে যোগ দিন এবং প্রথম আপডেট পান।' 
+                  ? 'ওয়েটলিস্টে যোগ দিন এবং সবার আগে আপডেট পান।' 
                   : 'Join our waitlist for early access.'}
               </p>
             </div>
@@ -66,11 +66,11 @@ const Footer: React.FC<FooterProps> = ({ onOpenWaitlist }) => {
               {t('footer.tagline')}
             </p>
             <a 
-              href="mailto:info@somadhan.com"
+              href="mailto:somadhan.legal@gmail.com"
               className="inline-flex items-center gap-2 text-slate-500 hover:text-brand-600 text-sm transition-colors group"
             >
               <Mail className="w-4 h-4" />
-              <span className="group-hover:underline">info@somadhan.com</span>
+              <span className="group-hover:underline">somadhan.legal@gmail.com</span>
             </a>
           </div>
 
@@ -141,7 +141,7 @@ const Footer: React.FC<FooterProps> = ({ onOpenWaitlist }) => {
                 </AnimatePresence>
               </li>
               <li>
-                <a href="mailto:info@somadhan.com" className="text-slate-500 hover:text-brand-600 text-sm transition-colors">
+                <a href="mailto:somadhan.legal@gmail.com" className="text-slate-500 hover:text-brand-600 text-sm transition-colors">
                   {t('footer.contact')}
                 </a>
               </li>

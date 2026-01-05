@@ -43,29 +43,29 @@ const WaitlistPage: React.FC<WaitlistPageProps> = ({ isOpen, onClose, source }) 
   const professionOptions = [
     { id: 'individual', label: language === 'bn' ? 'ব্যক্তিগত' : 'Individual' },
     { id: 'business', label: language === 'bn' ? 'ব্যবসায়ী' : 'Business Owner' },
-    { id: 'startup', label: language === 'bn' ? 'স্টার্টআপ' : 'Startup Founder' },
-    { id: 'corporate', label: language === 'bn' ? 'কর্পোরেট' : 'Corporate Professional' },
-    { id: 'lawyer', label: language === 'bn' ? 'আইনজীবী' : 'Lawyer / Legal Professional' },
+    { id: 'startup', label: language === 'bn' ? 'স্টার্টআপ ফাউন্ডার' : 'Startup Founder' },
+    { id: 'corporate', label: language === 'bn' ? 'কর্পোরেট পেশাজীবী' : 'Corporate Professional' },
+    { id: 'lawyer', label: language === 'bn' ? 'আইনজীবী / লিগ্যাল প্রফেশনাল' : 'Lawyer / Legal Professional' },
     { id: 'student', label: language === 'bn' ? 'শিক্ষার্থী' : 'Student' },
     { id: 'other', label: language === 'bn' ? 'অন্যান্য' : 'Other' },
   ];
 
   const serviceOptions = [
     { id: 'family', label: language === 'bn' ? 'পারিবারিক আইন' : 'Family Law' },
-    { id: 'property', label: language === 'bn' ? 'সম্পত্তি/জমি' : 'Property/Land' },
-    { id: 'business', label: language === 'bn' ? 'ব্যবসা/কর্পোরেট' : 'Business/Corporate' },
-    { id: 'criminal', label: language === 'bn' ? 'ফৌজদারি' : 'Criminal' },
-    { id: 'civil', label: language === 'bn' ? 'দেওয়ানি' : 'Civil Litigation' },
-    { id: 'documentation', label: language === 'bn' ? 'ডকুমেন্টেশন' : 'Documentation' },
-    { id: 'consultation', label: language === 'bn' ? 'পরামর্শ' : 'Consultation Only' },
+    { id: 'property', label: language === 'bn' ? 'জমি ও আবাসন' : 'Property/Land' },
+    { id: 'business', label: language === 'bn' ? 'ব্যবসা ও কর্পোরেট' : 'Business/Corporate' },
+    { id: 'criminal', label: language === 'bn' ? 'ফৌজদারি মামলা' : 'Criminal' },
+    { id: 'civil', label: language === 'bn' ? 'দেওয়ানি মামলা' : 'Civil Litigation' },
+    { id: 'documentation', label: language === 'bn' ? 'ডকুমেন্টেশন ও চুক্তি' : 'Documentation' },
+    { id: 'consultation', label: language === 'bn' ? 'আইনি পরামর্শ' : 'Consultation Only' },
     { id: 'other', label: language === 'bn' ? 'অন্যান্য' : 'Other' },
   ];
 
   const heardFromOptions = [
-    { id: 'social', label: language === 'bn' ? 'সোশ্যাল মিডিয়া' : 'Social Media' },
-    { id: 'referral', label: language === 'bn' ? 'বন্ধু/পরিচিত' : 'Friend / Referral' },
+    { id: 'social', label: language === 'bn' ? 'সোশ্যাল মিডিয়া (ফেসবুক/লিংকডইন)' : 'Social Media' },
+    { id: 'referral', label: language === 'bn' ? 'বন্ধু বা পরিচিত কেউ' : 'Friend / Referral' },
     { id: 'search', label: language === 'bn' ? 'গুগল সার্চ' : 'Google Search' },
-    { id: 'news', label: language === 'bn' ? 'সংবাদ/আর্টিকেল' : 'News / Article' },
+    { id: 'news', label: language === 'bn' ? 'খবর বা আর্টিকেল' : 'News / Article' },
     { id: 'other', label: language === 'bn' ? 'অন্যান্য' : 'Other' },
   ];
 
@@ -108,14 +108,14 @@ const WaitlistPage: React.FC<WaitlistPageProps> = ({ isOpen, onClose, source }) 
     
     if (step === 1) {
       if (!formData.fullName.trim()) {
-        newErrors.fullName = language === 'bn' ? 'নাম দিন' : 'Name is required';
+        newErrors.fullName = language === 'bn' ? 'আপনার নাম আবশ্যক' : 'Name is required';
         trackWaitlistValidationError('fullName', 'required');
       }
       if (!formData.email.trim()) {
-        newErrors.email = language === 'bn' ? 'ইমেইল দিন' : 'Email is required';
+        newErrors.email = language === 'bn' ? 'ইমেইল ঠিকানা আবশ্যক' : 'Email is required';
         trackWaitlistValidationError('email', 'required');
       } else if (!validateEmail(formData.email)) {
-        newErrors.email = language === 'bn' ? 'সঠিক ইমেইল দিন' : 'Enter a valid email';
+        newErrors.email = language === 'bn' ? 'সঠিক ইমেইল ঠিকানা দিন' : 'Enter a valid email';
         trackWaitlistValidationError('email', 'invalid_format');
       }
       if (formData.phone && !validatePhone(formData.phone)) {
@@ -125,7 +125,7 @@ const WaitlistPage: React.FC<WaitlistPageProps> = ({ isOpen, onClose, source }) 
     }
     
     if (step === 2 && !formData.profession) {
-      newErrors.profession = language === 'bn' ? 'পেশা নির্বাচন করুন' : 'Select your profession';
+      newErrors.profession = language === 'bn' ? 'আপনার পেশা নির্বাচন করুন' : 'Select your profession';
       trackWaitlistValidationError('profession', 'required');
     }
     
@@ -135,7 +135,7 @@ const WaitlistPage: React.FC<WaitlistPageProps> = ({ isOpen, onClose, source }) 
     }
     
     if (step === 4 && !formData.heardFrom) {
-      newErrors.heardFrom = language === 'bn' ? 'একটি অপশন নির্বাচন করুন' : 'Select an option';
+      newErrors.heardFrom = language === 'bn' ? 'যেকোনো একটি অপশন বেছে নিন' : 'Select an option';
       trackWaitlistValidationError('heardFrom', 'required');
     }
     
@@ -186,9 +186,9 @@ const WaitlistPage: React.FC<WaitlistPageProps> = ({ isOpen, onClose, source }) 
     } else {
       trackWaitlistSubmitError(result.error || 'unknown');
       if (result.error === 'email_exists') {
-        setSubmitError(language === 'bn' ? 'এই ইমেইল ইতিমধ্যে নিবন্ধিত!' : 'This email is already registered!');
+        setSubmitError(language === 'bn' ? 'এই ইমেইলটি ইতিমধ্যে নিবন্ধিত!' : 'This email is already registered!');
       } else {
-        setSubmitError(language === 'bn' ? 'কিছু সমস্যা হয়েছে। আবার চেষ্টা করুন।' : 'Something went wrong. Please try again.');
+        setSubmitError(language === 'bn' ? 'কোথাও কোনো সমস্যা হয়েছে। অনুগ্রহ করে আবার চেষ্টা করুন।' : 'Something went wrong. Please try again.');
       }
     }
   };
@@ -217,24 +217,24 @@ const WaitlistPage: React.FC<WaitlistPageProps> = ({ isOpen, onClose, source }) 
 
   const stepContent = [
     { 
-      title: language === 'bn' ? "চলুন পরিচিত হই" : "Let's get to know you",
-      subtitle: language === 'bn' ? "আপনার তথ্য দিন" : "We'll use this to keep you updated"
+      title: language === 'bn' ? "আসুন পরিচিত হই" : "Let's get to know you",
+      subtitle: language === 'bn' ? "আপনার প্রাথমিক তথ্য দিন" : "We'll use this to keep you updated"
     },
     { 
-      title: language === 'bn' ? "আপনি কে?" : "What describes you best?",
+      title: language === 'bn' ? "আপনার পরিচয়?" : "What describes you best?",
       subtitle: language === 'bn' ? "আপনার পেশা নির্বাচন করুন" : "Select your profession"
     },
     { 
-      title: language === 'bn' ? "কোন সেবায় আগ্রহী?" : "What services interest you?",
-      subtitle: language === 'bn' ? "প্রযোজ্য সব নির্বাচন করুন" : "Select all that apply"
+      title: language === 'bn' ? "কোন ধরনের আইনি সেবা প্রয়োজন?" : "What services interest you?",
+      subtitle: language === 'bn' ? "প্রযোজ্য সবগুলো নির্বাচন করুন" : "Select all that apply"
     },
     { 
-      title: language === 'bn' ? "আমাদের কথা কোথায় শুনলেন?" : "How did you hear about us?",
-      subtitle: language === 'bn' ? "এটি আমাদের উন্নতি করতে সাহায্য করে" : "This helps us improve"
+      title: language === 'bn' ? "আমাদের সম্পর্কে কীভাবে জানলেন?" : "How did you hear about us?",
+      subtitle: language === 'bn' ? "এটি আমাদের সেবার মান উন্নয়নে সাহায্য করবে" : "This helps us improve"
     },
     { 
-      title: language === 'bn' ? "আর কিছু?" : "Anything else?",
-      subtitle: language === 'bn' ? "ঐচ্ছিক - আপনার মতামত দিন" : "Optional - share your thoughts"
+      title: language === 'bn' ? "আর কিছু জানাতে চান?" : "Anything else?",
+      subtitle: language === 'bn' ? "ঐচ্ছিক - আপনার মতামত বা প্রশ্ন লিখুন" : "Optional - share your thoughts"
     },
   ];
 
@@ -321,7 +321,7 @@ const WaitlistPage: React.FC<WaitlistPageProps> = ({ isOpen, onClose, source }) 
                                 onChange={(e) => { setFormData(prev => ({ ...prev, fullName: e.target.value })); setErrors(prev => ({ ...prev, fullName: '' })); }}
                                 onFocus={() => handleFieldFocus('fullName')}
                                 onBlur={() => handleFieldBlur('fullName')}
-                                placeholder={language === 'bn' ? 'আপনার নাম' : 'Full name'}
+                                placeholder={language === 'bn' ? 'আপনার পুরো নাম' : 'Full name'}
                                 className={`w-full pl-10 pr-4 py-3 rounded-xl border ${errors.fullName ? 'border-red-300 focus:border-red-500 focus:ring-red-500/20' : 'border-slate-200 focus:border-brand-500 focus:ring-brand-500/20'} focus:ring-2 outline-none transition-all text-slate-800 placeholder:text-slate-400`}
                               />
                             </div>
@@ -429,12 +429,12 @@ const WaitlistPage: React.FC<WaitlistPageProps> = ({ isOpen, onClose, source }) 
                             onFocus={() => handleFieldFocus('feedback')}
                             onBlur={() => handleFieldBlur('feedback')}
                             placeholder={language === 'bn' 
-                              ? 'আপনার কোনো মতামত বা প্রশ্ন থাকলে লিখুন...' 
+                              ? 'আপনার কোনো মতামত বা প্রশ্ন থাকলে এখানে লিখুন...' 
                               : 'Any feedback, questions, or specific needs you want to share...'}
                             rows={5}
                             className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:border-brand-500 focus:ring-2 focus:ring-brand-500/20 outline-none transition-all text-slate-800 placeholder:text-slate-400 resize-none text-sm"
                           />
-                          <p className="text-xs text-slate-400 mt-2 text-center">{language === 'bn' ? 'এই ধাপ ঐচ্ছিক' : 'This step is optional'}</p>
+                          <p className="text-xs text-slate-400 mt-2 text-center">{language === 'bn' ? 'এই ধাপটি ঐচ্ছিক' : 'This step is optional'}</p>
                         </div>
                       )}
                     </motion.div>
@@ -463,7 +463,7 @@ const WaitlistPage: React.FC<WaitlistPageProps> = ({ isOpen, onClose, source }) 
                         disabled={isSubmitting}
                         className="flex items-center gap-2 px-6 py-3 bg-brand-600 hover:bg-brand-700 disabled:bg-slate-300 text-white font-semibold rounded-full transition-all text-sm hover:scale-105 active:scale-95"
                       >
-                        {isSubmitting ? (language === 'bn' ? 'জমা হচ্ছে...' : 'Submitting...') : (language === 'bn' ? 'জমা দিন' : 'Join Waitlist')}
+                        {isSubmitting ? (language === 'bn' ? 'জমা দেওয়া হচ্ছে...' : 'Submitting...') : (language === 'bn' ? 'জমা দিন' : 'Join Waitlist')}
                         {!isSubmitting && <Sparkles className="w-4 h-4" />}
                       </button>
                     )}
@@ -479,8 +479,8 @@ const WaitlistPage: React.FC<WaitlistPageProps> = ({ isOpen, onClose, source }) 
                   >
                     <Check className="w-8 h-8" strokeWidth={3} />
                   </motion.div>
-                  <h3 className="text-2xl font-serif text-slate-900 mb-2">{language === 'bn' ? 'আপনি তালিকায় আছেন!' : "You're on the list!"}</h3>
-                  <p className="text-slate-500 mb-8 text-sm">{language === 'bn' ? 'আমরা শীঘ্রই আপডেট নিয়ে যোগাযোগ করব।' : "We'll reach out soon with updates and early access."}</p>
+                  <h3 className="text-2xl font-serif text-slate-900 mb-2">{language === 'bn' ? 'আপনি তালিকাভুক্ত হয়েছেন!' : "You're on the list!"}</h3>
+                  <p className="text-slate-500 mb-8 text-sm">{language === 'bn' ? 'শীঘ্রই আমরা আর্লি অ্যাক্সেস ও আপডেট নিয়ে আপনার সাথে যোগাযোগ করব।' : "We'll reach out soon with updates and early access."}</p>
                   <button onClick={() => onClose(5, true)} className="px-6 py-3 bg-brand-600 hover:bg-brand-700 text-white font-semibold rounded-full transition-all text-sm hover:scale-105 active:scale-95">
                     {language === 'bn' ? 'ফিরে যান' : 'Back to Home'}
                   </button>
