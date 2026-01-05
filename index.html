@@ -100,8 +100,8 @@
       html[lang="bn"] span, 
       html[lang="bn"] li, 
       html[lang="bn"] div:not(.font-serif) {
-        line-height: 1.7 !important;
-        letter-spacing: 0.01em !important;
+        line-height: 1.7;
+        letter-spacing: 0.01em;
       }
       
       /* Professional spacing for Bengali headings */
@@ -110,8 +110,8 @@
       html[lang="bn"] h3,
       html[lang="bn"] h4,
       html[lang="bn"] .font-serif {
-        line-height: 1.5 !important;
-        letter-spacing: 0.02em !important;
+        line-height: inherit; /* Let components decide their own leading */
+        letter-spacing: 0.02em;
         padding-bottom: 0.1em; /* Small nudge to prevent vowel signs from clipping */
       }
 

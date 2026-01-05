@@ -75,7 +75,7 @@ const HeroLanding: React.FC<HeroLandingProps> = ({ onOpenWaitlist }) => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
           className="font-serif text-4xl sm:text-5xl md:text-6xl lg:text-7xl text-white tracking-tight mb-5 leading-[1.1]"
-          style={language === 'bn' ? { wordSpacing: '0.15em' } : undefined}
+          style={language === 'bn' ? { wordSpacing: '0.25em' } : undefined}
         >
           {t('hero.headline')}
           <br />
