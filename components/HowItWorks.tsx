@@ -9,46 +9,46 @@ const HowItWorks: React.FC = () => {
   const steps = [
     {
       num: '01',
-      label: language === 'bn' ? 'বর্ণনা করুন' : 'Describe',
-      title: language === 'bn' ? 'আপনার সমস্যা জানান' : 'Tell us your problem',
+      label: language === 'bn' ? 'সমস্যা জানান' : 'Describe',
+      title: language === 'bn' ? 'আপনার আইনি সমস্যাটি লিখুন' : 'Tell us your problem',
       desc: language === 'bn' 
-        ? 'সহজ ভাষায় আপনার সমস্যা লিখুন। আমাদের সিস্টেম স্বয়ংক্রিয়ভাবে সঠিক আইনি বিভাগে নিয়ে যাবে।'
+        ? 'আপনার সমস্যাটি সহজ ভাষায় বর্ণনা করুন। আমাদের সিস্টেম স্বয়ংক্রিয়ভাবে আপনার জন্য উপযুক্ত আইনি বিভাগটি নির্বাচন করবে।'
         : 'Write your problem in simple words. Our system automatically finds the right legal category for you.',
       icon: MessageSquare,
     },
     {
       num: '02',
       label: language === 'bn' ? 'ম্যাচিং' : 'Match',
-      title: language === 'bn' ? 'সেরা আইনজীবী খুঁজে পান' : 'Find the best lawyers',
+      title: language === 'bn' ? 'সেরা আইনজীবী খুঁজে নিন' : 'Find the best lawyers',
       desc: language === 'bn'
-        ? 'আপনার সমস্যার ধরন ও বাজেট অনুযায়ী যাচাইকৃত আইনজীবীদের তালিকা দেখুন।'
+        ? 'আপনার সমস্যার ধরন ও বাজেট অনুযায়ী যাচাইকৃত আইনজীবীদের একটি তালিকা দেখুন এবং সেরাজনকে বেছে নিন।'
         : 'See a list of verified lawyers based on your problem type and budget.',
       icon: Search,
     },
     {
       num: '03',
       label: language === 'bn' ? 'তুলনা করুন' : 'Compare',
-      title: language === 'bn' ? 'অভিজ্ঞতা ও দাম দেখুন' : 'Check experience and price',
+      title: language === 'bn' ? 'অভিজ্ঞতা ও ফি যাচাই করুন' : 'Check experience and price',
       desc: language === 'bn'
-        ? 'প্রতিটি আইনজীবীর অভিজ্ঞতা, রেটিং এবং ফি পাশাপাশি দেখে সিদ্ধান্ত নিন।'
+        ? 'বিভিন্ন আইনজীবীর অভিজ্ঞতা, রেটিং এবং ফি পাশাপাশি তুলনা করে সঠিক সিদ্ধান্ত নিন।'
         : 'View each lawyer\'s experience, ratings, and fees side by side to decide.',
       icon: Users,
     },
     {
       num: '04',
       label: language === 'bn' ? 'বুকিং' : 'Book',
-      title: language === 'bn' ? 'সময় ঠিক করুন' : 'Pick your time',
+      title: language === 'bn' ? 'সময় নির্ধারণ করুন' : 'Pick your time',
       desc: language === 'bn'
-        ? 'আপনার সুবিধামতো সময় বেছে নিন এবং নিরাপদে পেমেন্ট করুন।'
+        ? 'আপনার সুবিধামতো একটি সময় বেছে নিন এবং নিরাপদে পেমেন্ট সম্পন্ন করুন।'
         : 'Choose a time that works for you and pay securely.',
       icon: CalendarCheck,
     },
     {
       num: '05',
-      label: language === 'bn' ? 'সংযোগ' : 'Connect',
-      title: language === 'bn' ? 'আইনজীবীর সাথে কথা বলুন' : 'Talk to your lawyer',
+      label: language === 'bn' ? 'পরামর্শ' : 'Connect',
+      title: language === 'bn' ? 'সরাসরি কথা বলুন' : 'Talk to your lawyer',
       desc: language === 'bn'
-        ? 'ভিডিও কল বা অডিও কলের মাধ্যমে আইনজীবীর সাথে সংযুক্ত হন।'
+        ? 'ভিডিও বা অডিও কলের মাধ্যমে আইনজীবীর সাথে সরাসরি কথা বলুন এবং আইনি পরামর্শ নিন।'
         : 'Connect with your lawyer via video call or audio call.',
       icon: CheckCircle,
     },

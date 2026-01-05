@@ -8,31 +8,31 @@ const faqCategories = [
     id: 'getting-started',
     icon: PlayCircle,
     labelEn: 'Getting Started',
-    labelBn: 'শুরু করা',
+    labelBn: 'শুরু করবেন যেভাবে',
     faqs: [
       {
         qEn: "What is Somadhan and how does it work?",
         qBn: "Somadhan কী এবং এটি কীভাবে কাজ করে?",
         aEn: "Somadhan is a digital legal services platform that connects you with verified lawyers for consultations, documentation, and case-related services through calls, bookings, and events.",
-        aBn: "Somadhan একটি ডিজিটাল লিগ্যাল সার্ভিস প্ল্যাটফর্ম যেখানে আপনি যাচাইকৃত আইনজীবীদের সঙ্গে কল, বুকিং ও ইভেন্টের মাধ্যমে আইনি সেবা নিতে পারেন।"
+        aBn: "Somadhan একটি ডিজিটাল আইনি সেবা প্ল্যাটফর্ম, যা আপনাকে যাচাইকৃত আইনজীবীদের সাথে সংযুক্ত করে। এর মাধ্যমে আপনি অডিও/ভিডিও কলের মাধ্যমে পরামর্শ, ডকুমেন্টেশন এবং মামলা সংক্রান্ত সেবা নিতে পারেন।"
       },
       {
         qEn: "Do I need to create an account to use Somadhan?",
-        qBn: "Somadhan ব্যবহার করতে কি অ্যাকাউন্ট লাগবে?",
+        qBn: "Somadhan ব্যবহার করতে কি অ্যাকাউন্ট থাকা আবশ্যক?",
         aEn: "Yes. You must create an account to book services, make payments, track progress, and communicate with lawyers securely.",
-        aBn: "হ্যাঁ। সেবা বুক করা, পেমেন্ট করা ও প্রগ্রেস ট্র্যাক করতে অ্যাকাউন্ট থাকা বাধ্যতামূলক।"
+        aBn: "জি, সেবা বুকিং, পেমেন্ট সম্পন্ন করা এবং কাজের অগ্রগতি ট্র্যাক করার জন্য অ্যাকাউন্ট থাকা বাধ্যতামূলক। এটি আপনার তথ্যের নিরাপত্তাও নিশ্চিত করে।"
       },
       {
         qEn: "Is my personal information safe on Somadhan?",
         qBn: "আমার ব্যক্তিগত তথ্য কি নিরাপদ?",
         aEn: "Yes. Somadhan follows strict data protection and privacy standards to keep your information secure and confidential.",
-        aBn: "হ্যাঁ। Somadhan আপনার তথ্য সুরক্ষার জন্য প্রয়োজনীয় নিরাপত্তা ও গোপনীয়তা নীতি অনুসরণ করে।"
+        aBn: "অবশ্যই। Somadhan কঠোর ডেটা সুরক্ষা ও গোপনীয়তা নীতি মেনে চলে, যাতে আপনার ব্যক্তিগত তথ্য ও আইনি নথিপত্র সম্পূর্ণ নিরাপদ থাকে।"
       },
       {
         qEn: "Can I access Somadhan from both mobile and desktop?",
-        qBn: "মোবাইল ও ডেস্কটপ দুটো থেকেই কি ব্যবহার করা যাবে?",
+        qBn: "মোবাইল ও ডেস্কটপ উভয় থেকেই কি ব্যবহার করা যাবে?",
         aEn: "Yes. Somadhan is designed to work smoothly on mobile phones, tablets, and desktop devices.",
-        aBn: "হ্যাঁ। Somadhan মোবাইল ও ডেস্কটপ উভয় ডিভাইসে ব্যবহার করা যায়।"
+        aBn: "হ্যাঁ, Somadhan মোবাইল, ট্যাবলেট এবং ডেস্কটপ—সব ধরনের ডিভাইসেই স্বাচ্ছন্দ্যে ব্যবহার করা যায়।"
       },
     ]
   },
@@ -44,27 +44,27 @@ const faqCategories = [
     faqs: [
       {
         qEn: "How do consultation calls work?",
-        qBn: "লিগ্যাল কনসালটেশন কল কীভাবে কাজ করে?",
+        qBn: "আইনি পরামর্শের কলগুলো কীভাবে কাজ করে?",
         aEn: "You request a call, maintain the required wallet balance, and once approved, a verified lawyer contacts you for consultation.",
-        aBn: "আপনি কল রিকোয়েস্ট করেন, প্রয়োজনীয় ওয়ালেট ব্যালেন্স থাকলে আইনজীবী আপনাকে কল করবেন।"
+        aBn: "প্রথমে আপনি কলের জন্য অনুরোধ করবেন। আপনার ওয়ালেটে পর্যাপ্ত ব্যালেন্স থাকলে এবং অনুরোধ অনুমোদিত হলে, একজন যাচাইকৃত আইনজীবী আপনার সাথে যোগাযোগ করবেন।"
       },
       {
         qEn: "Why was my call marked as 'Missed' or 'No Answer'?",
-        qBn: "কল কেন 'Missed' বা 'No Answer' দেখায়?",
+        qBn: "আমার কল কেন 'Missed' বা 'No Answer' দেখাচ্ছে?",
         aEn: "This happens if either you or the lawyer could not answer the call at the scheduled time.",
-        aBn: "নির্ধারিত সময় কল রিসিভ না হলে এই স্ট্যাটাস দেখানো হয়।"
+        aBn: "নির্ধারিত সময়ে আপনি বা আইনজীবী কেউ কল রিসিভ করতে না পারলে এমনটি দেখানো হয়।"
       },
       {
         qEn: "Can I call the lawyer again if the call fails?",
-        qBn: "কল ব্যর্থ হলে কি আবার কল করা যাবে?",
+        qBn: "কল বিচ্ছিন্ন হলে বা ব্যর্থ হলে কি আবার কল করা যাবে?",
         aEn: "Yes. You can use the 'Call Again' option from the call activity card.",
-        aBn: "হ্যাঁ। 'Call Again' অপশন থেকে আবার কল করতে পারবেন।"
+        aBn: "জি, কল অ্যাক্টিভিটি কার্ড থেকে 'Call Again' অপশন ব্যবহার করে পুনরায় কল করতে পারবেন।"
       },
       {
         qEn: "How is call cost calculated?",
         qBn: "কলের খরচ কীভাবে হিসাব করা হয়?",
         aEn: "Calls are charged per minute, based on the lawyer's rate. The amount is deducted from your wallet balance. Once you buy a service/package, no fees needed to make calls with that specific lawyer.",
-        aBn: "প্রতি মিনিট অনুযায়ী খরচ কাটা হয় এবং তা আপনার ওয়ালেট থেকে ডিডাক্ট হয়। একবার আপনি কোনও পরিষেবা/প্যাকেজ কিনলে, সেই নির্দিষ্ট আইনজীবীর সাথে যোগাযোগ করার জন্য কোনো ফি লাগবে না।"
+        aBn: "আইনজীবীর রেট অনুযায়ী প্রতি মিনিটের খরচ হিসাব করে ওয়ালেট থেকে টাকা কাটা হয়। তবে কোনো নির্দিষ্ট সার্ভিস বা প্যাকেজ কিনলে, সেই আইনজীবীর সাথে কথা বলতে আলাদা ফি লাগে না।"
       },
     ]
   },
@@ -76,27 +76,27 @@ const faqCategories = [
     faqs: [
       {
         qEn: "What does 'Booking Confirmed' mean?",
-        qBn: "'Booking Confirmed' মানে কী?",
+        qBn: "'Booking Confirmed' বলতে কী বোঝায়?",
         aEn: "It means your service request has been accepted and assigned to a lawyer.",
-        aBn: "আপনার সার্ভিস রিকোয়েস্ট গ্রহণ করা হয়েছে এবং একজন আইনজীবী নিযুক্ত হয়েছেন।"
+        aBn: "এর অর্থ আপনার সেবার অনুরোধটি গৃহীত হয়েছে এবং একজন আইনজীবীকে দায়িত্ব দেওয়া হয়েছে।"
       },
       {
         qEn: "What should I do if my booking shows 'Action Required'?",
-        qBn: "'Action Required' দেখালে কী করতে হবে?",
+        qBn: "'Action Required' দেখালে আমাকে কী করতে হবে?",
         aEn: "You need to complete a pending step, such as uploading documents or providing information.",
-        aBn: "সার্ভিস চালিয়ে নিতে প্রয়োজনীয় তথ্য বা ডকুমেন্ট দিতে হবে।"
+        aBn: "আপনাকে পরবর্তী ধাপ সম্পন্ন করতে হবে, যেমন—প্রয়োজনীয় নথিপত্র আপলোড করা বা অতিরিক্ত তথ্য প্রদান করা।"
       },
       {
         qEn: "Can I cancel a booking after confirmation?",
-        qBn: "বুকিং ক্যানসেল করা যাবে কি?",
+        qBn: "বুকিং নিশ্চিত হওয়ার পর কি বাতিল করা যাবে?",
         aEn: "Yes, you can cancel based on service terms. Some services may have partial charges.",
-        aBn: "হ্যাঁ। নির্দিষ্ট শর্ত অনুযায়ী বুকিং বাতিল করা যায়।"
+        aBn: "হ্যাঁ, সেবার শর্তাবলী সাপেক্ষে বাতিল করা সম্ভব। তবে কিছু ক্ষেত্রে আংশিক চার্জ প্রযোজ্য হতে পারে।"
       },
       {
         qEn: "Can I rebook a cancelled service?",
-        qBn: "ক্যানসেল করা সার্ভিস কি আবার বুক করা যাবে?",
+        qBn: "বাতিল করা সার্ভিস কি পুনরায় বুক করা যায়?",
         aEn: "Yes. You can rebook the service anytime from the booking details screen.",
-        aBn: "হ্যাঁ। যেকোনো সময় পুনরায় বুক করা যাবে।"
+        aBn: "জি, বুকিং ডিটেইলস স্ক্রিন থেকে যেকোনো সময় পুনরায় বুক করতে পারবেন।"
       },
     ]
   },
@@ -108,27 +108,27 @@ const faqCategories = [
     faqs: [
       {
         qEn: "What payment methods are supported?",
-        qBn: "কীভাবে পেমেন্ট করা যাবে?",
+        qBn: "কীভাবে পেমেন্ট করা যায়?",
         aEn: "Somadhan supports wallet payments and integrated payment gateways (bank, card, or mobile payment).",
-        aBn: "ওয়ালেট বা নির্ধারিত পেমেন্ট গেটওয়ের মাধ্যমে পেমেন্ট করা যায়।"
+        aBn: "Somadhan-এ ওয়ালেট, ব্যাংক কার্ড বা মোবাইল ব্যাংকিংয়ের (বিকাশ, নগদ, রকেট) মাধ্যমে পেমেন্ট করা যায়।"
       },
       {
         qEn: "What does 'Payment Declined' mean?",
         qBn: "'Payment Declined' মানে কী?",
         aEn: "The payment could not be processed due to bank issues, insufficient balance, or incorrect details.",
-        aBn: "ব্যাংক সমস্যা, ব্যালেন্স কম থাকা বা তথ্য ভুল হলে পেমেন্ট ব্যর্থ হতে পারে।"
+        aBn: "ব্যাংকিং সমস্যা, অপর্যাপ্ত ব্যালেন্স বা ভুল তথ্যের কারণে পেমেন্ট সম্পন্ন না হলে এটি দেখায়।"
       },
       {
         qEn: "When will I receive my refund?",
-        qBn: "রিফান্ড কবে পাবো?",
+        qBn: "রিফান্ড কত দিনের মধ্যে পাবো?",
         aEn: "Refunds are processed according to service policies and are usually credited back to your wallet.",
-        aBn: "সার্ভিস পলিসি অনুযায়ী রিফান্ড ওয়ালেটে ফেরত দেওয়া হয়।"
+        aBn: "সেবা নীতি অনুযায়ী রিফান্ড প্রসেস করা হয় এবং সাধারণত তা আপনার Somadhan ওয়ালেটে ফেরত দেওয়া হয়।"
       },
       {
         qEn: "Can I see my payment history?",
-        qBn: "আমার পেমেন্ট হিস্ট্রি কোথায় দেখবো?",
+        qBn: "আমি কি আমার পেমেন্ট ইতিহাস দেখতে পাবো?",
         aEn: "Yes. All your bills, payments, and refunds are available in the Bills section.",
-        aBn: "Bills সেকশনে সব পেমেন্ট ও রিফান্ডের তথ্য থাকে।"
+        aBn: "জি, 'Bills' সেকশনে আপনার সকল বিল, পেমেন্ট এবং রিফান্ডের তথ্য সংরক্ষিত থাকে।"
       },
     ]
   },
@@ -140,27 +140,27 @@ const faqCategories = [
     faqs: [
       {
         qEn: "Why do I need a minimum wallet balance?",
-        qBn: "কেন ন্যূনতম ওয়ালেট ব্যালেন্স প্রয়োজন?",
+        qBn: "ওয়ালেটে কেন ন্যূনতম ব্যালেন্স রাখতে হয়?",
         aEn: "A minimum balance ensures uninterrupted consultation calls and services.",
-        aBn: "কল ও সার্ভিস চলাকালীন যেন কোনো সমস্যা না হয়, এজন্য মিনিমাম ব্যালেন্স রাখা হয়।"
+        aBn: "কল বা সেবা চলাকালীন যেন সংযোগ বিচ্ছিন্ন না হয়, তা নিশ্চিত করতেই ন্যূনতম ব্যালেন্স রাখা জরুরি।"
       },
       {
         qEn: "What is the maximum wallet balance allowed?",
-        qBn: "সর্বোচ্চ কত টাকা ওয়ালেটে রাখা যাবে?",
+        qBn: "ওয়ালেটে সর্বোচ্চ কত টাকা রাখা যায়?",
         aEn: "You can maintain a wallet balance of up to 50,000 BDT.",
-        aBn: "সর্বোচ্চ ৫০,০০০ টাকা পর্যন্ত রাখা যাবে।"
+        aBn: "আপনি ওয়ালেটে সর্বোচ্চ ৫০,০০০ টাকা পর্যন্ত রাখতে পারবেন।"
       },
       {
         qEn: "What happens if my wallet balance is low?",
-        qBn: "ওয়ালেটে টাকা কম থাকলে কী হবে?",
+        qBn: "ব্যালেন্স কমে গেলে কী হবে?",
         aEn: "You will be prompted to add funds before starting paid services.",
-        aBn: "সার্ভিস শুরুর আগে আপনাকে টপ-আপ করতে বলা হবে।"
+        aBn: "যেকোনো পেইড সার্ভিস শুরু করার আগে আপনাকে ব্যালেন্স রিচার্জ বা টপ-আপ করতে বলা হবে।"
       },
       {
         qEn: "Are wallet refunds instant?",
-        qBn: "রিফান্ড কি সাথে সাথে ওয়ালেটে আসে?",
+        qBn: "রিফান্ড কি সাথে সাথে ওয়ালেটে যোগ হয়?",
         aEn: "Most refunds are processed quickly, but timing may vary depending on the payment method.",
-        aBn: "সাধারণত দ্রুত আসে, তবে কিছু ক্ষেত্রে সময় লাগতে পারে।"
+        aBn: "বেশিরভাগ রিফান্ড দ্রুত প্রসেস হয়, তবে পেমেন্ট মেথডের ওপর ভিত্তি করে কিছুটা সময় লাগতে পারে।"
       },
     ]
   },
@@ -172,27 +172,27 @@ const faqCategories = [
     faqs: [
       {
         qEn: "What are events in Somadhan?",
-        qBn: "Somadhan-এ ইভেন্ট বলতে কী বোঝায়?",
+        qBn: "Somadhan-এ 'ইভেন্ট' বলতে কী বোঝায়?",
         aEn: "Events include scheduled consultations, document deadlines, meetings, and legal reminders.",
-        aBn: "কনসালটেশন, মিটিং, ডেডলাইন বা লিগ্যাল আপডেটকে ইভেন্ট বলা হয়।"
+        aBn: "নির্ধারিত পরামর্শ, ডকুমেন্ট জমা দেওয়ার সময়সীমা, মিটিং বা আইনি নোটিফিকেশনগুলোকেই ইভেন্ট বলা হয়।"
       },
       {
         qEn: "Can I reschedule an event?",
-        qBn: "ইভেন্ট রিশিডিউল করা যাবে কি?",
+        qBn: "ইভেন্টের সময় পরিবর্তন বা রিশিডিউল করা যায়?",
         aEn: "Yes. Most events allow rescheduling based on lawyer availability.",
-        aBn: "হ্যাঁ। আইনজীবীর সময় অনুযায়ী রিশিডিউল করা যায়।"
+        aBn: "জি, আইনজীবীর লভ্যতা সাপেক্ষে বেশিরভাগ ইভেন্ট রিশিডিউল করা সম্ভব।"
       },
       {
         qEn: "Will I receive reminders for upcoming events?",
-        qBn: "ইভেন্টের জন্য কি রিমাইন্ডার পাবো?",
+        qBn: "আসন্ন ইভেন্টের জন্য কি রিমাইন্ডার পাবো?",
         aEn: "Yes. Somadhan sends reminders so you don't miss important sessions.",
-        aBn: "হ্যাঁ। সময়মতো নোটিফিকেশন দেওয়া হয়।"
+        aBn: "অবশ্যই। কোনো গুরুত্বপূর্ণ সেশন বা ডেডলাইন যেন মিস না হয়, সেজন্য আমরা রিমাইন্ডার পাঠাই।"
       },
       {
         qEn: "What happens if I miss an event?",
-        qBn: "ইভেন্ট মিস করলে কী হবে?",
+        qBn: "কোনো ইভেন্ট মিস করলে কী করণীয়?",
         aEn: "You can view details and reschedule from the event card.",
-        aBn: "ইভেন্ট ডিটেইলস দেখে পুনরায় শিডিউল করতে পারবেন।"
+        aBn: "ইভেন্ট কার্ড থেকে বিস্তারিত দেখে আপনি সেটি পুনরায় শিডিউল করতে পারবেন।"
       },
     ]
   },
@@ -204,27 +204,27 @@ const faqCategories = [
     faqs: [
       {
         qEn: "What file types can I upload?",
-        qBn: "কোন ধরনের ফাইল আপলোড করা যাবে?",
+        qBn: "কী ধরনের ফাইল আপলোড করা যাবে?",
         aEn: "You can upload PDF, JPG, PNG, DOC, and DOCX files.",
-        aBn: "PDF, JPG, PNG, DOC, DOCX ফাইল আপলোড করা যাবে।"
+        aBn: "আপনি PDF, JPG, PNG, DOC এবং DOCX ফরম্যাটের ফাইল আপলোড করতে পারবেন।"
       },
       {
         qEn: "Is there a file size limit?",
-        qBn: "ফাইল সাইজের সীমা কত?",
+        qBn: "ফাইলের সাইজ লিমিট কত?",
         aEn: "Yes. Each file must be under 5 MB.",
-        aBn: "প্রতি ফাইল সর্বোচ্চ ৫ এমবি।"
+        aBn: "প্রতিটি ফাইল সর্বোচ্চ ৫ মেগাবাইটের মধ্যে হতে হবে।"
       },
       {
         qEn: "Are my documents visible to everyone?",
-        qBn: "আমার ডকুমেন্ট কে দেখতে পারবে?",
+        qBn: "আমার ডকুমেন্ট কি সবাই দেখতে পাবে?",
         aEn: "No. Documents are only accessible to you and your assigned lawyer.",
-        aBn: "শুধু আপনি ও আপনার নিযুক্ত আইনজীবী দেখতে পারবেন।"
+        aBn: "না, আপনার ডকুমেন্ট শুধুমাত্র আপনি এবং আপনার নিযুক্ত আইনজীবী দেখতে পারবেন।"
       },
       {
         qEn: "Can I replace uploaded documents?",
-        qBn: "আপলোড করা ফাইল কি পরিবর্তন করা যাবে?",
+        qBn: "আপলোড করা ডকুমেন্ট কি পরিবর্তন করা যায়?",
         aEn: "Yes. You can re-upload or replace documents anytime before service completion.",
-        aBn: "হ্যাঁ। প্রয়োজন হলে রিপ্লেস করা যাবে।"
+        aBn: "জি, সেবা সম্পন্ন হওয়ার আগ পর্যন্ত যেকোনো সময় আপনি ডকুমেন্ট পরিবর্তন বা পুনরায় আপলোড করতে পারবেন।"
       },
     ]
   },
@@ -236,27 +236,27 @@ const faqCategories = [
     faqs: [
       {
         qEn: "How do I contact Somadhan support?",
-        qBn: "Somadhan সাপোর্টে কীভাবে যোগাযোগ করবো?",
+        qBn: "Somadhan সাপোর্টে কীভাবে যোগাযোগ করব?",
         aEn: "You can contact support through the app or email us at info@somadhan.com",
-        aBn: "অ্যাপ বা info@somadhan.com এ ইমেইল করে যোগাযোগ করা যাবে।"
+        aBn: "অ্যাপের মাধ্যমে অথবা info@somadhan.com-এ ইমেইল করে আমাদের সাথে যোগাযোগ করতে পারেন।"
       },
       {
         qEn: "Can I give feedback on a service?",
-        qBn: "সার্ভিস শেষে ফিডব্যাক দেওয়া যাবে কি?",
+        qBn: "সার্ভিস নিয়ে কি ফিডব্যাক দেওয়া যায়?",
         aEn: "Yes. You can rate calls and services after completion.",
-        aBn: "হ্যাঁ। কল ও সার্ভিস রেটিং দেওয়া যায়।"
+        aBn: "জি, সেবা বা কল শেষ হওয়ার পর আপনি রেটিং ও মতামত জানাতে পারবেন।"
       },
       {
         qEn: "Are all lawyers verified?",
-        qBn: "Somadhan-এর সব আইনজীবী কি যাচাইকৃত?",
+        qBn: "Somadhan-এর সব আইনজীবী কি ভেরিফাইড?",
         aEn: "Yes. Somadhan works only with verified and approved legal professionals.",
-        aBn: "হ্যাঁ। সব আইনজীবী যাচাই ও অনুমোদিত।"
+        aBn: "হ্যাঁ। আমরা শুধুমাত্র যাচাইকৃত এবং অনুমোদিত আইনজীবীদের সাথেই কাজ করি।"
       },
       {
         qEn: "Where can I track all my activities?",
-        qBn: "আমার সব অ্যাক্টিভিটি কোথায় দেখবো?",
+        qBn: "আমি আমার সব অ্যাক্টিভিটি কোথায় দেখতে পাবো?",
         aEn: "All calls, bookings, bills, and events are available in the Activity section.",
-        aBn: "Activity সেকশনে সব কল, বুকিং, বিল ও ইভেন্ট দেখা যাবে।"
+        aBn: "'Activity' সেকশনে আপনার সব কল, বুকিং, বিল ও ইভেন্টের বিস্তারিত তথ্য পাওয়া যাবে।"
       },
     ]
   },
