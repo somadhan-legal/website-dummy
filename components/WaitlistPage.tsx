@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, ArrowRight, ArrowLeft, Check, Sparkles, User, Mail, Phone, AlertCircle } from 'lucide-react';
 import { useLanguage } from '../contexts/LanguageContext';
+import { submitWaitlist } from '../lib/supabase';
 
 interface WaitlistPageProps {
   isOpen: boolean;
@@ -13,6 +14,7 @@ const WaitlistPage: React.FC<WaitlistPageProps> = ({ isOpen, onClose }) => {
   const [step, setStep] = useState(1);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
+  const [submitError, setSubmitError] = useState<string | null>(null);
   const [errors, setErrors] = useState<Record<string, string>>({});
   
   const [formData, setFormData] = useState({
@@ -21,13 +23,11 @@ const WaitlistPage: React.FC<WaitlistPageProps> = ({ isOpen, onClose }) => {
     phone: '',
     profession: '',
     services: [] as string[],
-    urgency: '',
     heardFrom: '',
-    preferredLanguage: '',
     feedback: '',
   });
 
-  const totalSteps = 7;
+  const totalSteps = 5;
 
   const professionOptions = [
     { id: 'individual', label: language === 'bn' ? 'ব্যক্তিগত' : 'Individual' },
@@ -50,25 +50,12 @@ const WaitlistPage: React.FC<WaitlistPageProps> = ({ isOpen, onClose }) => {
     { id: 'other', label: language === 'bn' ? 'অন্যান্য' : 'Other' },
   ];
 
-  const urgencyOptions = [
-    { id: 'immediate', label: language === 'bn' ? 'এখনই দরকার' : 'I need help now' },
-    { id: 'soon', label: language === 'bn' ? 'শীঘ্রই দরকার' : 'Within a week' },
-    { id: 'exploring', label: language === 'bn' ? 'দেখছি মাত্র' : 'Just exploring' },
-    { id: 'future', label: language === 'bn' ? 'ভবিষ্যতে দরকার হতে পারে' : 'Might need later' },
-  ];
-
   const heardFromOptions = [
     { id: 'social', label: language === 'bn' ? 'সোশ্যাল মিডিয়া' : 'Social Media' },
     { id: 'referral', label: language === 'bn' ? 'বন্ধু/পরিচিত' : 'Friend / Referral' },
     { id: 'search', label: language === 'bn' ? 'গুগল সার্চ' : 'Google Search' },
     { id: 'news', label: language === 'bn' ? 'সংবাদ/আর্টিকেল' : 'News / Article' },
     { id: 'other', label: language === 'bn' ? 'অন্যান্য' : 'Other' },
-  ];
-
-  const languageOptions = [
-    { id: 'english', label: language === 'bn' ? 'ইংরেজি' : 'English' },
-    { id: 'bengali', label: language === 'bn' ? 'বাংলা' : 'Bengali' },
-    { id: 'both', label: language === 'bn' ? 'দুটোই' : 'Both' },
   ];
 
   useEffect(() => {
@@ -79,8 +66,9 @@ const WaitlistPage: React.FC<WaitlistPageProps> = ({ isOpen, onClose }) => {
       setTimeout(() => {
         setStep(1);
         setIsSuccess(false);
+        setSubmitError(null);
         setErrors({});
-        setFormData({ fullName: '', email: '', phone: '', profession: '', services: [], urgency: '', heardFrom: '', preferredLanguage: '', feedback: '' });
+        setFormData({ fullName: '', email: '', phone: '', profession: '', services: [], heardFrom: '', feedback: '' });
       }, 300);
     }
     return () => { document.body.style.overflow = 'unset'; };
@@ -122,16 +110,8 @@ const WaitlistPage: React.FC<WaitlistPageProps> = ({ isOpen, onClose }) => {
       newErrors.services = language === 'bn' ? 'অন্তত একটি সেবা নির্বাচন করুন' : 'Select at least one service';
     }
     
-    if (step === 4 && !formData.urgency) {
-      newErrors.urgency = language === 'bn' ? 'জরুরিতা নির্বাচন করুন' : 'Select urgency level';
-    }
-
-    if (step === 5 && !formData.heardFrom) {
+    if (step === 4 && !formData.heardFrom) {
       newErrors.heardFrom = language === 'bn' ? 'একটি অপশন নির্বাচন করুন' : 'Select an option';
-    }
-
-    if (step === 6 && !formData.preferredLanguage) {
-      newErrors.preferredLanguage = language === 'bn' ? 'ভাষা নির্বাচন করুন' : 'Select preferred language';
     }
     
     setErrors(newErrors);
@@ -146,9 +126,29 @@ const WaitlistPage: React.FC<WaitlistPageProps> = ({ isOpen, onClose }) => {
 
   const handleSubmit = async () => {
     setIsSubmitting(true);
-    await new Promise(resolve => setTimeout(resolve, 1500));
+    setSubmitError(null);
+    
+    const result = await submitWaitlist({
+      full_name: formData.fullName,
+      email: formData.email,
+      phone: formData.phone || undefined,
+      profession: formData.profession,
+      services: formData.services,
+      heard_from: formData.heardFrom || undefined,
+      feedback: formData.feedback || undefined,
+    });
+    
     setIsSubmitting(false);
-    setIsSuccess(true);
+    
+    if (result.success) {
+      setIsSuccess(true);
+    } else {
+      if (result.error === 'email_exists') {
+        setSubmitError(language === 'bn' ? 'এই ইমেইল ইতিমধ্যে নিবন্ধিত!' : 'This email is already registered!');
+      } else {
+        setSubmitError(language === 'bn' ? 'কিছু সমস্যা হয়েছে। আবার চেষ্টা করুন।' : 'Something went wrong. Please try again.');
+      }
+    }
   };
 
   const toggleService = (id: string) => {
@@ -175,16 +175,8 @@ const WaitlistPage: React.FC<WaitlistPageProps> = ({ isOpen, onClose }) => {
       subtitle: language === 'bn' ? "প্রযোজ্য সব নির্বাচন করুন" : "Select all that apply"
     },
     { 
-      title: language === 'bn' ? "কতটা জরুরি?" : "How urgent is your need?",
-      subtitle: language === 'bn' ? "এটি আমাদের প্রস্তুত হতে সাহায্য করে" : "This helps us prioritize"
-    },
-    { 
       title: language === 'bn' ? "আমাদের কথা কোথায় শুনলেন?" : "How did you hear about us?",
       subtitle: language === 'bn' ? "এটি আমাদের উন্নতি করতে সাহায্য করে" : "This helps us improve"
-    },
-    { 
-      title: language === 'bn' ? "পছন্দের ভাষা?" : "Preferred language?",
-      subtitle: language === 'bn' ? "যোগাযোগের জন্য" : "For communication"
     },
     { 
       title: language === 'bn' ? "আর কিছু?" : "Anything else?",
@@ -207,7 +199,7 @@ const WaitlistPage: React.FC<WaitlistPageProps> = ({ isOpen, onClose }) => {
           <div className="fixed top-0 right-0 w-[500px] h-[500px] bg-gradient-to-bl from-brand-100 to-transparent rounded-full blur-3xl opacity-40 pointer-events-none" />
           <div className="fixed bottom-0 left-0 w-[400px] h-[400px] bg-gradient-to-tr from-brand-50 to-transparent rounded-full blur-3xl opacity-40 pointer-events-none" />
 
-          {/* Close Button - More Visible */}
+          {/* Close Button */}
           <button
             onClick={onClose}
             className="fixed top-4 right-4 sm:top-6 sm:right-6 z-50 w-11 h-11 rounded-full bg-slate-900 hover:bg-slate-800 flex items-center justify-center text-white transition-all hover:scale-105 active:scale-95 shadow-lg"
@@ -242,6 +234,17 @@ const WaitlistPage: React.FC<WaitlistPageProps> = ({ isOpen, onClose }) => {
                     <h2 className="text-xl sm:text-2xl font-serif text-slate-900 mb-1">{stepContent[step - 1].title}</h2>
                     <p className="text-sm text-slate-500">{stepContent[step - 1].subtitle}</p>
                   </motion.div>
+
+                  {/* Error Message */}
+                  {submitError && (
+                    <motion.div 
+                      initial={{ opacity: 0, y: -10 }} 
+                      animate={{ opacity: 1, y: 0 }}
+                      className="mb-4 p-3 bg-red-50 border border-red-200 rounded-xl text-red-600 text-sm text-center"
+                    >
+                      {submitError}
+                    </motion.div>
+                  )}
 
                   {/* Steps */}
                   <AnimatePresence mode="wait">
@@ -341,25 +344,6 @@ const WaitlistPage: React.FC<WaitlistPageProps> = ({ isOpen, onClose }) => {
 
                       {step === 4 && (
                         <div className="space-y-2">
-                          {urgencyOptions.map((option) => (
-                            <button
-                              key={option.id}
-                              onClick={() => { setFormData(prev => ({ ...prev, urgency: option.id })); setErrors(prev => ({ ...prev, urgency: '' })); }}
-                              className={`w-full p-4 rounded-xl text-left transition-all hover:scale-[1.01] active:scale-[0.99] ${
-                                formData.urgency === option.id
-                                  ? 'bg-brand-600 text-white shadow-lg shadow-brand-600/25'
-                                  : 'bg-slate-50 text-slate-700 hover:bg-slate-100 border border-slate-200 hover:border-slate-300'
-                              }`}
-                            >
-                              <span className="font-medium">{option.label}</span>
-                            </button>
-                          ))}
-                          {errors.urgency && <p className="mt-2 text-xs text-red-500 flex items-center gap-1"><AlertCircle className="w-3 h-3" />{errors.urgency}</p>}
-                        </div>
-                      )}
-
-                      {step === 5 && (
-                        <div className="space-y-2">
                           {heardFromOptions.map((option) => (
                             <button
                               key={option.id}
@@ -377,26 +361,7 @@ const WaitlistPage: React.FC<WaitlistPageProps> = ({ isOpen, onClose }) => {
                         </div>
                       )}
 
-                      {step === 6 && (
-                        <div className="space-y-2">
-                          {languageOptions.map((option) => (
-                            <button
-                              key={option.id}
-                              onClick={() => { setFormData(prev => ({ ...prev, preferredLanguage: option.id })); setErrors(prev => ({ ...prev, preferredLanguage: '' })); }}
-                              className={`w-full p-4 rounded-xl text-left transition-all hover:scale-[1.01] active:scale-[0.99] ${
-                                formData.preferredLanguage === option.id
-                                  ? 'bg-brand-600 text-white shadow-lg shadow-brand-600/25'
-                                  : 'bg-slate-50 text-slate-700 hover:bg-slate-100 border border-slate-200 hover:border-slate-300'
-                              }`}
-                            >
-                              <span className="font-medium">{option.label}</span>
-                            </button>
-                          ))}
-                          {errors.preferredLanguage && <p className="mt-2 text-xs text-red-500 flex items-center gap-1"><AlertCircle className="w-3 h-3" />{errors.preferredLanguage}</p>}
-                        </div>
-                      )}
-
-                      {step === 7 && (
+                      {step === 5 && (
                         <div>
                           <textarea
                             value={formData.feedback}
