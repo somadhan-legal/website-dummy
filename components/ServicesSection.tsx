@@ -97,7 +97,7 @@ const ServicesSection: React.FC = () => {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
-            className="font-serif text-3xl md:text-4xl text-slate-900 mb-3 tracking-tight"
+            className={`font-serif text-3xl md:text-4xl text-slate-900 mb-3 tracking-tight ${language === 'bn' ? 'leading-[1.4]' : ''}`}
           >
             {t('services.title')}
           </motion.h2>
@@ -139,10 +139,10 @@ const ServicesSection: React.FC = () => {
                   </div>
 
                   {/* Content */}
-                  <h3 className="font-bold text-base text-slate-900 mb-1.5 group-hover:text-brand-700">
+                  <h3 className={`font-bold text-base text-slate-900 mb-1.5 group-hover:text-brand-700 ${language === 'bn' ? 'leading-relaxed' : ''}`}>
                     {language === 'bn' ? service.titleBn : service.title}
                   </h3>
-                  <p className="text-sm text-slate-500 mb-3 line-clamp-2">
+                  <p className={`text-sm text-slate-500 mb-3 line-clamp-2 ${language === 'bn' ? 'leading-relaxed' : ''}`}>
                     {language === 'bn' ? service.descriptionBn : service.description}
                   </p>
 
@@ -197,7 +197,7 @@ const ServicesSection: React.FC = () => {
                     <Icon className={`w-5 h-5 ${isExpanded ? 'text-brand-600' : 'text-slate-500'}`} strokeWidth={1.5} />
                   </div>
                   <div className="flex-1 text-left">
-                    <h3 className="font-semibold text-sm text-slate-900">
+                    <h3 className={`font-semibold text-sm text-slate-900 ${language === 'bn' ? 'leading-relaxed' : ''}`}>
                       {language === 'bn' ? service.titleBn : service.title}
                     </h3>
                   </div>
@@ -220,7 +220,7 @@ const ServicesSection: React.FC = () => {
                       className="overflow-hidden"
                     >
                       <div className="px-4 pb-4 pt-0">
-                        <p className="text-sm text-slate-600 mb-3">
+                        <p className={`text-sm text-slate-600 mb-3 ${language === 'bn' ? 'leading-relaxed' : ''}`}>
                           {language === 'bn' ? service.descriptionBn : service.description}
                         </p>
                         <div className="flex flex-wrap gap-1.5">

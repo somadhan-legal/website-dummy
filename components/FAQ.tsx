@@ -12,13 +12,13 @@ const faqCategories = [
     faqs: [
       {
         qEn: "What is Somadhan and how does it work?",
-        qBn: "Somadhan কী এবং এটি কীভাবে কাজ করে?",
+        qBn: "সমাধান কী এবং এটি কীভাবে কাজ করে?",
         aEn: "Somadhan is a digital legal services platform that connects you with verified lawyers for consultations, documentation, and case-related services through calls, bookings, and events.",
-        aBn: "Somadhan একটি ডিজিটাল আইনি সেবা প্ল্যাটফর্ম, যা আপনাকে যাচাইকৃত আইনজীবীদের সাথে সংযুক্ত করে। এর মাধ্যমে আপনি অডিও/ভিডিও কলের মাধ্যমে পরামর্শ, ডকুমেন্টেশন এবং মামলা সংক্রান্ত সেবা নিতে পারেন।"
+        aBn: "সমাধান একটি ডিজিটাল আইনি সেবা প্ল্যাটফর্ম, যা আপনাকে যাচাইকৃত আইনজীবীদের সাথে সংযুক্ত করে। এর মাধ্যমে আপনি অডিও বা ভিডিও কলের মাধ্যমে পরামর্শ, ডকুমেন্টেশন এবং মামলা সংক্রান্ত সেবা নিতে পারেন।"
       },
       {
         qEn: "Do I need to create an account to use Somadhan?",
-        qBn: "Somadhan ব্যবহার করতে কি অ্যাকাউন্ট থাকা আবশ্যক?",
+        qBn: "সমাধান ব্যবহার করতে কি অ্যাকাউন্ট থাকা আবশ্যক?",
         aEn: "Yes. You must create an account to book services, make payments, track progress, and communicate with lawyers securely.",
         aBn: "জি, সেবা বুকিং, পেমেন্ট সম্পন্ন করা এবং কাজের অগ্রগতি ট্র্যাক করার জন্য অ্যাকাউন্ট থাকা বাধ্যতামূলক। এটি আপনার তথ্যের নিরাপত্তাও নিশ্চিত করে।"
       },
@@ -26,13 +26,13 @@ const faqCategories = [
         qEn: "Is my personal information safe on Somadhan?",
         qBn: "আমার ব্যক্তিগত তথ্য কি নিরাপদ?",
         aEn: "Yes. Somadhan follows strict data protection and privacy standards to keep your information secure and confidential.",
-        aBn: "অবশ্যই। Somadhan কঠোর ডেটা সুরক্ষা ও গোপনীয়তা নীতি মেনে চলে, যাতে আপনার ব্যক্তিগত তথ্য ও আইনি নথিপত্র সম্পূর্ণ নিরাপদ থাকে।"
+        aBn: "অবশ্যই। সমাধান কঠোর ডেটা সুরক্ষা ও গোপনীয়তা নীতি মেনে চলে, যাতে আপনার ব্যক্তিগত তথ্য ও আইনি নথিপত্র সম্পূর্ণ নিরাপদ থাকে।"
       },
       {
         qEn: "Can I access Somadhan from both mobile and desktop?",
         qBn: "মোবাইল ও ডেস্কটপ উভয় থেকেই কি ব্যবহার করা যাবে?",
         aEn: "Yes. Somadhan is designed to work smoothly on mobile phones, tablets, and desktop devices.",
-        aBn: "হ্যাঁ, Somadhan মোবাইল, ট্যাবলেট এবং ডেস্কটপ—সব ধরনের ডিভাইসেই স্বাচ্ছন্দ্যে ব্যবহার করা যায়।"
+        aBn: "হ্যাঁ, সমাধান মোবাইল, ট্যাবলেট এবং ডেস্কটপ—সব ধরনের ডিভাইসেই স্বাচ্ছন্দ্যে ব্যবহার করা যায়।"
       },
     ]
   },
@@ -110,7 +110,7 @@ const faqCategories = [
         qEn: "What payment methods are supported?",
         qBn: "কীভাবে পেমেন্ট করা যায়?",
         aEn: "Somadhan supports wallet payments and integrated payment gateways (bank, card, or mobile payment).",
-        aBn: "Somadhan-এ ওয়ালেট, ব্যাংক কার্ড বা মোবাইল ব্যাংকিংয়ের (বিকাশ, নগদ, রকেট) মাধ্যমে পেমেন্ট করা যায়।"
+        aBn: "সমাধানে ওয়ালেট, ব্যাংক কার্ড বা মোবাইল ব্যাংকিংয়ের (বিকাশ, নগদ, রকেট) মাধ্যমে পেমেন্ট করা যায়।"
       },
       {
         qEn: "What does 'Payment Declined' mean?",
@@ -122,7 +122,7 @@ const faqCategories = [
         qEn: "When will I receive my refund?",
         qBn: "রিফান্ড কত দিনের মধ্যে পাবো?",
         aEn: "Refunds are processed according to service policies and are usually credited back to your wallet.",
-        aBn: "সেবা নীতি অনুযায়ী রিফান্ড প্রসেস করা হয় এবং সাধারণত তা আপনার Somadhan ওয়ালেটে ফেরত দেওয়া হয়।"
+        aBn: "সেবা নীতি অনুযায়ী রিফান্ড প্রসেস করা হয় এবং সাধারণত তা আপনার সমাধান ওয়ালেটে ফেরত দেওয়া হয়।"
       },
       {
         qEn: "Can I see my payment history?",
@@ -172,7 +172,7 @@ const faqCategories = [
     faqs: [
       {
         qEn: "What are events in Somadhan?",
-        qBn: "Somadhan-এ 'ইভেন্ট' বলতে কী বোঝায়?",
+        qBn: "সমাধানে 'ইভেন্ট' বলতে কী বোঝায়?",
         aEn: "Events include scheduled consultations, document deadlines, meetings, and legal reminders.",
         aBn: "নির্ধারিত পরামর্শ, ডকুমেন্ট জমা দেওয়ার সময়সীমা, মিটিং বা আইনি নোটিফিকেশনগুলোকেই ইভেন্ট বলা হয়।"
       },
@@ -236,7 +236,7 @@ const faqCategories = [
     faqs: [
       {
         qEn: "How do I contact Somadhan support?",
-        qBn: "Somadhan সাপোর্টে কীভাবে যোগাযোগ করব?",
+        qBn: "সমাধান সাপোর্টে কীভাবে যোগাযোগ করব?",
         aEn: "You can contact support through the app or email us at info@somadhan.com",
         aBn: "অ্যাপের মাধ্যমে অথবা info@somadhan.com-এ ইমেইল করে আমাদের সাথে যোগাযোগ করতে পারেন।"
       },
@@ -248,7 +248,7 @@ const faqCategories = [
       },
       {
         qEn: "Are all lawyers verified?",
-        qBn: "Somadhan-এর সব আইনজীবী কি ভেরিফাইড?",
+        qBn: "সমাধানের সব আইনজীবী কি ভেরিফাইড?",
         aEn: "Yes. Somadhan works only with verified and approved legal professionals.",
         aBn: "হ্যাঁ। আমরা শুধুমাত্র যাচাইকৃত এবং অনুমোদিত আইনজীবীদের সাথেই কাজ করি।"
       },
@@ -280,7 +280,7 @@ const FAQ: React.FC = () => {
           transition={{ duration: 0.5 }}
           className="text-center mb-10"
         >
-          <h2 className="font-serif text-3xl md:text-4xl text-slate-900 mb-3">
+          <h2 className={`font-serif text-3xl md:text-4xl text-slate-900 mb-3 ${language === 'bn' ? 'leading-[1.4]' : ''}`}>
             {t('faq.title')}
           </h2>
           <p className="text-slate-500 max-w-lg mx-auto text-sm sm:text-base">
@@ -348,7 +348,7 @@ const FAQ: React.FC = () => {
                         className="w-full text-left p-4 sm:p-5 flex items-center gap-3"
                       >
                         <div className="flex-1 min-w-0">
-                          <div className={`font-medium text-sm sm:text-base ${isOpen ? 'text-white' : 'text-slate-900'}`}>
+                          <div className={`font-medium text-sm sm:text-base ${isOpen ? 'text-white' : 'text-slate-900'} ${language === 'bn' ? 'leading-relaxed' : ''}`}>
                             {question}
                           </div>
                         </div>
@@ -373,7 +373,7 @@ const FAQ: React.FC = () => {
                             className="overflow-hidden"
                           >
                             <div className="px-4 sm:px-5 pb-5 pt-0">
-                              <p className="text-white/80 text-sm leading-relaxed">
+                              <p className={`text-white/80 text-sm leading-relaxed ${language === 'bn' ? 'leading-relaxed' : ''}`}>
                                 {answer}
                               </p>
                             </div>

@@ -62,7 +62,7 @@ const HowItWorks: React.FC = () => {
             <div className="w-2 h-2 rounded-full bg-brand-500" />
             <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Case Composer</span>
           </div>
-          <p className="text-slate-800 font-serif text-base leading-snug mb-4">
+          <p className={`text-slate-800 font-serif text-base leading-snug mb-4 ${language === 'bn' ? 'leading-relaxed' : ''}`}>
             {language === 'bn' ? '"আমার বাড়িওয়ালা অগ্রিম টাকা ফেরত দিচ্ছে না..."' : '"My landlord is refusing to return the advance deposit..."'}
           </p>
           <div className="flex flex-wrap gap-1.5 mb-4">
@@ -184,7 +184,7 @@ const HowItWorks: React.FC = () => {
               </div>
               <div>
                 <div className="font-semibold text-slate-900 text-sm">Kamal Hossain</div>
-                <div className="text-xs text-brand-600">{language === 'bn' ? 'সম্পত্তি আইন বিশেষজ্ঞ' : 'Property Law Expert'}</div>
+                <div className={`text-xs text-brand-600 ${language === 'bn' ? 'leading-relaxed' : ''}`}>{language === 'bn' ? 'সম্পত্তি আইন বিশেষজ্ঞ' : 'Property Law Expert'}</div>
               </div>
             </div>
             <div className="grid grid-cols-2 gap-3 text-center mb-4">
@@ -223,7 +223,7 @@ const HowItWorks: React.FC = () => {
           <span className="inline-flex items-center px-4 py-1.5 rounded-full bg-brand-100 text-brand-700 text-xs font-bold uppercase tracking-wider mb-4">
             {t('process.badge')}
           </span>
-          <h2 className="font-serif text-3xl md:text-4xl text-slate-900">
+          <h2 className={`font-serif text-3xl md:text-4xl text-slate-900 ${language === 'bn' ? 'leading-[1.4]' : ''}`}>
             {t('process.title')}
           </h2>
         </div>
@@ -231,14 +231,14 @@ const HowItWorks: React.FC = () => {
         {/* Steps - Desktop */}
         <div className="hidden lg:block">
           {steps.map((step, idx) => (
-            <StepRow key={idx} step={step} idx={idx} Visual={<StepVisual stepIndex={idx} />} isLast={idx === steps.length - 1} />
+            <StepRow key={idx} step={step} idx={idx} Visual={<StepVisual stepIndex={idx} />} isLast={idx === steps.length - 1} language={language} />
           ))}
         </div>
 
         {/* Steps - Mobile */}
         <div className="lg:hidden space-y-10">
           {steps.map((step, idx) => (
-            <MobileStep key={idx} step={step} idx={idx} Visual={<StepVisual stepIndex={idx} />} />
+            <MobileStep key={idx} step={step} idx={idx} Visual={<StepVisual stepIndex={idx} />} language={language} />
           ))}
         </div>
       </div>
@@ -246,7 +246,7 @@ const HowItWorks: React.FC = () => {
   );
 };
 
-const StepRow: React.FC<{ step: any; idx: number; Visual: React.ReactNode; isLast: boolean }> = ({ step, idx, Visual, isLast }) => {
+const StepRow: React.FC<{ step: any; idx: number; Visual: React.ReactNode; isLast: boolean; language: string }> = ({ step, idx, Visual, isLast, language }) => {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-10%" });
 
@@ -262,8 +262,8 @@ const StepRow: React.FC<{ step: any; idx: number; Visual: React.ReactNode; isLas
         <div className="flex items-center gap-3 mb-2">
           <span className="text-xs font-bold text-brand-600 tracking-widest">{step.num}. {step.label}</span>
         </div>
-        <h3 className="font-serif text-xl xl:text-2xl text-slate-900 mb-2 leading-snug">{step.title}</h3>
-        <p className="text-slate-500 text-sm leading-relaxed">{step.desc}</p>
+        <h3 className={`font-serif text-xl xl:text-2xl text-slate-900 mb-2 leading-snug ${language === 'bn' ? 'leading-[1.4]' : ''}`}>{step.title}</h3>
+        <p className={`text-slate-500 text-sm leading-relaxed ${language === 'bn' ? 'leading-relaxed' : ''}`}>{step.desc}</p>
       </div>
       
       <div className={`flex ${idx % 2 === 1 ? 'order-1 justify-start' : 'justify-end'}`}>
@@ -273,7 +273,7 @@ const StepRow: React.FC<{ step: any; idx: number; Visual: React.ReactNode; isLas
   );
 };
 
-const MobileStep: React.FC<{ step: any; idx: number; Visual: React.ReactNode }> = ({ step, idx, Visual }) => {
+const MobileStep: React.FC<{ step: any; idx: number; Visual: React.ReactNode; language: string }> = ({ step, idx, Visual, language }) => {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-5%" });
 
@@ -287,8 +287,8 @@ const MobileStep: React.FC<{ step: any; idx: number; Visual: React.ReactNode }> 
     >
       <div className="pl-4 border-l-2 border-brand-500">
         <span className="text-xs font-bold text-brand-600 tracking-widest">{step.num}. {step.label}</span>
-        <h3 className="font-serif text-lg text-slate-900 mt-1 mb-1.5 leading-snug">{step.title}</h3>
-        <p className="text-slate-500 text-sm leading-relaxed">{step.desc}</p>
+        <h3 className={`font-serif text-lg text-slate-900 mt-1 mb-1.5 leading-snug ${language === 'bn' ? 'leading-[1.4]' : ''}`}>{step.title}</h3>
+        <p className={`text-slate-500 text-sm leading-relaxed ${language === 'bn' ? 'leading-relaxed' : ''}`}>{step.desc}</p>
       </div>
       <div className="flex justify-center">
         {Visual}

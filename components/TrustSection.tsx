@@ -4,7 +4,7 @@ import { motion } from 'framer-motion';
 import { useLanguage } from '../contexts/LanguageContext';
 
 const TrustSection: React.FC = () => {
-  const { t } = useLanguage();
+  const { t, language } = useLanguage();
 
   const features = [
     {
@@ -53,7 +53,7 @@ const TrustSection: React.FC = () => {
             <div className="inline-block px-3 py-1.5 bg-brand-50 border border-brand-100 rounded-full text-xs font-bold text-brand-600 uppercase tracking-wider mb-5">
               {t('trust.badge')}
             </div>
-            <h2 className="font-serif text-3xl sm:text-4xl text-slate-900 mb-4 leading-[1.15]">
+            <h2 className={`font-serif text-3xl sm:text-4xl text-slate-900 mb-4 ${language === 'bn' ? 'leading-[1.4]' : 'leading-[1.15]'}`}>
               {t('trust.title')} <br className="hidden sm:block"/>
               <span className="text-slate-400">{t('trust.titleAccent')}</span>
             </h2>

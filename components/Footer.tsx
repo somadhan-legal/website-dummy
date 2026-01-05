@@ -36,10 +36,10 @@ const Footer: React.FC<FooterProps> = ({ onOpenWaitlist }) => {
           
           <div className="relative z-10 flex flex-col sm:flex-row items-center justify-between gap-6">
             <div className="text-center sm:text-left">
-              <h2 className="font-serif text-xl sm:text-2xl text-white mb-1.5">
+              <h2 className={`font-serif text-xl sm:text-2xl text-white mb-1.5 ${language === 'bn' ? 'leading-[1.4]' : ''}`}>
                 {language === 'bn' ? 'আজই শুরু করুন' : 'Ready to get started?'}
               </h2>
-              <p className="text-white/50 text-sm max-w-sm">
+              <p className={`text-white/50 text-sm max-w-sm ${language === 'bn' ? 'leading-relaxed' : ''}`}>
                 {language === 'bn' 
                   ? 'ওয়েটলিস্টে যোগ দিন এবং সবার আগে আপডেট পান।' 
                   : 'Join our waitlist for early access.'}
@@ -62,15 +62,15 @@ const Footer: React.FC<FooterProps> = ({ onOpenWaitlist }) => {
           {/* Brand Column */}
           <div className="col-span-2 md:col-span-4">
             <img src="/Logo.svg" alt="Somadhan" className="h-7 mb-4" />
-            <p className="text-slate-500 text-sm leading-relaxed mb-4 max-w-[260px]">
+            <p className={`text-slate-500 text-sm leading-relaxed mb-4 max-w-[260px] ${language === 'bn' ? 'leading-relaxed' : ''}`}>
               {t('footer.tagline')}
             </p>
             <a 
-              href="mailto:somadhan.legal@gmail.com"
+              href="mailto:info@somadhan.com"
               className="inline-flex items-center gap-2 text-slate-500 hover:text-brand-600 text-sm transition-colors group"
             >
               <Mail className="w-4 h-4" />
-              <span className="group-hover:underline">somadhan.legal@gmail.com</span>
+              <span className="group-hover:underline">info@somadhan.com</span>
             </a>
           </div>
 
@@ -79,17 +79,17 @@ const Footer: React.FC<FooterProps> = ({ onOpenWaitlist }) => {
             <h4 className="font-semibold text-sm text-slate-900 mb-4">{language === 'bn' ? 'লিংক' : 'Links'}</h4>
             <ul className="space-y-2.5">
               <li>
-                <a href="#services" onClick={(e) => scrollToSection(e, 'services')} className="text-slate-500 hover:text-brand-600 text-sm transition-colors">
+                <a href="#services" onClick={(e) => scrollToSection(e, 'services')} className={`text-slate-500 hover:text-brand-600 text-sm transition-colors ${language === 'bn' ? 'tracking-wide' : ''}`}>
                   {t('nav.services')}
                 </a>
               </li>
               <li>
-                <a href="#process" onClick={(e) => scrollToSection(e, 'process')} className="text-slate-500 hover:text-brand-600 text-sm transition-colors">
+                <a href="#process" onClick={(e) => scrollToSection(e, 'process')} className={`text-slate-500 hover:text-brand-600 text-sm transition-colors ${language === 'bn' ? 'tracking-wide' : ''}`}>
                   {t('nav.process')}
                 </a>
               </li>
               <li>
-                <a href="#faq" onClick={(e) => scrollToSection(e, 'faq')} className="text-slate-500 hover:text-brand-600 text-sm transition-colors">
+                <a href="#faq" onClick={(e) => scrollToSection(e, 'faq')} className={`text-slate-500 hover:text-brand-600 text-sm transition-colors ${language === 'bn' ? 'tracking-wide' : ''}`}>
                   {t('nav.faq')}
                 </a>
               </li>
@@ -103,7 +103,7 @@ const Footer: React.FC<FooterProps> = ({ onOpenWaitlist }) => {
               <li className="flex items-center gap-2">
                 <button
                   onClick={() => handleComingSoonClick('about')}
-                  className="text-slate-500 hover:text-slate-700 text-sm transition-colors"
+                  className={`text-slate-500 hover:text-slate-700 text-sm transition-colors ${language === 'bn' ? 'tracking-wide' : ''}`}
                 >
                   {t('footer.about')}
                 </button>
@@ -123,7 +123,7 @@ const Footer: React.FC<FooterProps> = ({ onOpenWaitlist }) => {
               <li className="flex items-center gap-2">
                 <button
                   onClick={() => handleComingSoonClick('careers')}
-                  className="text-slate-500 hover:text-slate-700 text-sm transition-colors"
+                  className={`text-slate-500 hover:text-slate-700 text-sm transition-colors ${language === 'bn' ? 'tracking-wide' : ''}`}
                 >
                   {t('footer.careers')}
                 </button>
@@ -141,14 +141,14 @@ const Footer: React.FC<FooterProps> = ({ onOpenWaitlist }) => {
                 </AnimatePresence>
               </li>
               <li>
-                <a href="mailto:somadhan.legal@gmail.com" className="text-slate-500 hover:text-brand-600 text-sm transition-colors">
+                <a href="mailto:info@somadhan.com" className={`text-slate-500 hover:text-brand-600 text-sm transition-colors ${language === 'bn' ? 'tracking-wide' : ''}`}>
                   {t('footer.contact')}
                 </a>
               </li>
               <li className="flex items-center gap-2">
                 <button
                   onClick={() => handleComingSoonClick('blog')}
-                  className="text-slate-500 hover:text-slate-700 text-sm transition-colors"
+                  className={`text-slate-500 hover:text-slate-700 text-sm transition-colors ${language === 'bn' ? 'tracking-wide' : ''}`}
                 >
                   {t('footer.blog')}
                 </button>
@@ -177,7 +177,7 @@ const Footer: React.FC<FooterProps> = ({ onOpenWaitlist }) => {
                   <Smartphone className="w-5 h-5 text-brand-600" />
                 </div>
                 <div>
-                  <p className="font-medium text-slate-900 text-sm">{t('footer.appComingSoon')}</p>
+                  <p className={`font-medium text-slate-900 text-sm ${language === 'bn' ? 'leading-relaxed' : ''}`}>{t('footer.appComingSoon')}</p>
                   <p className="text-slate-400 text-xs">iOS & Android</p>
                 </div>
               </div>

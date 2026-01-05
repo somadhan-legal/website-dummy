@@ -90,14 +90,15 @@ export const trackWaitlistSubmitAttempt = () => {
 
 export const trackWaitlistSubmitSuccess = (data: {
   profession: string;
-  servicesCount: number;
+  services: string[]; // Updated to track specific services
   heardFrom: string;
   hasPhone: boolean;
   hasFeedback: boolean;
 }) => {
   trackEvent('waitlist_submit_success', {
     profession: data.profession,
-    services_count: data.servicesCount,
+    services_list: data.services.join(','), // CSV for easier reporting
+    services_count: data.services.length,
     heard_from: data.heardFrom,
     has_phone: data.hasPhone,
     has_feedback: data.hasFeedback,

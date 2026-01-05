@@ -149,7 +149,10 @@ const WaitlistPage: React.FC<WaitlistPageProps> = ({ isOpen, onClose, source }) 
       const stepData: Record<string, any> = {};
       if (step === 1) stepData.has_phone = !!formData.phone;
       if (step === 2) stepData.profession = formData.profession;
-      if (step === 3) stepData.services_count = formData.services.length;
+      if (step === 3) {
+        stepData.services_count = formData.services.length;
+        stepData.selected_services = formData.services.join(',');
+      }
       if (step === 4) stepData.heard_from = formData.heardFrom;
       
       trackWaitlistStepComplete(step, stepNames[step - 1], stepData);
@@ -177,7 +180,7 @@ const WaitlistPage: React.FC<WaitlistPageProps> = ({ isOpen, onClose, source }) 
     if (result.success) {
       trackWaitlistSubmitSuccess({
         profession: formData.profession,
-        servicesCount: formData.services.length,
+        services: formData.services,
         heardFrom: formData.heardFrom,
         hasPhone: !!formData.phone,
         hasFeedback: !!formData.feedback
@@ -285,8 +288,8 @@ const WaitlistPage: React.FC<WaitlistPageProps> = ({ isOpen, onClose, source }) 
 
                   {/* Step Header */}
                   <motion.div key={`header-${step}`} initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="text-center mb-6">
-                    <h2 className="text-xl sm:text-2xl font-serif text-slate-900 mb-1">{stepContent[step - 1].title}</h2>
-                    <p className="text-sm text-slate-500">{stepContent[step - 1].subtitle}</p>
+                    <h2 className={`text-xl sm:text-2xl font-serif text-slate-900 mb-1 ${language === 'bn' ? 'leading-[1.4]' : ''}`}>{stepContent[step - 1].title}</h2>
+                    <p className={`text-sm text-slate-500 ${language === 'bn' ? 'leading-relaxed' : ''}`}>{stepContent[step - 1].subtitle}</p>
                   </motion.div>
 
                   {/* Error Message */}
@@ -294,7 +297,7 @@ const WaitlistPage: React.FC<WaitlistPageProps> = ({ isOpen, onClose, source }) 
                     <motion.div 
                       initial={{ opacity: 0, y: -10 }} 
                       animate={{ opacity: 1, y: 0 }}
-                      className="mb-4 p-3 bg-red-50 border border-red-200 rounded-xl text-red-600 text-sm text-center"
+                      className={`mb-4 p-3 bg-red-50 border border-red-200 rounded-xl text-red-600 text-sm text-center ${language === 'bn' ? 'leading-relaxed' : ''}`}
                     >
                       {submitError}
                     </motion.div>
@@ -312,7 +315,7 @@ const WaitlistPage: React.FC<WaitlistPageProps> = ({ isOpen, onClose, source }) 
                       {step === 1 && (
                         <div className="space-y-4">
                           <div>
-                            <label className="block text-sm font-medium text-slate-700 mb-1.5">{language === 'bn' ? 'আপনার নাম' : 'Your name'} *</label>
+                            <label className={`block text-sm font-medium text-slate-700 mb-1.5 ${language === 'bn' ? 'leading-relaxed' : ''}`}>{language === 'bn' ? 'আপনার নাম' : 'Your name'} *</label>
                             <div className="relative">
                               <User className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
                               <input
@@ -322,13 +325,13 @@ const WaitlistPage: React.FC<WaitlistPageProps> = ({ isOpen, onClose, source }) 
                                 onFocus={() => handleFieldFocus('fullName')}
                                 onBlur={() => handleFieldBlur('fullName')}
                                 placeholder={language === 'bn' ? 'আপনার পুরো নাম' : 'Full name'}
-                                className={`w-full pl-10 pr-4 py-3 rounded-xl border ${errors.fullName ? 'border-red-300 focus:border-red-500 focus:ring-red-500/20' : 'border-slate-200 focus:border-brand-500 focus:ring-brand-500/20'} focus:ring-2 outline-none transition-all text-slate-800 placeholder:text-slate-400`}
+                                className={`w-full pl-10 pr-4 py-3 rounded-xl border ${errors.fullName ? 'border-red-300 focus:border-red-500 focus:ring-red-500/20' : 'border-slate-200 focus:border-brand-500 focus:ring-brand-500/20'} focus:ring-2 outline-none transition-all text-slate-800 placeholder:text-slate-400 ${language === 'bn' ? 'leading-relaxed' : ''}`}
                               />
                             </div>
-                            {errors.fullName && <p className="mt-1 text-xs text-red-500 flex items-center gap-1"><AlertCircle className="w-3 h-3" />{errors.fullName}</p>}
+                            {errors.fullName && <p className={`mt-1 text-xs text-red-500 flex items-center gap-1 ${language === 'bn' ? 'leading-relaxed' : ''}`}><AlertCircle className="w-3 h-3" />{errors.fullName}</p>}
                           </div>
                           <div>
-                            <label className="block text-sm font-medium text-slate-700 mb-1.5">{language === 'bn' ? 'ইমেইল' : 'Email'} *</label>
+                            <label className={`block text-sm font-medium text-slate-700 mb-1.5 ${language === 'bn' ? 'leading-relaxed' : ''}`}>{language === 'bn' ? 'ইমেইল' : 'Email'} *</label>
                             <div className="relative">
                               <Mail className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
                               <input
@@ -341,10 +344,10 @@ const WaitlistPage: React.FC<WaitlistPageProps> = ({ isOpen, onClose, source }) 
                                 className={`w-full pl-10 pr-4 py-3 rounded-xl border ${errors.email ? 'border-red-300 focus:border-red-500 focus:ring-red-500/20' : 'border-slate-200 focus:border-brand-500 focus:ring-brand-500/20'} focus:ring-2 outline-none transition-all text-slate-800 placeholder:text-slate-400`}
                               />
                             </div>
-                            {errors.email && <p className="mt-1 text-xs text-red-500 flex items-center gap-1"><AlertCircle className="w-3 h-3" />{errors.email}</p>}
+                            {errors.email && <p className={`mt-1 text-xs text-red-500 flex items-center gap-1 ${language === 'bn' ? 'leading-relaxed' : ''}`}><AlertCircle className="w-3 h-3" />{errors.email}</p>}
                           </div>
                           <div>
-                            <label className="block text-sm font-medium text-slate-700 mb-1.5">{language === 'bn' ? 'ফোন (ঐচ্ছিক)' : 'Phone (optional)'}</label>
+                            <label className={`block text-sm font-medium text-slate-700 mb-1.5 ${language === 'bn' ? 'leading-relaxed' : ''}`}>{language === 'bn' ? 'ফোন (ঐচ্ছিক)' : 'Phone (optional)'}</label>
                             <div className="relative">
                               <Phone className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
                               <input
@@ -357,7 +360,7 @@ const WaitlistPage: React.FC<WaitlistPageProps> = ({ isOpen, onClose, source }) 
                                 className={`w-full pl-10 pr-4 py-3 rounded-xl border ${errors.phone ? 'border-red-300 focus:border-red-500 focus:ring-red-500/20' : 'border-slate-200 focus:border-brand-500 focus:ring-brand-500/20'} focus:ring-2 outline-none transition-all text-slate-800 placeholder:text-slate-400`}
                               />
                             </div>
-                            {errors.phone && <p className="mt-1 text-xs text-red-500 flex items-center gap-1"><AlertCircle className="w-3 h-3" />{errors.phone}</p>}
+                            {errors.phone && <p className={`mt-1 text-xs text-red-500 flex items-center gap-1 ${language === 'bn' ? 'leading-relaxed' : ''}`}><AlertCircle className="w-3 h-3" />{errors.phone}</p>}
                           </div>
                         </div>
                       )}
@@ -372,12 +375,12 @@ const WaitlistPage: React.FC<WaitlistPageProps> = ({ isOpen, onClose, source }) 
                                 formData.profession === option.id
                                   ? 'bg-brand-600 text-white shadow-lg shadow-brand-600/25'
                                   : 'bg-slate-50 text-slate-700 hover:bg-slate-100 border border-slate-200 hover:border-slate-300'
-                              }`}
+                              } ${language === 'bn' ? 'leading-relaxed' : ''}`}
                             >
                               <span className="font-medium">{option.label}</span>
                             </button>
                           ))}
-                          {errors.profession && <p className="mt-2 text-xs text-red-500 flex items-center gap-1"><AlertCircle className="w-3 h-3" />{errors.profession}</p>}
+                          {errors.profession && <p className={`mt-2 text-xs text-red-500 flex items-center gap-1 ${language === 'bn' ? 'leading-relaxed' : ''}`}><AlertCircle className="w-3 h-3" />{errors.profession}</p>}
                         </div>
                       )}
 
@@ -392,13 +395,13 @@ const WaitlistPage: React.FC<WaitlistPageProps> = ({ isOpen, onClose, source }) 
                                   formData.services.includes(service.id)
                                     ? 'bg-brand-600 text-white shadow-lg shadow-brand-600/25'
                                     : 'bg-slate-50 text-slate-700 hover:bg-slate-100 border border-slate-200 hover:border-slate-300'
-                                }`}
+                                } ${language === 'bn' ? 'leading-relaxed' : ''}`}
                               >
                                 <span className="font-medium text-sm">{service.label}</span>
                               </button>
                             ))}
                           </div>
-                          {errors.services && <p className="mt-3 text-xs text-red-500 flex items-center gap-1"><AlertCircle className="w-3 h-3" />{errors.services}</p>}
+                          {errors.services && <p className={`mt-3 text-xs text-red-500 flex items-center gap-1 ${language === 'bn' ? 'leading-relaxed' : ''}`}><AlertCircle className="w-3 h-3" />{errors.services}</p>}
                         </div>
                       )}
 
@@ -412,12 +415,12 @@ const WaitlistPage: React.FC<WaitlistPageProps> = ({ isOpen, onClose, source }) 
                                 formData.heardFrom === option.id
                                   ? 'bg-brand-600 text-white shadow-lg shadow-brand-600/25'
                                   : 'bg-slate-50 text-slate-700 hover:bg-slate-100 border border-slate-200 hover:border-slate-300'
-                              }`}
+                              } ${language === 'bn' ? 'leading-relaxed' : ''}`}
                             >
                               <span className="font-medium">{option.label}</span>
                             </button>
                           ))}
-                          {errors.heardFrom && <p className="mt-2 text-xs text-red-500 flex items-center gap-1"><AlertCircle className="w-3 h-3" />{errors.heardFrom}</p>}
+                          {errors.heardFrom && <p className={`mt-2 text-xs text-red-500 flex items-center gap-1 ${language === 'bn' ? 'leading-relaxed' : ''}`}><AlertCircle className="w-3 h-3" />{errors.heardFrom}</p>}
                         </div>
                       )}
 
@@ -432,9 +435,9 @@ const WaitlistPage: React.FC<WaitlistPageProps> = ({ isOpen, onClose, source }) 
                               ? 'আপনার কোনো মতামত বা প্রশ্ন থাকলে এখানে লিখুন...' 
                               : 'Any feedback, questions, or specific needs you want to share...'}
                             rows={5}
-                            className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:border-brand-500 focus:ring-2 focus:ring-brand-500/20 outline-none transition-all text-slate-800 placeholder:text-slate-400 resize-none text-sm"
+                            className={`w-full px-4 py-3 rounded-xl border border-slate-200 focus:border-brand-500 focus:ring-2 focus:ring-brand-500/20 outline-none transition-all text-slate-800 placeholder:text-slate-400 resize-none text-sm ${language === 'bn' ? 'leading-relaxed' : ''}`}
                           />
-                          <p className="text-xs text-slate-400 mt-2 text-center">{language === 'bn' ? 'এই ধাপটি ঐচ্ছিক' : 'This step is optional'}</p>
+                          <p className={`text-xs text-slate-400 mt-2 text-center ${language === 'bn' ? 'leading-relaxed' : ''}`}>{language === 'bn' ? 'এই ধাপটি ঐচ্ছিক' : 'This step is optional'}</p>
                         </div>
                       )}
                     </motion.div>
@@ -443,7 +446,7 @@ const WaitlistPage: React.FC<WaitlistPageProps> = ({ isOpen, onClose, source }) 
                   {/* Navigation */}
                   <div className="flex items-center justify-between mt-8">
                     {step > 1 ? (
-                      <button onClick={() => setStep(s => s - 1)} className="flex items-center gap-2 px-4 py-2 text-slate-500 hover:text-slate-700 font-medium transition-all hover:scale-105 active:scale-95">
+                      <button onClick={() => setStep(s => s - 1)} className={`flex items-center gap-2 px-4 py-2 text-slate-500 hover:text-slate-700 font-medium transition-all hover:scale-105 active:scale-95 ${language === 'bn' ? 'leading-relaxed' : ''}`}>
                         <ArrowLeft className="w-4 h-4" />
                         {language === 'bn' ? 'পেছনে' : 'Back'}
                       </button>
@@ -452,7 +455,7 @@ const WaitlistPage: React.FC<WaitlistPageProps> = ({ isOpen, onClose, source }) 
                     {step < totalSteps ? (
                       <button
                         onClick={handleNext}
-                        className="flex items-center gap-2 px-6 py-3 bg-brand-600 hover:bg-brand-700 text-white font-semibold rounded-full transition-all text-sm hover:scale-105 active:scale-95"
+                        className={`flex items-center gap-2 px-6 py-3 bg-brand-600 hover:bg-brand-700 text-white font-semibold rounded-full transition-all text-sm hover:scale-105 active:scale-95 ${language === 'bn' ? 'leading-relaxed' : ''}`}
                       >
                         {language === 'bn' ? 'পরবর্তী' : 'Continue'}
                         <ArrowRight className="w-4 h-4" />
@@ -461,7 +464,7 @@ const WaitlistPage: React.FC<WaitlistPageProps> = ({ isOpen, onClose, source }) 
                       <button
                         onClick={handleSubmit}
                         disabled={isSubmitting}
-                        className="flex items-center gap-2 px-6 py-3 bg-brand-600 hover:bg-brand-700 disabled:bg-slate-300 text-white font-semibold rounded-full transition-all text-sm hover:scale-105 active:scale-95"
+                        className={`flex items-center gap-2 px-6 py-3 bg-brand-600 hover:bg-brand-700 disabled:bg-slate-300 text-white font-semibold rounded-full transition-all text-sm hover:scale-105 active:scale-95 ${language === 'bn' ? 'leading-relaxed' : ''}`}
                       >
                         {isSubmitting ? (language === 'bn' ? 'জমা দেওয়া হচ্ছে...' : 'Submitting...') : (language === 'bn' ? 'জমা দিন' : 'Join Waitlist')}
                         {!isSubmitting && <Sparkles className="w-4 h-4" />}
@@ -479,9 +482,9 @@ const WaitlistPage: React.FC<WaitlistPageProps> = ({ isOpen, onClose, source }) 
                   >
                     <Check className="w-8 h-8" strokeWidth={3} />
                   </motion.div>
-                  <h3 className="text-2xl font-serif text-slate-900 mb-2">{language === 'bn' ? 'আপনি তালিকাভুক্ত হয়েছেন!' : "You're on the list!"}</h3>
-                  <p className="text-slate-500 mb-8 text-sm">{language === 'bn' ? 'শীঘ্রই আমরা আর্লি অ্যাক্সেস ও আপডেট নিয়ে আপনার সাথে যোগাযোগ করব।' : "We'll reach out soon with updates and early access."}</p>
-                  <button onClick={() => onClose(5, true)} className="px-6 py-3 bg-brand-600 hover:bg-brand-700 text-white font-semibold rounded-full transition-all text-sm hover:scale-105 active:scale-95">
+                  <h3 className={`text-2xl font-serif text-slate-900 mb-2 ${language === 'bn' ? 'leading-[1.4]' : ''}`}>{language === 'bn' ? 'আপনি তালিকাভুক্ত হয়েছেন!' : "You're on the list!"}</h3>
+                  <p className={`text-slate-500 mb-8 text-sm ${language === 'bn' ? 'leading-relaxed' : ''}`}>{language === 'bn' ? 'শীঘ্রই আমরা আর্লি অ্যাক্সেস ও আপডেট নিয়ে আপনার সাথে যোগাযোগ করব।' : "We'll reach out soon with updates and early access."}</p>
+                  <button onClick={() => onClose(5, true)} className={`px-6 py-3 bg-brand-600 hover:bg-brand-700 text-white font-semibold rounded-full transition-all text-sm hover:scale-105 active:scale-95 ${language === 'bn' ? 'leading-relaxed' : ''}`}>
                     {language === 'bn' ? 'ফিরে যান' : 'Back to Home'}
                   </button>
                 </motion.div>

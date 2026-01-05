@@ -87,11 +87,35 @@
         -webkit-font-smoothing: antialiased;
         overflow-x: hidden;
       }
+      
+      /* Global Bengali Font & Spacing Fixes */
       [lang="bn"], 
       .font-bengali,
       html[lang="bn"] * {
         font-family: "Anek Bangla", sans-serif !important;
       }
+
+      /* Base spacing for Bengali sentences */
+      html[lang="bn"] p, 
+      html[lang="bn"] span, 
+      html[lang="bn"] li, 
+      html[lang="bn"] div:not(.font-serif) {
+        line-height: 1.7 !important;
+        letter-spacing: 0.01em !important;
+      }
+      
+      /* Professional spacing for Bengali headings */
+      html[lang="bn"] h1, 
+      html[lang="bn"] h2, 
+      html[lang="bn"] h3,
+      html[lang="bn"] h4,
+      html[lang="bn"] .font-serif {
+        line-height: 1.5 !important;
+        letter-spacing: 0.02em !important;
+        padding-bottom: 0.1em; /* Small nudge to prevent vowel signs from clipping */
+      }
+
+      /* Custom scrollbar */
       ::-webkit-scrollbar {
         width: 6px;
         height: 6px;
@@ -114,12 +138,8 @@
         scrollbar-width: none;
       }
       @keyframes marquee-smooth {
-        0% {
-          transform: translateX(0);
-        }
-        100% {
-          transform: translateX(-50%);
-        }
+        0% { transform: translateX(0); }
+        100% { transform: translateX(-50%); }
       }
       .animate-marquee-smooth {
         animation: marquee-smooth 30s linear infinite;

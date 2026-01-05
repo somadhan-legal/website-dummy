@@ -107,7 +107,7 @@ const Navbar: React.FC<NavbarProps> = ({ onOpenWaitlist }) => {
                   onClick={(e) => scrollToSection(e, link.href, link.id)}
                   className={`text-sm font-medium transition-colors ${
                     isScrolled ? 'text-slate-600 hover:text-brand-600' : 'text-white/80 hover:text-white'
-                  }`}
+                  } ${language === 'bn' ? 'tracking-wide' : ''}`}
                 >
                   {link.label}
                 </a>
@@ -131,7 +131,7 @@ const Navbar: React.FC<NavbarProps> = ({ onOpenWaitlist }) => {
 
               {/* Contact Button */}
               <a
-                href="mailto:somadhan.legal@gmail.com"
+                href="mailto:info@somadhan.com"
                 onClick={() => handleContactClick('navbar')}
                 className={`hidden sm:flex items-center px-5 py-2 rounded-full text-sm font-semibold transition-all hover:scale-105 active:scale-95 ${
                   isScrolled
@@ -200,7 +200,7 @@ const Navbar: React.FC<NavbarProps> = ({ onOpenWaitlist }) => {
                       key={link.href}
                       href={link.href}
                       onClick={(e) => scrollToSection(e, link.href, link.id)}
-                      className="flex items-center justify-between px-3 py-3 text-slate-700 hover:bg-slate-50 rounded-xl font-medium transition-colors"
+                      className={`flex items-center justify-between px-3 py-3 text-slate-700 hover:bg-slate-50 rounded-xl font-medium transition-colors ${language === 'bn' ? 'leading-relaxed' : ''}`}
                     >
                       <span>{link.label}</span>
                       <ChevronRight className="w-4 h-4 text-slate-300" />
@@ -222,7 +222,7 @@ const Navbar: React.FC<NavbarProps> = ({ onOpenWaitlist }) => {
 
                 {/* Contact Button */}
                 <a
-                  href="mailto:somadhan.legal@gmail.com"
+                  href="mailto:info@somadhan.com"
                   onClick={() => { handleContactClick('mobile_menu'); setIsMobileMenuOpen(false); }}
                   className="w-full flex items-center justify-center px-4 py-3 bg-brand-600 text-white rounded-xl font-semibold transition-colors hover:bg-brand-700"
                 >
