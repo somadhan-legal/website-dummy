@@ -56,8 +56,8 @@ const HeroLanding: React.FC<HeroLandingProps> = ({ onOpenWaitlist }) => {
         }}
       />
 
-      {/* Content - More top padding */}
-      <motion.div style={{ opacity }} className="relative z-10 max-w-4xl mx-auto px-4 sm:px-6 text-center pt-32 md:pt-28 pb-56 md:pb-60">
+      {/* Content - Increased width to prevent unwanted wrapping */}
+      <motion.div style={{ opacity }} className="relative z-10 max-w-5xl mx-auto px-4 sm:px-6 text-center pt-32 md:pt-28 pb-56 md:pb-60">
         {/* Badge */}
         <motion.div
           initial={{ opacity: 0, y: 15 }}
@@ -74,8 +74,10 @@ const HeroLanding: React.FC<HeroLandingProps> = ({ onOpenWaitlist }) => {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
-          className="font-serif text-4xl sm:text-5xl md:text-6xl lg:text-7xl text-white tracking-tight mb-5 leading-[1.1]"
-          style={language === 'bn' ? { wordSpacing: '0.25em' } : undefined}
+          className={`font-serif text-4xl sm:text-5xl md:text-6xl lg:text-7xl text-white tracking-tight mb-5 ${
+            language === 'bn' ? 'leading-[1.2]' : 'leading-[1.1]'
+          }`}
+          style={language === 'bn' ? { wordSpacing: '0.12em' } : undefined}
         >
           {t('hero.headline')}
           <br />

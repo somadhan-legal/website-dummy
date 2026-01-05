@@ -97,22 +97,21 @@
 
       /* Base spacing for Bengali sentences */
       html[lang="bn"] p, 
-      html[lang="bn"] span, 
       html[lang="bn"] li, 
       html[lang="bn"] div:not(.font-serif) {
-        line-height: 1.7;
+        line-height: 1.6;
         letter-spacing: 0.01em;
       }
       
-      /* Professional spacing for Bengali headings */
+      /* Tight line height for headings */
       html[lang="bn"] h1, 
       html[lang="bn"] h2, 
       html[lang="bn"] h3,
       html[lang="bn"] h4,
-      html[lang="bn"] .font-serif {
-        line-height: inherit; /* Let components decide their own leading */
+      html[lang="bn"] .font-serif,
+      html[lang="bn"] .font-serif span {
+        line-height: 1.2 !important;
         letter-spacing: 0.02em;
-        padding-bottom: 0.1em; /* Small nudge to prevent vowel signs from clipping */
       }
 
       /* Custom scrollbar */
