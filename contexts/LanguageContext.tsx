@@ -102,7 +102,7 @@ const translations: Record<Language, Record<string, string>> = {
     'waitlist.submit': 'যোগ দিন',
     'waitlist.submitting': 'জমা হচ্ছে...',
     'waitlist.success': 'অভিনন্দন! আপনি ওয়েটলিস্টে যুক্ত হয়েছেন',
-    'waitlist.successSubtext': 'শীঘ্রই আমরা পরবর্তী ধাপ সম্পর্কে আপনাকে জানাব',
+    'waitlist.successSubtext': "শীঘ্রই আমরা সবার আগে ব্যবহারের সুযোগ ও আপডেট নিয়ে আপনার সাথে যোগাযোগ করব।",
     
     'services.title': 'আইনি সেবাসমূহ',
     'services.subtitle': 'সব ধরনের আইনি প্রয়োজনে নির্ভরযোগ্য সমাধান',

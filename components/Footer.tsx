@@ -41,7 +41,7 @@ const Footer: React.FC<FooterProps> = ({ onOpenWaitlist }) => {
               </h2>
               <p className={`text-white/50 text-sm max-w-sm ${language === 'bn' ? 'leading-relaxed' : ''}`}>
                 {language === 'bn' 
-                  ? 'ওয়েটলিস্টে যোগ দিন এবং সবার আগে আপডেট পান।' 
+                  ? 'ওয়েটলিস্টে যোগ দিন এবং সবার আগে ব্যবহারের সুযোগ পান।' 
                   : 'Join our waitlist for early access.'}
               </p>
             </div>
