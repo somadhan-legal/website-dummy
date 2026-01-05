@@ -483,7 +483,7 @@ const WaitlistPage: React.FC<WaitlistPageProps> = ({ isOpen, onClose, source }) 
                     <Check className="w-8 h-8" strokeWidth={3} />
                   </motion.div>
                   <h3 className={`text-2xl font-serif text-slate-900 mb-2 ${language === 'bn' ? 'leading-[1.4]' : ''}`}>{language === 'bn' ? 'আপনি তালিকাভুক্ত হয়েছেন!' : "You're on the list!"}</h3>
-                  <p className={`text-slate-500 mb-8 text-sm ${language === 'bn' ? 'leading-relaxed' : ''}`}>{language === 'bn' ? 'শীঘ্রই আমরা সবার আগে ব্যবহারের সুযোগ ও আপডেট নিয়ে আপনার সাথে যোগাযোগ করব।' : "We'll reach out soon with updates and early access."}</p>
+                  <p className={`text-slate-500 mb-8 text-sm ${language === 'bn' ? 'leading-relaxed' : ''}`}>{language === 'bn' ? 'শীঘ্রই আমরা পরবর্তী আপডেট নিয়ে আপনার সাথে যোগাযোগ করব।' : "We'll reach out soon with updates and early access."}</p>
                   <button onClick={() => onClose(5, true)} className={`px-6 py-3 bg-brand-600 hover:bg-brand-700 text-white font-semibold rounded-full transition-all text-sm hover:scale-105 active:scale-95 ${language === 'bn' ? 'leading-relaxed' : ''}`}>
                     {language === 'bn' ? 'ফিরে যান' : 'Back to Home'}
                   </button>
