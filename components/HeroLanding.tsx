@@ -81,6 +81,8 @@ const HeroLanding: React.FC<HeroLandingProps> = ({ onOpenWaitlist }) => {
         >
           {t('hero.headline')}
           <br />
+          {t('hero.headlineNext')}
+          <br />
           <span className="italic text-white/60">{t('hero.headlineAccent')}</span>
         </motion.h1>
 

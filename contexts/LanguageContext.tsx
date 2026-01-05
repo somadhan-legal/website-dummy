@@ -17,7 +17,8 @@ const translations: Record<Language, Record<string, string>> = {
     
     'hero.badge': '#1 AI-Powered Legal Platform',
     'hero.headline': 'Legal support anytime,',
-    'hero.headlineAccent': 'anywhere instantly.',
+    'hero.headlineNext': 'anywhere',
+    'hero.headlineAccent': 'instantly.',
     'hero.subtext': 'AI powered legal support that connects you with certified lawyers, secures your documents, and helps you track every case with full transparency.',
     'hero.joinWaitlist': 'Join Waitlist',
     'hero.trustedBy': 'Trusted by professionals from',
@@ -82,7 +83,8 @@ const translations: Record<Language, Record<string, string>> = {
     'nav.exploreServices': 'সেবা দেখুন',
     
     'hero.badge': '#১ এআই-চালিত আইনি প্ল্যাটফর্ম',
-    'hero.headline': 'যেকোনো সময়, যেকোনো জায়গায়',
+    'hero.headline': 'যেকোনো সময়,',
+    'hero.headlineNext': 'যেকোনো জায়গায়',
     'hero.headlineAccent': 'তাৎক্ষণিক আইনি সমাধান',
     'hero.subtext': 'এআই-চালিত আইনি সহায়তা যা আপনাকে অভিজ্ঞ ও যাচাইকৃত আইনজীবীদের সাথে সংযুক্ত করে, আপনার নথিপত্র সুরক্ষিত রাখে এবং প্রতিটি মামলার স্বচ্ছতা নিশ্চিত করে।',
     'hero.joinWaitlist': 'ওয়েটলিস্টে যোগ দিন',
