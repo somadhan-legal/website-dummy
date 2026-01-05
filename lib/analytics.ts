@@ -1,5 +1,4 @@
-// Comprehensive Google Analytics 4 Tracking Library
-// Measurement ID: G-YKEDCJ07E2
+// Comprehensive Google Analytics Tracking Library
 
 declare global {
   interface Window {
