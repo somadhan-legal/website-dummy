@@ -69,16 +69,13 @@ const HeroLanding: React.FC<HeroLandingProps> = ({ onOpenWaitlist }) => {
           <span className="text-sm text-white/90 font-medium tracking-wide">{t('hero.badge')}</span>
         </motion.div>
 
-        {/* Headline - Added word-spacing for Bengali */}
+        {/* Headline */}
         <motion.h1
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
-          className={`font-serif text-4xl sm:text-5xl md:text-6xl lg:text-7xl text-white tracking-tight mb-5 ${
-            language === 'bn' 
-              ? 'leading-[1.4] word-spacing-[0.15em]' 
-              : 'leading-[1.1]'
-          }`}
+          className="font-serif text-4xl sm:text-5xl md:text-6xl lg:text-7xl text-white tracking-tight mb-5 leading-[1.1]"
+          style={language === 'bn' ? { wordSpacing: '0.15em' } : undefined}
         >
           {t('hero.headline')}
           <br />
