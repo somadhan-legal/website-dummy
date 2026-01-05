@@ -17,8 +17,7 @@ const translations: Record<Language, Record<string, string>> = {
     
     'hero.badge': '#1 AI-Powered Legal Platform',
     'hero.headline': 'Legal support anytime,',
-    'hero.headlineNext': 'anywhere',
-    'hero.headlineAccent': 'instantly.',
+    'hero.headlineAccent': 'anywhere instantly.',
     'hero.subtext': 'AI powered legal support that connects you with certified lawyers, secures your documents, and helps you track every case with full transparency.',
     'hero.joinWaitlist': 'Join Waitlist',
     'hero.trustedBy': 'Trusted by professionals from',
