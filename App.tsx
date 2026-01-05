@@ -10,14 +10,30 @@ import TrustSection from './components/TrustSection';
 import FAQ from './components/FAQ';
 import Footer from './components/Footer';
 import WaitlistPage from './components/WaitlistPage';
+import { initializeAnalytics, trackWaitlistOpen, trackWaitlistClose, trackBackToTop, trackJoinWaitlistClick } from './lib/analytics';
 
 const AppContent: React.FC = () => {
   const { language } = useLanguage();
   const [isWaitlistOpen, setIsWaitlistOpen] = useState(false);
   const [showBackToTop, setShowBackToTop] = useState(false);
+  const [waitlistSource, setWaitlistSource] = useState<string>('unknown');
 
-  const openWaitlist = () => setIsWaitlistOpen(true);
-  const closeWaitlist = () => setIsWaitlistOpen(false);
+  const openWaitlist = (source: string = 'unknown') => {
+    setWaitlistSource(source);
+    setIsWaitlistOpen(true);
+    trackWaitlistOpen(source);
+    trackJoinWaitlistClick(source);
+  };
+  
+  const closeWaitlist = (lastStep: number = 1, completed: boolean = false) => {
+    setIsWaitlistOpen(false);
+    trackWaitlistClose(lastStep, completed);
+  };
+
+  // Initialize analytics on mount
+  useEffect(() => {
+    initializeAnalytics();
+  }, []);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -34,6 +50,7 @@ const AppContent: React.FC = () => {
   }, [language]);
 
   const scrollToTop = () => {
+    trackBackToTop();
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
@@ -42,19 +59,23 @@ const AppContent: React.FC = () => {
       lang={language} 
       className="min-h-screen bg-slate-50 font-sans text-slate-900 antialiased selection:bg-brand-100 selection:text-brand-900"
     >
-      <Navbar onOpenWaitlist={openWaitlist} />
+      <Navbar onOpenWaitlist={() => openWaitlist('navbar')} />
       
       <main>
-        <HeroLanding onOpenWaitlist={openWaitlist} />
+        <HeroLanding onOpenWaitlist={() => openWaitlist('hero')} />
         <ServicesSection />
         <HowItWorks />
         <TrustSection />
         <FAQ />
       </main>
 
-      <Footer onOpenWaitlist={openWaitlist} />
+      <Footer onOpenWaitlist={() => openWaitlist('footer')} />
       
-      <WaitlistPage isOpen={isWaitlistOpen} onClose={closeWaitlist} />
+      <WaitlistPage 
+        isOpen={isWaitlistOpen} 
+        onClose={closeWaitlist}
+        source={waitlistSource}
+      />
 
       {/* Back to Top Button */}
       <AnimatePresence>

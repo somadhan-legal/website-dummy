@@ -7,6 +7,21 @@
     <meta name="description" content="AI powered legal support that connects you with certified lawyers in Bangladesh. Get legal help anytime, anywhere.">
     <link rel="icon" type="image/png" href="/Favicon.png">
     <link rel="apple-touch-icon" href="/Favicon.png">
+    
+    <!-- Google Analytics 4 -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-YKEDCJ07E2"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-YKEDCJ07E2', {
+        page_title: document.title,
+        page_location: window.location.href,
+        send_page_view: true,
+        cookie_flags: 'SameSite=None;Secure'
+      });
+    </script>
+    
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Anek+Bangla:wght@300;400;500;600;700&family=DM+Serif+Display:ital@0;1&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -72,7 +87,6 @@
         -webkit-font-smoothing: antialiased;
         overflow-x: hidden;
       }
-      /* Apply Anek Bangla font for Bengali text only */
       [lang="bn"], 
       .font-bengali,
       html[lang="bn"] * {
@@ -99,7 +113,6 @@
         -ms-overflow-style: none;
         scrollbar-width: none;
       }
-      /* Smooth infinite marquee animation */
       @keyframes marquee-smooth {
         0% {
           transform: translateX(0);

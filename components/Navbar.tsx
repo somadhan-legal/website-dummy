@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Menu, X, Globe, ChevronRight } from 'lucide-react';
 import { useLanguage } from '../contexts/LanguageContext';
+import { trackNavClick, trackMobileMenuOpen, trackMobileMenuClose, trackLogoClick, trackLanguageChange, trackContactClick } from '../lib/analytics';
 
 interface NavbarProps {
   onOpenWaitlist: () => void;
@@ -13,9 +14,9 @@ const Navbar: React.FC<NavbarProps> = ({ onOpenWaitlist }) => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   const navLinks = [
-    { label: t('nav.services'), href: '#services' },
-    { label: t('nav.process'), href: '#process' },
-    { label: t('nav.faq'), href: '#faq' },
+    { label: t('nav.services'), href: '#services', id: 'services' },
+    { label: t('nav.process'), href: '#process', id: 'process' },
+    { label: t('nav.faq'), href: '#faq', id: 'faq' },
   ];
 
   useEffect(() => {
@@ -35,8 +36,9 @@ const Navbar: React.FC<NavbarProps> = ({ onOpenWaitlist }) => {
     return () => { document.body.style.overflow = 'unset'; };
   }, [isMobileMenuOpen]);
 
-  const scrollToSection = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
+  const scrollToSection = (e: React.MouseEvent<HTMLAnchorElement>, href: string, linkId: string) => {
     e.preventDefault();
+    trackNavClick(linkId, href);
     const id = href.replace('#', '');
     const element = document.getElementById(id);
     if (element) {
@@ -47,8 +49,30 @@ const Navbar: React.FC<NavbarProps> = ({ onOpenWaitlist }) => {
     setIsMobileMenuOpen(false);
   };
 
+  const handleLogoClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    e.preventDefault();
+    trackLogoClick();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
   const toggleLanguage = () => {
-    setLanguage(language === 'en' ? 'bn' : 'en');
+    const fromLang = language;
+    const toLang = language === 'en' ? 'bn' : 'en';
+    trackLanguageChange(fromLang, toLang);
+    setLanguage(toLang);
+  };
+
+  const handleMobileMenuToggle = () => {
+    if (isMobileMenuOpen) {
+      trackMobileMenuClose();
+    } else {
+      trackMobileMenuOpen();
+    }
+    setIsMobileMenuOpen(!isMobileMenuOpen);
+  };
+
+  const handleContactClick = (location: string) => {
+    trackContactClick('email', location);
   };
 
   return (
@@ -66,7 +90,7 @@ const Navbar: React.FC<NavbarProps> = ({ onOpenWaitlist }) => {
         <div className="max-w-6xl mx-auto px-4 sm:px-6">
           <div className="flex items-center justify-between h-16 md:h-18">
             {/* Logo */}
-            <a href="#hero" onClick={(e) => scrollToSection(e, '#hero')} className="flex items-center">
+            <a href="#hero" onClick={handleLogoClick} className="flex items-center">
               <img 
                 src="/Logo.svg" 
                 alt="Somadhan" 
@@ -80,7 +104,7 @@ const Navbar: React.FC<NavbarProps> = ({ onOpenWaitlist }) => {
                 <a
                   key={link.href}
                   href={link.href}
-                  onClick={(e) => scrollToSection(e, link.href)}
+                  onClick={(e) => scrollToSection(e, link.href, link.id)}
                   className={`text-sm font-medium transition-colors ${
                     isScrolled ? 'text-slate-600 hover:text-brand-600' : 'text-white/80 hover:text-white'
                   }`}
@@ -107,7 +131,8 @@ const Navbar: React.FC<NavbarProps> = ({ onOpenWaitlist }) => {
 
               {/* Contact Button */}
               <a
-                href="mailto:info@somadhan.com"
+                href="mailto:somadhan.legal@gmail.com"
+                onClick={() => handleContactClick('navbar')}
                 className={`hidden sm:flex items-center px-5 py-2 rounded-full text-sm font-semibold transition-all hover:scale-105 active:scale-95 ${
                   isScrolled
                     ? 'bg-brand-600 text-white hover:bg-brand-700'
@@ -119,7 +144,7 @@ const Navbar: React.FC<NavbarProps> = ({ onOpenWaitlist }) => {
 
               {/* Mobile Menu Button */}
               <button
-                onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+                onClick={handleMobileMenuToggle}
                 className={`md:hidden w-10 h-10 flex items-center justify-center rounded-full transition-colors ${
                   isScrolled ? 'text-slate-600 hover:bg-slate-100' : 'text-white hover:bg-white/10'
                 }`}
@@ -141,7 +166,7 @@ const Navbar: React.FC<NavbarProps> = ({ onOpenWaitlist }) => {
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               transition={{ duration: 0.2 }}
-              onClick={() => setIsMobileMenuOpen(false)}
+              onClick={() => { trackMobileMenuClose(); setIsMobileMenuOpen(false); }}
               className="fixed inset-0 z-40 bg-black/20 backdrop-blur-sm md:hidden"
             />
             
@@ -157,7 +182,7 @@ const Navbar: React.FC<NavbarProps> = ({ onOpenWaitlist }) => {
               <div className="flex items-center justify-between p-5 border-b border-slate-100">
                 <img src="/Logo.svg" alt="Somadhan" className="h-6" />
                 <button
-                  onClick={() => setIsMobileMenuOpen(false)}
+                  onClick={() => { trackMobileMenuClose(); setIsMobileMenuOpen(false); }}
                   className="w-9 h-9 bg-slate-100 hover:bg-slate-200 rounded-full flex items-center justify-center transition-colors"
                 >
                   <X className="w-4 h-4 text-slate-600" />
@@ -174,7 +199,7 @@ const Navbar: React.FC<NavbarProps> = ({ onOpenWaitlist }) => {
                     <a
                       key={link.href}
                       href={link.href}
-                      onClick={(e) => scrollToSection(e, link.href)}
+                      onClick={(e) => scrollToSection(e, link.href, link.id)}
                       className="flex items-center justify-between px-3 py-3 text-slate-700 hover:bg-slate-50 rounded-xl font-medium transition-colors"
                     >
                       <span>{link.label}</span>
@@ -197,8 +222,8 @@ const Navbar: React.FC<NavbarProps> = ({ onOpenWaitlist }) => {
 
                 {/* Contact Button */}
                 <a
-                  href="mailto:info@somadhan.com"
-                  onClick={() => setIsMobileMenuOpen(false)}
+                  href="mailto:somadhan.legal@gmail.com"
+                  onClick={() => { handleContactClick('mobile_menu'); setIsMobileMenuOpen(false); }}
                   className="w-full flex items-center justify-center px-4 py-3 bg-brand-600 text-white rounded-xl font-semibold transition-colors hover:bg-brand-700"
                 >
                   {language === 'bn' ? 'যোগাযোগ করুন' : 'Contact Us'}

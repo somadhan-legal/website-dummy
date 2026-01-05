@@ -3,13 +3,23 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { X, ArrowRight, ArrowLeft, Check, Sparkles, User, Mail, Phone, AlertCircle } from 'lucide-react';
 import { useLanguage } from '../contexts/LanguageContext';
 import { submitWaitlist } from '../lib/supabase';
+import { 
+  trackWaitlistStepView, 
+  trackWaitlistStepComplete, 
+  trackWaitlistFieldInteraction,
+  trackWaitlistValidationError,
+  trackWaitlistSubmitAttempt,
+  trackWaitlistSubmitSuccess,
+  trackWaitlistSubmitError
+} from '../lib/analytics';
 
 interface WaitlistPageProps {
   isOpen: boolean;
-  onClose: () => void;
+  onClose: (lastStep?: number, completed?: boolean) => void;
+  source?: string;
 }
 
-const WaitlistPage: React.FC<WaitlistPageProps> = ({ isOpen, onClose }) => {
+const WaitlistPage: React.FC<WaitlistPageProps> = ({ isOpen, onClose, source }) => {
   const { language } = useLanguage();
   const [step, setStep] = useState(1);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -28,6 +38,7 @@ const WaitlistPage: React.FC<WaitlistPageProps> = ({ isOpen, onClose }) => {
   });
 
   const totalSteps = 5;
+  const stepNames = ['contact_info', 'profession', 'services', 'heard_from', 'feedback'];
 
   const professionOptions = [
     { id: 'individual', label: language === 'bn' ? 'ব্যক্তিগত' : 'Individual' },
@@ -57,6 +68,13 @@ const WaitlistPage: React.FC<WaitlistPageProps> = ({ isOpen, onClose }) => {
     { id: 'news', label: language === 'bn' ? 'সংবাদ/আর্টিকেল' : 'News / Article' },
     { id: 'other', label: language === 'bn' ? 'অন্যান্য' : 'Other' },
   ];
+
+  // Track step view when step changes
+  useEffect(() => {
+    if (isOpen && step <= totalSteps) {
+      trackWaitlistStepView(step, stepNames[step - 1]);
+    }
+  }, [step, isOpen]);
 
   useEffect(() => {
     if (isOpen) {
@@ -91,27 +109,34 @@ const WaitlistPage: React.FC<WaitlistPageProps> = ({ isOpen, onClose }) => {
     if (step === 1) {
       if (!formData.fullName.trim()) {
         newErrors.fullName = language === 'bn' ? 'নাম দিন' : 'Name is required';
+        trackWaitlistValidationError('fullName', 'required');
       }
       if (!formData.email.trim()) {
         newErrors.email = language === 'bn' ? 'ইমেইল দিন' : 'Email is required';
+        trackWaitlistValidationError('email', 'required');
       } else if (!validateEmail(formData.email)) {
         newErrors.email = language === 'bn' ? 'সঠিক ইমেইল দিন' : 'Enter a valid email';
+        trackWaitlistValidationError('email', 'invalid_format');
       }
       if (formData.phone && !validatePhone(formData.phone)) {
         newErrors.phone = language === 'bn' ? 'সঠিক ফোন নম্বর দিন' : 'Enter a valid phone number';
+        trackWaitlistValidationError('phone', 'invalid_format');
       }
     }
     
     if (step === 2 && !formData.profession) {
       newErrors.profession = language === 'bn' ? 'পেশা নির্বাচন করুন' : 'Select your profession';
+      trackWaitlistValidationError('profession', 'required');
     }
     
     if (step === 3 && formData.services.length === 0) {
       newErrors.services = language === 'bn' ? 'অন্তত একটি সেবা নির্বাচন করুন' : 'Select at least one service';
+      trackWaitlistValidationError('services', 'required');
     }
     
     if (step === 4 && !formData.heardFrom) {
       newErrors.heardFrom = language === 'bn' ? 'একটি অপশন নির্বাচন করুন' : 'Select an option';
+      trackWaitlistValidationError('heardFrom', 'required');
     }
     
     setErrors(newErrors);
@@ -120,11 +145,20 @@ const WaitlistPage: React.FC<WaitlistPageProps> = ({ isOpen, onClose }) => {
 
   const handleNext = () => {
     if (validateStep()) {
+      // Track step completion with relevant data
+      const stepData: Record<string, any> = {};
+      if (step === 1) stepData.has_phone = !!formData.phone;
+      if (step === 2) stepData.profession = formData.profession;
+      if (step === 3) stepData.services_count = formData.services.length;
+      if (step === 4) stepData.heard_from = formData.heardFrom;
+      
+      trackWaitlistStepComplete(step, stepNames[step - 1], stepData);
       setStep(s => s + 1);
     }
   };
 
   const handleSubmit = async () => {
+    trackWaitlistSubmitAttempt();
     setIsSubmitting(true);
     setSubmitError(null);
     
@@ -141,8 +175,16 @@ const WaitlistPage: React.FC<WaitlistPageProps> = ({ isOpen, onClose }) => {
     setIsSubmitting(false);
     
     if (result.success) {
+      trackWaitlistSubmitSuccess({
+        profession: formData.profession,
+        servicesCount: formData.services.length,
+        heardFrom: formData.heardFrom,
+        hasPhone: !!formData.phone,
+        hasFeedback: !!formData.feedback
+      });
       setIsSuccess(true);
     } else {
+      trackWaitlistSubmitError(result.error || 'unknown');
       if (result.error === 'email_exists') {
         setSubmitError(language === 'bn' ? 'এই ইমেইল ইতিমধ্যে নিবন্ধিত!' : 'This email is already registered!');
       } else {
@@ -159,6 +201,18 @@ const WaitlistPage: React.FC<WaitlistPageProps> = ({ isOpen, onClose }) => {
         : [...prev.services, id]
     }));
     setErrors(prev => ({ ...prev, services: '' }));
+  };
+
+  const handleFieldFocus = (fieldName: string) => {
+    trackWaitlistFieldInteraction(fieldName, 'focus');
+  };
+
+  const handleFieldBlur = (fieldName: string) => {
+    trackWaitlistFieldInteraction(fieldName, 'blur');
+  };
+
+  const handleClose = () => {
+    onClose(step, isSuccess);
   };
 
   const stepContent = [
@@ -201,7 +255,7 @@ const WaitlistPage: React.FC<WaitlistPageProps> = ({ isOpen, onClose }) => {
 
           {/* Close Button */}
           <button
-            onClick={onClose}
+            onClick={handleClose}
             className="fixed top-4 right-4 sm:top-6 sm:right-6 z-50 w-11 h-11 rounded-full bg-slate-900 hover:bg-slate-800 flex items-center justify-center text-white transition-all hover:scale-105 active:scale-95 shadow-lg"
           >
             <X className="w-5 h-5" strokeWidth={2.5} />
@@ -265,6 +319,8 @@ const WaitlistPage: React.FC<WaitlistPageProps> = ({ isOpen, onClose }) => {
                                 type="text"
                                 value={formData.fullName}
                                 onChange={(e) => { setFormData(prev => ({ ...prev, fullName: e.target.value })); setErrors(prev => ({ ...prev, fullName: '' })); }}
+                                onFocus={() => handleFieldFocus('fullName')}
+                                onBlur={() => handleFieldBlur('fullName')}
                                 placeholder={language === 'bn' ? 'আপনার নাম' : 'Full name'}
                                 className={`w-full pl-10 pr-4 py-3 rounded-xl border ${errors.fullName ? 'border-red-300 focus:border-red-500 focus:ring-red-500/20' : 'border-slate-200 focus:border-brand-500 focus:ring-brand-500/20'} focus:ring-2 outline-none transition-all text-slate-800 placeholder:text-slate-400`}
                               />
@@ -279,6 +335,8 @@ const WaitlistPage: React.FC<WaitlistPageProps> = ({ isOpen, onClose }) => {
                                 type="email"
                                 value={formData.email}
                                 onChange={(e) => { setFormData(prev => ({ ...prev, email: e.target.value })); setErrors(prev => ({ ...prev, email: '' })); }}
+                                onFocus={() => handleFieldFocus('email')}
+                                onBlur={() => handleFieldBlur('email')}
                                 placeholder="you@example.com"
                                 className={`w-full pl-10 pr-4 py-3 rounded-xl border ${errors.email ? 'border-red-300 focus:border-red-500 focus:ring-red-500/20' : 'border-slate-200 focus:border-brand-500 focus:ring-brand-500/20'} focus:ring-2 outline-none transition-all text-slate-800 placeholder:text-slate-400`}
                               />
@@ -293,6 +351,8 @@ const WaitlistPage: React.FC<WaitlistPageProps> = ({ isOpen, onClose }) => {
                                 type="tel"
                                 value={formData.phone}
                                 onChange={(e) => { setFormData(prev => ({ ...prev, phone: e.target.value })); setErrors(prev => ({ ...prev, phone: '' })); }}
+                                onFocus={() => handleFieldFocus('phone')}
+                                onBlur={() => handleFieldBlur('phone')}
                                 placeholder="+880 1XXX-XXXXXX"
                                 className={`w-full pl-10 pr-4 py-3 rounded-xl border ${errors.phone ? 'border-red-300 focus:border-red-500 focus:ring-red-500/20' : 'border-slate-200 focus:border-brand-500 focus:ring-brand-500/20'} focus:ring-2 outline-none transition-all text-slate-800 placeholder:text-slate-400`}
                               />
@@ -366,6 +426,8 @@ const WaitlistPage: React.FC<WaitlistPageProps> = ({ isOpen, onClose }) => {
                           <textarea
                             value={formData.feedback}
                             onChange={(e) => setFormData(prev => ({ ...prev, feedback: e.target.value }))}
+                            onFocus={() => handleFieldFocus('feedback')}
+                            onBlur={() => handleFieldBlur('feedback')}
                             placeholder={language === 'bn' 
                               ? 'আপনার কোনো মতামত বা প্রশ্ন থাকলে লিখুন...' 
                               : 'Any feedback, questions, or specific needs you want to share...'}
@@ -419,7 +481,7 @@ const WaitlistPage: React.FC<WaitlistPageProps> = ({ isOpen, onClose }) => {
                   </motion.div>
                   <h3 className="text-2xl font-serif text-slate-900 mb-2">{language === 'bn' ? 'আপনি তালিকায় আছেন!' : "You're on the list!"}</h3>
                   <p className="text-slate-500 mb-8 text-sm">{language === 'bn' ? 'আমরা শীঘ্রই আপডেট নিয়ে যোগাযোগ করব।' : "We'll reach out soon with updates and early access."}</p>
-                  <button onClick={onClose} className="px-6 py-3 bg-brand-600 hover:bg-brand-700 text-white font-semibold rounded-full transition-all text-sm hover:scale-105 active:scale-95">
+                  <button onClick={() => onClose(5, true)} className="px-6 py-3 bg-brand-600 hover:bg-brand-700 text-white font-semibold rounded-full transition-all text-sm hover:scale-105 active:scale-95">
                     {language === 'bn' ? 'ফিরে যান' : 'Back to Home'}
                   </button>
                 </motion.div>
