@@ -1,10 +1,19 @@
-import React, { useRef } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { motion, useInView } from 'framer-motion';
 import { MessageSquare, Search, Users, CalendarCheck, CheckCircle, ArrowRight, Star } from 'lucide-react';
 import { useLanguage } from '../contexts/LanguageContext';
+import { trackSectionView } from '../lib/analytics';
 
 const HowItWorks: React.FC = () => {
   const { language, t } = useLanguage();
+  const sectionRef = useRef<HTMLElement | null>(null);
+  const isSectionInView = useInView(sectionRef, { once: true, margin: "-20%" });
+
+  useEffect(() => {
+    if (isSectionInView) {
+      trackSectionView('process', language === 'bn' ? 'কিভাবে কাজ করে' : 'How It Works');
+    }
+  }, [isSectionInView, language]);
 
   const steps = [
     {
@@ -216,7 +225,7 @@ const HowItWorks: React.FC = () => {
   };
 
   return (
-    <section id="process" className="py-16 md:py-20 bg-slate-50 scroll-mt-20">
+    <section ref={sectionRef} id="process" className="py-16 md:py-20 bg-slate-50 scroll-mt-20">
       <div className="max-w-6xl mx-auto px-4 sm:px-6">
         {/* Header */}
         <div className="text-center mb-10 md:mb-12">

@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ChevronDown, PlayCircle, Calendar, CreditCard, Wallet, Clock, FileText, Headphones, Mail } from 'lucide-react';
 import { useLanguage } from '../contexts/LanguageContext';
+import { trackFAQCategoryChange, trackFAQExpand } from '../lib/analytics';
 
 const faqCategories = [
   {
@@ -145,10 +146,10 @@ const faqCategories = [
         aBn: "কল বা সেবা চলাকালীন যেন সংযোগ বিচ্ছিন্ন না হয়, তা নিশ্চিত করতেই ন্যূনতম ব্যালেন্স রাখা জরুরি।"
       },
       {
-        qEn: "What is the maximum wallet balance allowed?",
-        qBn: "ওয়ালেটে সর্বোচ্চ কত টাকা রাখা যায়?",
-        aEn: "You can maintain a wallet balance of up to 50,000 BDT.",
-        aBn: "আপনি ওয়ালেটে সর্বোচ্চ ৫০,০০০ টাকা পর্যন্ত রাখতে পারবেন।"
+        qEn: "Q3. Can I add more money than required?",
+        qBn: "প্রশ্ন ৩: প্রয়োজনের চেয়ে বেশি টাকা যোগ করা যাবে কি?",
+        aEn: "Yes. Adding extra balance helps you avoid repeated top-ups in future services.",
+        aBn: "হ্যাঁ। ভবিষ্যৎ সেবার জন্য অতিরিক্ত ব্যালেন্স যোগ করতে পারেন।"
       },
       {
         qEn: "What happens if my wallet balance is low?",
@@ -298,7 +299,11 @@ const FAQ: React.FC = () => {
                 return (
                   <button
                     key={category.id}
-                    onClick={() => { setActiveCategory(category.id); setOpenIndex(0); }}
+                    onClick={() => {
+                      setActiveCategory(category.id);
+                      setOpenIndex(0);
+                      trackFAQCategoryChange(category.id);
+                    }}
                     className={`flex items-center gap-2.5 px-4 py-3 rounded-xl text-left whitespace-nowrap transition-all ${
                       isActive
                         ? 'bg-brand-600 text-white shadow-lg shadow-brand-600/20'
@@ -344,7 +349,13 @@ const FAQ: React.FC = () => {
                       }`}
                     >
                       <button
-                        onClick={() => setOpenIndex(isOpen ? -1 : idx)}
+                        onClick={() => {
+                          const nextIndex = isOpen ? -1 : idx;
+                          setOpenIndex(nextIndex);
+                          if (!isOpen) {
+                            trackFAQExpand(activeCategory, idx);
+                          }
+                        }}
                         className="w-full text-left p-4 sm:p-5 flex items-center gap-3"
                       >
                         <div className="flex-1 min-w-0">
@@ -400,9 +411,9 @@ const FAQ: React.FC = () => {
           </p>
           <a 
             href="mailto:info@somadhan.com"
-            className="inline-flex items-center gap-2 px-5 py-2.5 bg-white hover:bg-slate-50 border border-slate-200 text-slate-700 rounded-full text-sm font-medium transition-all hover:scale-105 active:scale-95"
+            className="inline-flex items-center gap-2 px-6 py-3 bg-white hover:bg-slate-50 border border-slate-200 text-slate-700 rounded-full text-base font-semibold transition-all hover:scale-105 active:scale-95"
           >
-            <Mail className="w-4 h-4" />
+            <Mail className="w-5 h-5" />
             info@somadhan.com
           </a>
         </motion.div>
