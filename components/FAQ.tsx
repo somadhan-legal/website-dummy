@@ -146,8 +146,8 @@ const faqCategories = [
         aBn: "কল বা সেবা চলাকালীন যেন সংযোগ বিচ্ছিন্ন না হয়, তা নিশ্চিত করতেই ন্যূনতম ব্যালেন্স রাখা জরুরি।"
       },
       {
-        qEn: "Q3. Can I add more money than required?",
-        qBn: "প্রশ্ন ৩: প্রয়োজনের চেয়ে বেশি টাকা যোগ করা যাবে কি?",
+        qEn: "Can I add more money than required?",
+        qBn: "প্রয়োজনের চেয়ে বেশি টাকা যোগ করা যাবে কি?",
         aEn: "Yes. Adding extra balance helps you avoid repeated top-ups in future services.",
         aBn: "হ্যাঁ। ভবিষ্যৎ সেবার জন্য অতিরিক্ত ব্যালেন্স যোগ করতে পারেন।"
       },
