@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Briefcase, Users, Home, Gavel, Scale, Shield, FileText, Globe, ChevronDown } from 'lucide-react';
 import { useLanguage } from '../contexts/LanguageContext';
+import { trackServiceCardHover, trackServiceCardExpand } from '../lib/analytics';
 
 const services = [
   {
@@ -118,6 +119,8 @@ const ServicesSection: React.FC = () => {
             const Icon = service.icon;
             const isHovered = hoveredId === service.id;
             
+            const serviceName = language === 'bn' ? service.titleBn : service.title;
+
             return (
               <motion.div
                 key={service.id}
@@ -125,7 +128,10 @@ const ServicesSection: React.FC = () => {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: "-50px" }}
                 transition={{ duration: 0.5, delay: idx * 0.05 }}
-                onMouseEnter={() => setHoveredId(service.id)}
+                onMouseEnter={() => {
+                  setHoveredId(service.id);
+                  trackServiceCardHover(service.id, serviceName);
+                }}
                 onMouseLeave={() => setHoveredId(null)}
                 className="group relative bg-white rounded-2xl p-5 border border-slate-100 hover:border-brand-200 transition-all duration-500 hover:shadow-xl hover:shadow-brand-100/50 cursor-pointer overflow-hidden"
               >
@@ -177,6 +183,7 @@ const ServicesSection: React.FC = () => {
           {services.map((service, idx) => {
             const Icon = service.icon;
             const isExpanded = expandedMobile === service.id;
+            const serviceName = language === 'bn' ? service.titleBn : service.title;
             
             return (
               <motion.div
@@ -190,7 +197,13 @@ const ServicesSection: React.FC = () => {
                 }`}
               >
                 <button
-                  onClick={() => setExpandedMobile(isExpanded ? null : service.id)}
+                  onClick={() => {
+                    const nextState = isExpanded ? null : service.id;
+                    setExpandedMobile(nextState);
+                    if (!isExpanded) {
+                      trackServiceCardExpand(service.id, serviceName);
+                    }
+                  }}
                   className="w-full p-4 flex items-center gap-3"
                 >
                   <div className={`w-10 h-10 rounded-xl flex items-center justify-center shrink-0 transition-colors ${isExpanded ? 'bg-brand-50' : 'bg-slate-50'}`}>
