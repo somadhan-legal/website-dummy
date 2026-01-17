@@ -1,0 +1,6 @@
+# Robots.txt for Somadhan
+User-agent: *
+Allow: /
+
+# Sitemap
+Sitemap: https://somadhan.com/sitemap.xml

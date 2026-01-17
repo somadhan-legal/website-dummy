@@ -208,16 +208,9 @@ const Footer: React.FC<FooterProps> = ({ onOpenWaitlist }) => {
           {/* Social Links */}
           <div className="flex items-center gap-1.5">
             <a
-              href="#"
-              onClick={() => trackSocialClick('x')}
-              className="w-8 h-8 bg-white border border-slate-100 hover:border-slate-200 hover:bg-slate-50 rounded-lg flex items-center justify-center transition-all text-slate-400 hover:text-slate-600"
-            >
-              <svg className="w-3.5 h-3.5" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
-              </svg>
-            </a>
-            <a
-              href="#"
+              href="https://www.facebook.com/getsomadhan"
+              target="_blank"
+              rel="noopener noreferrer"
               onClick={() => trackSocialClick('facebook')}
               className="w-8 h-8 bg-white border border-slate-100 hover:border-slate-200 hover:bg-slate-50 rounded-lg flex items-center justify-center transition-all text-slate-400 hover:text-slate-600"
             >
@@ -226,7 +219,9 @@ const Footer: React.FC<FooterProps> = ({ onOpenWaitlist }) => {
               </svg>
             </a>
             <a
-              href="#"
+              href="https://www.linkedin.com/company/somadhan"
+              target="_blank"
+              rel="noopener noreferrer"
               onClick={() => trackSocialClick('linkedin')}
               className="w-8 h-8 bg-white border border-slate-100 hover:border-slate-200 hover:bg-slate-50 rounded-lg flex items-center justify-center transition-all text-slate-400 hover:text-slate-600"
             >
@@ -235,7 +230,9 @@ const Footer: React.FC<FooterProps> = ({ onOpenWaitlist }) => {
               </svg>
             </a>
             <a
-              href="#"
+              href="https://www.instagram.com/getsomadhan"
+              target="_blank"
+              rel="noopener noreferrer"
               onClick={() => trackSocialClick('instagram')}
               className="w-8 h-8 bg-white border border-slate-100 hover:border-slate-200 hover:bg-slate-50 rounded-lg flex items-center justify-center transition-all text-slate-400 hover:text-slate-600"
             >
