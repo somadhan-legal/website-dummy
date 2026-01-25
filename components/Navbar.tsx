@@ -145,11 +145,13 @@ const Navbar: React.FC<NavbarProps> = ({ onOpenWaitlist }) => {
               {/* Mobile Menu Button */}
               <button
                 onClick={handleMobileMenuToggle}
+                aria-label={isMobileMenuOpen ? 'Close menu' : 'Open menu'}
+                aria-expanded={isMobileMenuOpen}
                 className={`md:hidden w-10 h-10 flex items-center justify-center rounded-full transition-colors ${
                   isScrolled ? 'text-slate-600 hover:bg-slate-100' : 'text-white hover:bg-white/10'
                 }`}
               >
-                {isMobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+                {isMobileMenuOpen ? <X className="w-5 h-5" aria-hidden="true" /> : <Menu className="w-5 h-5" aria-hidden="true" />}
               </button>
             </div>
           </div>

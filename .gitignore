@@ -22,3 +22,8 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Reports and screenshots
+*.pdf
+Screenshot*.png
+PageSpeed*.pdf

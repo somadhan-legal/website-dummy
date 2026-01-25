@@ -50,8 +50,12 @@
       });
     </script>
     
+    <!-- Preconnect hints for performance -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://cdn.tailwindcss.com" crossorigin>
+    <link rel="preconnect" href="https://images.unsplash.com" crossorigin>
+    
     <link href="https://fonts.googleapis.com/css2?family=Anek+Bangla:wght@300;400;500;600;700&family=DM+Serif+Display:ital@0;1&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
@@ -184,7 +188,33 @@
   }
 }
 </script>
-<link rel="stylesheet" href="/index.css">
+    <!-- JSON-LD Structured Data for SEO -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Organization",
+      "name": "Somadhan",
+      "alternateName": "সমাধান",
+      "url": "https://somadhan.com",
+      "logo": "https://somadhan.com/Logo.svg",
+      "description": "AI powered legal support platform that connects you with certified lawyers in Bangladesh.",
+      "sameAs": [
+        "https://www.facebook.com/getsomadhan",
+        "https://www.linkedin.com/company/somadhan",
+        "https://www.instagram.com/getsomadhan"
+      ],
+      "contactPoint": {
+        "@type": "ContactPoint",
+        "email": "info@somadhan.com",
+        "contactType": "customer service",
+        "availableLanguage": ["English", "Bengali"]
+      },
+      "areaServed": {
+        "@type": "Country",
+        "name": "Bangladesh"
+      }
+    }
+    </script>
 </head>
   <body>
     <div id="root"></div>
