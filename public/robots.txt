@@ -2,9 +2,5 @@
 User-agent: *
 Allow: /
 
-# Disallow unnecessary paths
-Disallow: /assets/
-
-# Sitemaps
-Sitemap: https://somadhan.com/sitemap.xml
+# Sitemap
 Sitemap: https://www.somadhan.com/sitemap.xml

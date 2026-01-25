@@ -94,6 +94,8 @@ const Navbar: React.FC<NavbarProps> = ({ onOpenWaitlist }) => {
               <img 
                 src="/Logo.svg" 
                 alt="Somadhan" 
+                width="120"
+                height="28"
                 className={`h-6 sm:h-7 transition-all duration-300 ${isScrolled ? '' : 'brightness-0 invert'}`}
               />
             </a>
@@ -182,7 +184,7 @@ const Navbar: React.FC<NavbarProps> = ({ onOpenWaitlist }) => {
             >
               {/* Header */}
               <div className="flex items-center justify-between p-5 border-b border-slate-100">
-                <img src="/Logo.svg" alt="Somadhan" className="h-6" />
+                <img src="/Logo.svg" alt="Somadhan" width="100" height="24" className="h-6" />
                 <button
                   onClick={() => { trackMobileMenuClose(); setIsMobileMenuOpen(false); }}
                   className="w-9 h-9 bg-slate-100 hover:bg-slate-200 rounded-full flex items-center justify-center transition-colors"

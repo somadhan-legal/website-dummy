@@ -65,7 +65,7 @@ const Footer: React.FC<FooterProps> = ({ onOpenWaitlist }) => {
         <div className="grid grid-cols-2 md:grid-cols-12 gap-8 md:gap-6">
           {/* Brand Column */}
           <div className="col-span-2 md:col-span-4">
-            <img src="/Logo.svg" alt="Somadhan" className="h-7 mb-4" />
+            <img src="/Logo.svg" alt="Somadhan" width="120" height="28" className="h-7 mb-4" />
             <p className={`text-slate-500 text-sm leading-relaxed mb-4 max-w-[260px] ${language === 'bn' ? 'leading-relaxed' : ''}`}>
               {t('footer.tagline')}
             </p>
@@ -80,7 +80,7 @@ const Footer: React.FC<FooterProps> = ({ onOpenWaitlist }) => {
 
           {/* Quick Links */}
           <div className="md:col-span-2">
-            <h4 className="font-semibold text-sm text-slate-900 mb-4">{language === 'bn' ? 'লিংক' : 'Links'}</h4>
+            <h3 className="font-semibold text-sm text-slate-900 mb-4">{language === 'bn' ? 'লিংক' : 'Links'}</h3>
             <ul className="space-y-2.5">
               <li>
                 <a href="#services" onClick={(e) => scrollToSection(e, 'services')} className={`text-slate-500 hover:text-brand-600 text-sm transition-colors ${language === 'bn' ? 'tracking-wide' : ''}`}>
@@ -102,7 +102,7 @@ const Footer: React.FC<FooterProps> = ({ onOpenWaitlist }) => {
 
           {/* Company - With inline Coming Soon */}
           <div className="md:col-span-2">
-            <h4 className="font-semibold text-sm text-slate-900 mb-4">{t('footer.company')}</h4>
+            <h3 className="font-semibold text-sm text-slate-900 mb-4">{t('footer.company')}</h3>
             <ul className="space-y-2.5">
               <li className="flex items-center gap-2">
                 <button
@@ -174,7 +174,7 @@ const Footer: React.FC<FooterProps> = ({ onOpenWaitlist }) => {
 
           {/* Get the App - Clean Card */}
           <div className="col-span-2 md:col-span-4">
-            <h4 className="font-semibold text-sm text-slate-900 mb-4">{t('footer.getApp')}</h4>
+            <h3 className="font-semibold text-sm text-slate-900 mb-4">{t('footer.getApp')}</h3>
             <div className="bg-white rounded-xl border border-slate-100 p-4 shadow-sm">
               <div className="flex items-center gap-3 mb-3">
                 <div className="w-10 h-10 bg-brand-50 rounded-lg flex items-center justify-center flex-shrink-0">

@@ -18,12 +18,12 @@ const HeroLanding: React.FC<HeroLandingProps> = ({ onOpenWaitlist }) => {
   const backgroundY = useTransform(scrollYProgress, [0, 1], ['0%', '30%']);
   const opacity = useTransform(scrollYProgress, [0, 0.5], [1, 0]);
 
-  // Logos data
+  // Logos data with explicit dimensions to prevent CLS
   const logos = [
-    { type: 'image', src: '/Logos/draftwise.svg', alt: 'Draftwise', height: 'h-5 sm:h-6' },
-    { type: 'image', src: '/Logos/paxton.svg', alt: 'Paxton', height: 'h-6 sm:h-7' },
-    { type: 'image', src: '/Logos/blueshoe.avif', alt: 'Blueshoe', height: 'h-5 sm:h-6' },
-    { type: 'image', src: '/Logos/logo-off-black.webp', alt: 'Off', height: 'h-5 sm:h-6' },
+    { type: 'image', src: '/Logos/draftwise.svg', alt: 'Draftwise', height: 'h-5 sm:h-6', width: 80, imgHeight: 24 },
+    { type: 'image', src: '/Logos/paxton.svg', alt: 'Paxton', height: 'h-6 sm:h-7', width: 100, imgHeight: 28 },
+    { type: 'image', src: '/Logos/blueshoe.avif', alt: 'Blueshoe', height: 'h-5 sm:h-6', width: 92, imgHeight: 24 },
+    { type: 'image', src: '/Logos/logo-off-black.webp', alt: 'Off', height: 'h-5 sm:h-6', width: 50, imgHeight: 24 },
     { type: 'text', text: 'Dench' },
     { type: 'text', text: 'Harvey' },
   ];
@@ -40,9 +40,14 @@ const HeroLanding: React.FC<HeroLandingProps> = ({ onOpenWaitlist }) => {
         className="absolute inset-0 z-0"
       >
         <img
-          src="https://images.unsplash.com/photo-1505664194779-8beaceb93744?q=80&w=2940&auto=format&fit=crop"
-          alt="Background"
+          src="https://images.unsplash.com/photo-1505664194779-8beaceb93744?q=60&w=1600&auto=format&fit=crop"
+          alt="Legal office background"
           className="w-full h-[120%] object-cover"
+          loading="eager"
+          fetchPriority="high"
+          decoding="async"
+          width="1600"
+          height="1067"
         />
         <div className="absolute inset-0 bg-gradient-to-b from-brand-600/70 via-brand-600/50 to-brand-600/80" />
         <div className="absolute inset-0 bg-brand-600/20" />
@@ -142,7 +147,10 @@ const HeroLanding: React.FC<HeroLandingProps> = ({ onOpenWaitlist }) => {
                   <img 
                     key={`a-${i}`}
                     src={logo.src} 
-                    alt={logo.alt} 
+                    alt={logo.alt}
+                    width={logo.width}
+                    height={logo.imgHeight}
+                    loading="lazy"
                     className={`${logo.height} opacity-50 hover:opacity-80 transition-opacity brightness-0 invert flex-shrink-0`}
                   />
                 ) : (
@@ -160,7 +168,10 @@ const HeroLanding: React.FC<HeroLandingProps> = ({ onOpenWaitlist }) => {
                   <img 
                     key={`b-${i}`}
                     src={logo.src} 
-                    alt={logo.alt} 
+                    alt={logo.alt}
+                    width={logo.width}
+                    height={logo.imgHeight}
+                    loading="lazy"
                     className={`${logo.height} opacity-50 hover:opacity-80 transition-opacity brightness-0 invert flex-shrink-0`}
                   />
                 ) : (
