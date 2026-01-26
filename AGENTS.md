@@ -85,7 +85,4 @@ Components adapt at standard Tailwind breakpoints (`sm:`, `md:`, `lg:`). Mobile-
 - FAQ: horizontal scrolling category tabs
 
 ## Deployment
-Configured for Netlify. Build output is `dist/`. All routes redirect to `/index.html` for SPA routing.
-
-## TypeScript Types
-Shared types are in `types.ts` (Lawyer, IssueCategory, FaqItem, ScrollyState).
+Configured for Vercel. Build output is `dist/`. SPA routing is handled automatically.

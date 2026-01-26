@@ -55,10 +55,7 @@ const AppContent: React.FC = () => {
   };
 
   return (
-    <div 
-      lang={language} 
-      className="min-h-screen bg-slate-50 font-sans text-slate-900 antialiased selection:bg-brand-100 selection:text-brand-900"
-    >
+    <div className="min-h-screen bg-slate-50 font-sans text-slate-900 antialiased selection:bg-brand-100 selection:text-brand-900">
       <Navbar onOpenWaitlist={() => openWaitlist('navbar')} />
       
       <main>
