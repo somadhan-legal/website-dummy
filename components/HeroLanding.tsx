@@ -37,17 +37,17 @@ const HeroLanding: React.FC<HeroLandingProps> = ({ onOpenWaitlist }) => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, [isScrollEnabled]);
   
-  // Calculate parallax values
-  const heroHeight = typeof window !== 'undefined' ? window.innerHeight : 800;
-  const parallaxY = isScrollEnabled ? Math.min(scrollY * 0.3, heroHeight * 0.3) : 0;
-  const contentOpacity = isScrollEnabled ? Math.max(1 - (scrollY / (heroHeight * 0.5)), 0) : 1;
+  // Calculate parallax values - use fixed estimate to avoid forced reflow from window.innerHeight
+  // 800px is a reasonable default that works across devices
+  const parallaxY = isScrollEnabled ? Math.min(scrollY * 0.3, 240) : 0;
+  const contentOpacity = isScrollEnabled ? Math.max(1 - (scrollY / 400), 0) : 1;
 
-  // Logos data - using CSS height classes with auto width to preserve aspect ratio
+  // Logos data - explicit dimensions to prevent CLS (height in CSS, intrinsic for aspect ratio)
   const logos = [
-    { type: 'image', src: '/Logos/draftwise.svg', alt: 'Draftwise', height: 'h-5 sm:h-6' },
-    { type: 'image', src: '/Logos/paxton.svg', alt: 'Paxton', height: 'h-6 sm:h-7' },
-    { type: 'image', src: '/Logos/blueshoe.avif', alt: 'Blueshoe', height: 'h-5 sm:h-6' },
-    { type: 'image', src: '/Logos/logo-off-black.webp', alt: 'Off', height: 'h-5 sm:h-6' },
+    { type: 'image', src: '/Logos/draftwise.svg', alt: 'Draftwise', height: 'h-5 sm:h-6', width: 137, imgHeight: 25 },
+    { type: 'image', src: '/Logos/paxton.svg', alt: 'Paxton', height: 'h-6 sm:h-7', width: 145, imgHeight: 44 },
+    { type: 'image', src: '/Logos/blueshoe.avif', alt: 'Blueshoe', height: 'h-5 sm:h-6', width: 92, imgHeight: 24 },
+    { type: 'image', src: '/Logos/logo-off-black.webp', alt: 'Off', height: 'h-5 sm:h-6', width: 50, imgHeight: 24 },
     { type: 'text', text: 'Dench' },
     { type: 'text', text: 'Harvey' },
   ];
@@ -146,6 +146,8 @@ const HeroLanding: React.FC<HeroLandingProps> = ({ onOpenWaitlist }) => {
                     key={`a-${i}`}
                     src={logo.src} 
                     alt={logo.alt}
+                    width={logo.width}
+                    height={logo.imgHeight}
                     loading="lazy"
                     className={`${logo.height} w-auto opacity-50 hover:opacity-80 transition-opacity brightness-0 invert flex-shrink-0`}
                   />
@@ -165,6 +167,8 @@ const HeroLanding: React.FC<HeroLandingProps> = ({ onOpenWaitlist }) => {
                     key={`b-${i}`}
                     src={logo.src} 
                     alt={logo.alt}
+                    width={logo.width}
+                    height={logo.imgHeight}
                     loading="lazy"
                     className={`${logo.height} w-auto opacity-50 hover:opacity-80 transition-opacity brightness-0 invert flex-shrink-0`}
                   />
