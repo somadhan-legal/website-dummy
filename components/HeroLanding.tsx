@@ -22,7 +22,7 @@ const HeroLanding: React.FC<HeroLandingProps> = ({ onOpenWaitlist }) => {
   const logos = [
     { type: 'image', src: '/Logos/draftwise.svg', alt: 'Draftwise', height: 'h-5 sm:h-6', width: 80, imgHeight: 24 },
     { type: 'image', src: '/Logos/paxton.svg', alt: 'Paxton', height: 'h-6 sm:h-7', width: 100, imgHeight: 28 },
-    { type: 'image', src: '/Logos/blueshoe.avif', alt: 'Blueshoe', height: 'h-5 sm:h-6', width: 77, imgHeight: 20 },
+    { type: 'image', src: '/Logos/blueshoe.avif', alt: 'Blueshoe', height: 'h-5 sm:h-6', width: 92, imgHeight: 24 },
     { type: 'image', src: '/Logos/logo-off-black.webp', alt: 'Off', height: 'h-5 sm:h-6', width: 50, imgHeight: 24 },
     { type: 'text', text: 'Dench' },
     { type: 'text', text: 'Harvey' },
