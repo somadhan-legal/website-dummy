@@ -1,16 +1,19 @@
-import React, { useState, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { ArrowUp } from 'lucide-react';
+import React, { useState, useEffect, lazy, Suspense } from 'react';
 import { LanguageProvider, useLanguage } from './contexts/LanguageContext';
 import Navbar from './components/Navbar';
 import HeroLanding from './components/HeroLanding';
-import HowItWorks from './components/HowItWorks';
-import ServicesSection from './components/ServicesSection';
-import TrustSection from './components/TrustSection';
-import FAQ from './components/FAQ';
-import Footer from './components/Footer';
-import WaitlistPage from './components/WaitlistPage';
 import { initializeAnalytics, trackWaitlistOpen, trackWaitlistClose, trackBackToTop, trackJoinWaitlistClick } from './lib/analytics';
+
+// Lazy load below-fold components to reduce initial bundle
+const ServicesSection = lazy(() => import('./components/ServicesSection'));
+const HowItWorks = lazy(() => import('./components/HowItWorks'));
+const TrustSection = lazy(() => import('./components/TrustSection'));
+const FAQ = lazy(() => import('./components/FAQ'));
+const Footer = lazy(() => import('./components/Footer'));
+const WaitlistPage = lazy(() => import('./components/WaitlistPage'));
+
+// Minimal loading placeholder
+const SectionLoader = () => <div className="py-20 bg-white" />;
 
 const AppContent: React.FC = () => {
   const { language } = useLanguage();
@@ -60,35 +63,38 @@ const AppContent: React.FC = () => {
       
       <main>
         <HeroLanding onOpenWaitlist={() => openWaitlist('hero')} />
-        <ServicesSection />
-        <HowItWorks />
-        <TrustSection />
-        <FAQ />
+        <Suspense fallback={<SectionLoader />}>
+          <ServicesSection />
+          <HowItWorks />
+          <TrustSection />
+          <FAQ />
+        </Suspense>
       </main>
 
-      <Footer onOpenWaitlist={() => openWaitlist('footer')} />
+      <Suspense fallback={null}>
+        <Footer onOpenWaitlist={() => openWaitlist('footer')} />
+      </Suspense>
       
-      <WaitlistPage 
-        isOpen={isWaitlistOpen} 
-        onClose={closeWaitlist}
-        source={waitlistSource}
-      />
+      <Suspense fallback={null}>
+        <WaitlistPage 
+          isOpen={isWaitlistOpen} 
+          onClose={closeWaitlist}
+          source={waitlistSource}
+        />
+      </Suspense>
 
-      {/* Back to Top Button */}
-      <AnimatePresence>
-        {showBackToTop && (
-          <motion.button
-            initial={{ opacity: 0, scale: 0.8 }}
-            animate={{ opacity: 1, scale: 1 }}
-            exit={{ opacity: 0, scale: 0.8 }}
-            onClick={scrollToTop}
-            className="fixed bottom-6 right-6 z-40 w-11 h-11 bg-brand-600 hover:bg-brand-700 text-white rounded-full shadow-lg flex items-center justify-center transition-all hover:scale-110 active:scale-95"
-            aria-label="Back to top"
-          >
-            <ArrowUp className="w-5 h-5" />
-          </motion.button>
-        )}
-      </AnimatePresence>
+      {/* Back to Top Button - CSS only, no framer-motion */}
+      {showBackToTop && (
+        <button
+          onClick={scrollToTop}
+          className="fixed bottom-6 right-6 z-40 w-11 h-11 bg-brand-600 hover:bg-brand-700 text-white rounded-full shadow-lg flex items-center justify-center transition-all hover:scale-110 active:scale-95 animate-[fadeIn_0.2s_ease-out]"
+          aria-label="Back to top"
+        >
+          <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+            <path strokeLinecap="round" strokeLinejoin="round" d="M5 15l7-7 7 7" />
+          </svg>
+        </button>
+      )}
     </div>
   );
 };

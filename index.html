@@ -46,13 +46,30 @@
     <meta name="author" content="Somadhan">
     <link rel="canonical" href="https://www.somadhan.com/">
     
-    <!-- Google Analytics 4 - Deferred to reduce TBT -->
+    <!-- Critical inline CSS for faster FCP -->
+    <style>
+      /* Critical above-the-fold styles */
+      *,*::before,*::after{box-sizing:border-box}
+      html{scroll-behavior:smooth;scroll-padding-top:80px}
+      body{margin:0;background:#F9FAFB;color:#0F172A;font-family:Inter,system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+      #root{min-height:100vh}
+      .font-serif{font-family:"DM Serif Display",serif}
+      /* Hero section critical styles */
+      [data-hero]{min-height:100vh;display:flex;flex-direction:column;justify-content:center;position:relative;overflow:hidden;background:#0F2E2E}
+      [data-hero] h1{font-family:"DM Serif Display",serif;color:#fff;text-align:center;margin:0}
+      /* Navbar placeholder */
+      [data-nav]{position:fixed;top:0;left:0;right:0;height:64px;z-index:50}
+    </style>
+    
+    <!-- Google Analytics 4 - Deferred until user interaction -->
     <script>
-      // Defer GA loading until after page is interactive
       window.dataLayer = window.dataLayer || [];
       function gtag(){dataLayer.push(arguments);}
+      var gaLoaded = false;
       
       function loadGA() {
+        if (gaLoaded) return;
+        gaLoaded = true;
         var script = document.createElement('script');
         script.src = 'https://www.googletagmanager.com/gtag/js?id=G-YKEDCJ07E2';
         script.async = true;
@@ -68,12 +85,12 @@
         document.head.appendChild(script);
       }
       
-      // Load GA after page becomes interactive (reduces TBT by ~50ms)
-      if ('requestIdleCallback' in window) {
-        requestIdleCallback(loadGA, { timeout: 3000 });
-      } else {
-        setTimeout(loadGA, 2000);
-      }
+      // Load GA only after user scrolls or after 5s (whichever first)
+      var gaTimer = setTimeout(loadGA, 5000);
+      window.addEventListener('scroll', function() {
+        clearTimeout(gaTimer);
+        loadGA();
+      }, { once: true, passive: true });
     </script>
     
     <!-- Non-render-blocking Google Fonts -->

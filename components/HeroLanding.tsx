@@ -1,5 +1,4 @@
 import React, { useRef, useState, useEffect } from 'react';
-import { motion, useScroll, useTransform } from 'framer-motion';
 import { useLanguage } from '../contexts/LanguageContext';
 
 interface HeroLandingProps {
@@ -9,24 +8,39 @@ interface HeroLandingProps {
 const HeroLanding: React.FC<HeroLandingProps> = ({ onOpenWaitlist }) => {
   const { t, language } = useLanguage();
   const heroRef = useRef<HTMLDivElement>(null);
-  const [isScrollReady, setIsScrollReady] = useState(false);
+  const [scrollY, setScrollY] = useState(0);
+  const [isScrollEnabled, setIsScrollEnabled] = useState(false);
   
   // Delay scroll effects until after LCP to reduce TBT and avoid forced reflows
   useEffect(() => {
-    // Wait for LCP (headline) to render before enabling scroll effects
-    const timer = setTimeout(() => {
-      requestAnimationFrame(() => setIsScrollReady(true));
-    }, 100);
+    // Wait 500ms before enabling scroll effects to ensure LCP is complete
+    const timer = setTimeout(() => setIsScrollEnabled(true), 500);
     return () => clearTimeout(timer);
   }, []);
   
-  const { scrollYProgress } = useScroll({
-    target: heroRef,
-    offset: ["start start", "end start"]
-  });
+  // Lightweight scroll handler - only runs after delay
+  useEffect(() => {
+    if (!isScrollEnabled) return;
+    
+    let ticking = false;
+    const handleScroll = () => {
+      if (!ticking) {
+        requestAnimationFrame(() => {
+          setScrollY(window.scrollY);
+          ticking = false;
+        });
+        ticking = true;
+      }
+    };
+    
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, [isScrollEnabled]);
   
-  const backgroundY = useTransform(scrollYProgress, [0, 1], ['0%', '30%']);
-  const contentOpacity = useTransform(scrollYProgress, [0, 0.5], [1, 0]);
+  // Calculate parallax values
+  const heroHeight = typeof window !== 'undefined' ? window.innerHeight : 800;
+  const parallaxY = isScrollEnabled ? Math.min(scrollY * 0.3, heroHeight * 0.3) : 0;
+  const contentOpacity = isScrollEnabled ? Math.max(1 - (scrollY / (heroHeight * 0.5)), 0) : 1;
 
   // Logos data - using CSS height classes with auto width to preserve aspect ratio
   const logos = [
@@ -42,16 +56,17 @@ const HeroLanding: React.FC<HeroLandingProps> = ({ onOpenWaitlist }) => {
     <section
       ref={heroRef}
       id="hero"
+      data-hero
       className="relative min-h-screen flex flex-col justify-center overflow-hidden"
     >
-      {/* Background Image with Parallax - only enable after scroll ready to reduce TBT */}
-      <motion.div 
-        style={isScrollReady ? { y: backgroundY } : undefined}
-        className="absolute inset-0 z-0"
+      {/* Background Image with CSS parallax - no JS on initial load */}
+      <div 
+        className="absolute inset-0 z-0 will-change-transform"
+        style={{ transform: `translateY(${parallaxY}px)` }}
       >
         <img
           src="https://images.unsplash.com/photo-1505664194779-8beaceb93744?q=30&w=1200&auto=format&fit=crop&fm=webp"
-          alt="Legal office background"
+          alt=""
           className="w-full h-[120%] object-cover"
           loading="eager"
           fetchPriority="high"
@@ -61,18 +76,13 @@ const HeroLanding: React.FC<HeroLandingProps> = ({ onOpenWaitlist }) => {
         />
         <div className="absolute inset-0 bg-gradient-to-b from-brand-600/70 via-brand-600/50 to-brand-600/80" />
         <div className="absolute inset-0 bg-brand-600/20" />
-      </motion.div>
+      </div>
 
-      {/* Grain overlay */}
+      {/* Content - renders immediately for LCP */}
       <div 
-        className="absolute inset-0 z-[1] opacity-[0.04] pointer-events-none mix-blend-overlay"
-        style={{
-          backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E")`,
-        }}
-      />
-
-      {/* Content - Headline renders immediately for LCP, other elements animate */}
-      <motion.div style={isScrollReady ? { opacity: contentOpacity } : undefined} className="relative z-10 max-w-5xl mx-auto px-4 sm:px-6 text-center pt-32 md:pt-28 pb-56 md:pb-60">
+        className="relative z-10 max-w-5xl mx-auto px-4 sm:px-6 text-center pt-32 md:pt-28 pb-56 md:pb-60"
+        style={{ opacity: contentOpacity }}
+      >
         {/* Badge - CSS animation */}
         <div className="inline-flex items-center gap-2.5 px-4 py-2 rounded-full bg-white/10 backdrop-blur-sm border border-white/15 mb-6 animate-[fadeIn_0.4s_ease-out_both]">
           <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
@@ -111,7 +121,7 @@ const HeroLanding: React.FC<HeroLandingProps> = ({ onOpenWaitlist }) => {
             {t('hero.joinWaitlist')}
           </button>
         </div>
-      </motion.div>
+      </div>
 
       {/* Inspired From Section - CSS animation */}
       <div className="absolute bottom-16 md:bottom-20 left-0 right-0 z-10 animate-[fadeIn_0.8s_ease-out_0.5s_both]">
