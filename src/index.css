@@ -1,0 +1,130 @@
+@import "tailwindcss";
+
+/* Custom theme variables for Tailwind v4 */
+@theme {
+  /* Brand colors */
+  --color-brand-50: #E8F0F0;
+  --color-brand-100: #D1E1E1;
+  --color-brand-200: #A3C3C3;
+  --color-brand-300: #75A5A5;
+  --color-brand-400: #478787;
+  --color-brand-500: #1A4A4A;
+  --color-brand-600: #0F2E2E;
+  --color-brand-700: #0C2424;
+  --color-brand-800: #091A1A;
+  --color-brand-900: #060F0F;
+  --color-brand: #0F2E2E;
+  
+  /* Slate extras */
+  --color-slate-850: #1e293b;
+  
+  /* Fonts */
+  --font-serif: "DM Serif Display", serif;
+  --font-sans: "Inter", sans-serif;
+  --font-bengali: "Anek Bangla", sans-serif;
+  
+  /* Custom shadows */
+  --shadow-glass: 0 4px 30px rgba(0, 0, 0, 0.1);
+  --shadow-subtle: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  --shadow-card: 0 4px 6px -1px rgba(0, 0, 0, 0.02), 0 2px 4px -1px rgba(0, 0, 0, 0.02);
+  --shadow-float: 0 20px 25px -5px rgba(0, 0, 0, 0.05), 0 10px 10px -5px rgba(0, 0, 0, 0.01);
+  
+  /* Blob animation */
+  --animate-blob: blob 7s infinite;
+  
+  @keyframes blob {
+    0% { transform: translate(0px, 0px) scale(1); }
+    33% { transform: translate(30px, -50px) scale(1.1); }
+    66% { transform: translate(-20px, 20px) scale(0.9); }
+    100% { transform: translate(0px, 0px) scale(1); }
+  }
+}
+
+/* Global styles */
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 80px;
+}
+
+body {
+  background-color: #F9FAFB;
+  color: #0F172A;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+/* Global Bengali Font & Spacing Fixes */
+[lang="bn"], 
+.font-bengali,
+html[lang="bn"] * {
+  font-family: "Anek Bangla", sans-serif !important;
+}
+
+/* Base spacing for Bengali sentences */
+html[lang="bn"] p, 
+html[lang="bn"] li, 
+html[lang="bn"] div:not(.font-serif) {
+  line-height: 1.6;
+  letter-spacing: 0.01em;
+}
+
+/* Tight line height for headings */
+html[lang="bn"] h1, 
+html[lang="bn"] h2, 
+html[lang="bn"] h3,
+html[lang="bn"] h4,
+html[lang="bn"] .font-serif,
+html[lang="bn"] .font-serif span {
+  line-height: 1.2 !important;
+  letter-spacing: 0.02em;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: #CBD5E1;
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #94A3B8;
+}
+
+.hide-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.hide-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* Marquee animation */
+@keyframes marquee-smooth {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+.animate-marquee-smooth {
+  animation: marquee-smooth 30s linear infinite;
+  will-change: transform;
+}
+
+/* CSS animations for hero - reduces TBT vs framer-motion */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(15px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
