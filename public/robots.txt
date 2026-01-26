@@ -3,4 +3,4 @@ User-agent: *
 Allow: /
 
 # Sitemap
-Sitemap: https://www.somadhan.com/sitemap.xml
+Sitemap: https://somadhan.com/sitemap.xml
