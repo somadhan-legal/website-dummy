@@ -9,12 +9,15 @@ interface HeroLandingProps {
 const HeroLanding: React.FC<HeroLandingProps> = ({ onOpenWaitlist }) => {
   const { t, language } = useLanguage();
   const heroRef = useRef<HTMLDivElement>(null);
-  const [isLoaded, setIsLoaded] = useState(false);
+  const [isScrollReady, setIsScrollReady] = useState(false);
   
-  // Delay scroll effects until after initial paint to reduce TBT
+  // Delay scroll effects until after LCP to reduce TBT and avoid forced reflows
   useEffect(() => {
-    const timer = requestAnimationFrame(() => setIsLoaded(true));
-    return () => cancelAnimationFrame(timer);
+    // Wait for LCP (headline) to render before enabling scroll effects
+    const timer = setTimeout(() => {
+      requestAnimationFrame(() => setIsScrollReady(true));
+    }, 100);
+    return () => clearTimeout(timer);
   }, []);
   
   const { scrollYProgress } = useScroll({
@@ -41,9 +44,9 @@ const HeroLanding: React.FC<HeroLandingProps> = ({ onOpenWaitlist }) => {
       id="hero"
       className="relative min-h-screen flex flex-col justify-center overflow-hidden"
     >
-      {/* Background Image with Parallax - only enable after load to reduce TBT */}
+      {/* Background Image with Parallax - only enable after scroll ready to reduce TBT */}
       <motion.div 
-        style={isLoaded ? { y: backgroundY } : undefined}
+        style={isScrollReady ? { y: backgroundY } : undefined}
         className="absolute inset-0 z-0"
       >
         <img
@@ -52,7 +55,7 @@ const HeroLanding: React.FC<HeroLandingProps> = ({ onOpenWaitlist }) => {
           className="w-full h-[120%] object-cover"
           loading="eager"
           fetchPriority="high"
-          decoding="async"
+          decoding="sync"
           width="1200"
           height="800"
         />
@@ -68,17 +71,17 @@ const HeroLanding: React.FC<HeroLandingProps> = ({ onOpenWaitlist }) => {
         }}
       />
 
-      {/* Content - Use CSS animations instead of framer-motion for initial load */}
-      <motion.div style={isLoaded ? { opacity: contentOpacity } : undefined} className="relative z-10 max-w-5xl mx-auto px-4 sm:px-6 text-center pt-32 md:pt-28 pb-56 md:pb-60">
+      {/* Content - Headline renders immediately for LCP, other elements animate */}
+      <motion.div style={isScrollReady ? { opacity: contentOpacity } : undefined} className="relative z-10 max-w-5xl mx-auto px-4 sm:px-6 text-center pt-32 md:pt-28 pb-56 md:pb-60">
         {/* Badge - CSS animation */}
-        <div className="inline-flex items-center gap-2.5 px-4 py-2 rounded-full bg-white/10 backdrop-blur-sm border border-white/15 mb-6 animate-[fadeInUp_0.5s_ease-out_0.1s_both]">
+        <div className="inline-flex items-center gap-2.5 px-4 py-2 rounded-full bg-white/10 backdrop-blur-sm border border-white/15 mb-6 animate-[fadeIn_0.4s_ease-out_both]">
           <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
           <span className="text-sm text-white/90 font-medium tracking-wide">{t('hero.badge')}</span>
         </div>
 
-        {/* Headline - CSS animation */}
+        {/* Headline - NO animation delay, renders immediately for LCP */}
         <h1
-          className={`font-serif text-4xl sm:text-5xl md:text-6xl lg:text-7xl text-white tracking-tight mb-5 animate-[fadeInUp_0.6s_ease-out_0.15s_both] ${
+          className={`font-serif text-4xl sm:text-5xl md:text-6xl lg:text-7xl text-white tracking-tight mb-5 ${
             language === 'bn' ? 'leading-[1.2]' : 'leading-[1.1]'
           }`}
           style={language === 'bn' ? { wordSpacing: '0.12em' } : undefined}
