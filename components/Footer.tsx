@@ -182,7 +182,7 @@ const Footer: React.FC<FooterProps> = ({ onOpenWaitlist }) => {
                 </div>
                 <div>
                   <p className={`font-medium text-slate-900 text-sm ${language === 'bn' ? 'leading-relaxed' : ''}`}>{t('footer.appComingSoon')}</p>
-                  <p className="text-slate-400 text-xs">iOS & Android</p>
+                  <p className="text-slate-600 text-xs">iOS & Android</p>
                 </div>
               </div>
               <button
