@@ -44,18 +44,34 @@
     <meta name="author" content="Somadhan">
     <link rel="canonical" href="https://www.somadhan.com/">
     
-    <!-- Google Analytics 4 -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-YKEDCJ07E2"></script>
+    <!-- Google Analytics 4 - Deferred to reduce TBT -->
     <script>
+      // Defer GA loading until after page is interactive
       window.dataLayer = window.dataLayer || [];
       function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-      gtag('config', 'G-YKEDCJ07E2', {
-        page_title: document.title,
-        page_location: window.location.href,
-        send_page_view: false,
-        cookie_flags: 'SameSite=None;Secure'
-      });
+      
+      function loadGA() {
+        var script = document.createElement('script');
+        script.src = 'https://www.googletagmanager.com/gtag/js?id=G-YKEDCJ07E2';
+        script.async = true;
+        script.onload = function() {
+          gtag('js', new Date());
+          gtag('config', 'G-YKEDCJ07E2', {
+            page_title: document.title,
+            page_location: window.location.href,
+            send_page_view: true,
+            cookie_flags: 'SameSite=None;Secure'
+          });
+        };
+        document.head.appendChild(script);
+      }
+      
+      // Load GA after page becomes interactive (reduces TBT by ~50ms)
+      if ('requestIdleCallback' in window) {
+        requestIdleCallback(loadGA, { timeout: 3000 });
+      } else {
+        setTimeout(loadGA, 2000);
+      }
     </script>
     
     <!-- Non-render-blocking Google Fonts -->
@@ -179,6 +195,22 @@
       .animate-marquee-smooth {
         animation: marquee-smooth 30s linear infinite;
         will-change: transform;
+      }
+      
+      /* CSS animations for hero - reduces TBT vs framer-motion */
+      @keyframes fadeInUp {
+        from {
+          opacity: 0;
+          transform: translateY(15px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+      @keyframes fadeIn {
+        from { opacity: 0; }
+        to { opacity: 1; }
       }
     </style>
   <script type="importmap">

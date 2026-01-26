@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { useLanguage } from '../contexts/LanguageContext';
 
@@ -9,6 +9,13 @@ interface HeroLandingProps {
 const HeroLanding: React.FC<HeroLandingProps> = ({ onOpenWaitlist }) => {
   const { t, language } = useLanguage();
   const heroRef = useRef<HTMLDivElement>(null);
+  const [isLoaded, setIsLoaded] = useState(false);
+  
+  // Delay scroll effects until after initial paint to reduce TBT
+  useEffect(() => {
+    const timer = requestAnimationFrame(() => setIsLoaded(true));
+    return () => cancelAnimationFrame(timer);
+  }, []);
   
   const { scrollYProgress } = useScroll({
     target: heroRef,
@@ -16,7 +23,7 @@ const HeroLanding: React.FC<HeroLandingProps> = ({ onOpenWaitlist }) => {
   });
   
   const backgroundY = useTransform(scrollYProgress, [0, 1], ['0%', '30%']);
-  const opacity = useTransform(scrollYProgress, [0, 0.5], [1, 0]);
+  const contentOpacity = useTransform(scrollYProgress, [0, 0.5], [1, 0]);
 
   // Logos data with explicit dimensions to prevent CLS
   const logos = [
@@ -34,9 +41,9 @@ const HeroLanding: React.FC<HeroLandingProps> = ({ onOpenWaitlist }) => {
       id="hero"
       className="relative min-h-screen flex flex-col justify-center overflow-hidden"
     >
-      {/* Background Image with Parallax */}
+      {/* Background Image with Parallax - only enable after load to reduce TBT */}
       <motion.div 
-        style={{ y: backgroundY }}
+        style={isLoaded ? { y: backgroundY } : undefined}
         className="absolute inset-0 z-0"
       >
         <img
@@ -61,25 +68,17 @@ const HeroLanding: React.FC<HeroLandingProps> = ({ onOpenWaitlist }) => {
         }}
       />
 
-      {/* Content - Increased width to prevent unwanted wrapping */}
-      <motion.div style={{ opacity }} className="relative z-10 max-w-5xl mx-auto px-4 sm:px-6 text-center pt-32 md:pt-28 pb-56 md:pb-60">
-        {/* Badge */}
-        <motion.div
-          initial={{ opacity: 0, y: 15 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.1 }}
-          className="inline-flex items-center gap-2.5 px-4 py-2 rounded-full bg-white/10 backdrop-blur-sm border border-white/15 mb-6"
-        >
+      {/* Content - Use CSS animations instead of framer-motion for initial load */}
+      <motion.div style={isLoaded ? { opacity: contentOpacity } : undefined} className="relative z-10 max-w-5xl mx-auto px-4 sm:px-6 text-center pt-32 md:pt-28 pb-56 md:pb-60">
+        {/* Badge - CSS animation */}
+        <div className="inline-flex items-center gap-2.5 px-4 py-2 rounded-full bg-white/10 backdrop-blur-sm border border-white/15 mb-6 animate-[fadeInUp_0.5s_ease-out_0.1s_both]">
           <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
           <span className="text-sm text-white/90 font-medium tracking-wide">{t('hero.badge')}</span>
-        </motion.div>
+        </div>
 
-        {/* Headline */}
-        <motion.h1
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
-          className={`font-serif text-4xl sm:text-5xl md:text-6xl lg:text-7xl text-white tracking-tight mb-5 ${
+        {/* Headline - CSS animation */}
+        <h1
+          className={`font-serif text-4xl sm:text-5xl md:text-6xl lg:text-7xl text-white tracking-tight mb-5 animate-[fadeInUp_0.6s_ease-out_0.15s_both] ${
             language === 'bn' ? 'leading-[1.2]' : 'leading-[1.1]'
           }`}
           style={language === 'bn' ? { wordSpacing: '0.12em' } : undefined}
@@ -93,40 +92,26 @@ const HeroLanding: React.FC<HeroLandingProps> = ({ onOpenWaitlist }) => {
           )}
           <br />
           <span className="italic text-white/60">{t('hero.headlineAccent')}</span>
-        </motion.h1>
+        </h1>
 
-        {/* Subtext */}
-        <motion.p
-          initial={{ opacity: 0, y: 15 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
-          className="text-base md:text-lg text-white/60 leading-relaxed max-w-xl mx-auto mb-8"
-        >
+        {/* Subtext - CSS animation */}
+        <p className="text-base md:text-lg text-white/60 leading-relaxed max-w-xl mx-auto mb-8 animate-[fadeInUp_0.6s_ease-out_0.2s_both]">
           {t('hero.subtext')}
-        </motion.p>
+        </p>
 
-        {/* Single CTA */}
-        <motion.div
-          initial={{ opacity: 0, y: 15 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.25 }}
-        >
+        {/* Single CTA - CSS animation */}
+        <div className="animate-[fadeInUp_0.5s_ease-out_0.25s_both]">
           <button
             onClick={onOpenWaitlist}
             className="group bg-white text-brand-600 px-8 py-3.5 rounded-full text-sm font-semibold transition-all duration-300 hover:shadow-lg hover:shadow-white/20 hover:scale-[1.02] active:scale-[0.98]"
           >
             {t('hero.joinWaitlist')}
           </button>
-        </motion.div>
+        </div>
       </motion.div>
 
-      {/* Inspired From Section */}
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 0.8, delay: 0.5 }}
-        className="absolute bottom-16 md:bottom-20 left-0 right-0 z-10"
-      >
+      {/* Inspired From Section - CSS animation */}
+      <div className="absolute bottom-16 md:bottom-20 left-0 right-0 z-10 animate-[fadeIn_0.8s_ease-out_0.5s_both]">
         <p className="text-[10px] sm:text-xs text-white/40 mb-8 uppercase tracking-[0.25em] font-medium text-center">
           {language === 'bn' ? 'অনুপ্রাণিত' : 'Inspired from'}
         </p>
@@ -186,7 +171,7 @@ const HeroLanding: React.FC<HeroLandingProps> = ({ onOpenWaitlist }) => {
             </div>
           </div>
         </div>
-      </motion.div>
+      </div>
     </section>
   );
 };
