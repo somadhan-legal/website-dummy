@@ -21,7 +21,7 @@
   /* Fonts */
   --font-serif: "DM Serif Display", serif;
   --font-sans: "Inter", sans-serif;
-  --font-bengali: "Anek Bangla", sans-serif;
+  --font-bengali: "Li Ador Norit", sans-serif;
   
   /* Custom shadows */
   --shadow-glass: 0 4px 30px rgba(0, 0, 0, 0.1);
@@ -57,7 +57,7 @@ body {
 [lang="bn"], 
 .font-bengali,
 html[lang="bn"] * {
-  font-family: "Anek Bangla", sans-serif !important;
+  font-family: "Li Ador Norit", sans-serif !important;
 }
 
 /* Base spacing for Bengali sentences */
