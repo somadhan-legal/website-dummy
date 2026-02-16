@@ -1,5 +1,86 @@
 @import "tailwindcss";
 
+/* Li Ador Norit Font - Self-hosted */
+@font-face {
+  font-family: "Li Ador Norit";
+  src: url('/fonts/Li Ador Noirrit ExtraLight.ttf') format('truetype');
+  font-weight: 200;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Li Ador Norit";
+  src: url('/fonts/Li Ador Noirrit ExtraLight Italic.ttf') format('truetype');
+  font-weight: 200;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Li Ador Norit";
+  src: url('/fonts/Li Ador Noirrit Light.ttf') format('truetype');
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Li Ador Norit";
+  src: url('/fonts/Li Ador Noirrit Light Italic.ttf') format('truetype');
+  font-weight: 300;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Li Ador Norit";
+  src: url('/fonts/Li Ador Noirrit Regular.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Li Ador Norit";
+  src: url('/fonts/Li Ador Noirrit Italic.ttf') format('truetype');
+  font-weight: 400;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Li Ador Norit";
+  src: url('/fonts/Li Ador Noirrit SemiBold.ttf') format('truetype');
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Li Ador Norit";
+  src: url('/fonts/Li Ador Noirrit SemiBold Italic.ttf') format('truetype');
+  font-weight: 600;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Li Ador Norit";
+  src: url('/fonts/Li Ador Noirrit Bold.ttf') format('truetype');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Li Ador Norit";
+  src: url('/fonts/Li Ador Noirrit Bold Italic.ttf') format('truetype');
+  font-weight: 700;
+  font-style: italic;
+  font-display: swap;
+}
+
 /* Custom theme variables for Tailwind v4 */
 @theme {
   /* Brand colors */
