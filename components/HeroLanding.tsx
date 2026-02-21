@@ -10,18 +10,18 @@ const HeroLanding: React.FC<HeroLandingProps> = ({ onOpenWaitlist }) => {
   const heroRef = useRef<HTMLDivElement>(null);
   const [scrollY, setScrollY] = useState(0);
   const [isScrollEnabled, setIsScrollEnabled] = useState(false);
-  
+
   // Delay scroll effects until after LCP to reduce TBT and avoid forced reflows
   useEffect(() => {
     // Wait 500ms before enabling scroll effects to ensure LCP is complete
     const timer = setTimeout(() => setIsScrollEnabled(true), 500);
     return () => clearTimeout(timer);
   }, []);
-  
+
   // Lightweight scroll handler - only runs after delay
   useEffect(() => {
     if (!isScrollEnabled) return;
-    
+
     let ticking = false;
     const handleScroll = () => {
       if (!ticking) {
@@ -32,11 +32,11 @@ const HeroLanding: React.FC<HeroLandingProps> = ({ onOpenWaitlist }) => {
         ticking = true;
       }
     };
-    
+
     window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
   }, [isScrollEnabled]);
-  
+
   // Calculate parallax values - use fixed estimate to avoid forced reflow from window.innerHeight
   // 800px is a reasonable default that works across devices
   const parallaxY = isScrollEnabled ? Math.min(scrollY * 0.3, 240) : 0;
@@ -60,7 +60,7 @@ const HeroLanding: React.FC<HeroLandingProps> = ({ onOpenWaitlist }) => {
       className="relative min-h-screen flex flex-col justify-center overflow-hidden"
     >
       {/* Background Image with CSS parallax - no JS on initial load */}
-      <div 
+      <div
         className="absolute inset-0 z-0 will-change-transform"
         style={{ transform: `translateY(${parallaxY}px)` }}
       >
@@ -79,7 +79,7 @@ const HeroLanding: React.FC<HeroLandingProps> = ({ onOpenWaitlist }) => {
       </div>
 
       {/* Content - renders immediately for LCP */}
-      <div 
+      <div
         className="relative z-10 max-w-5xl mx-auto px-4 sm:px-6 text-center pt-32 md:pt-28 pb-56 md:pb-60"
         style={{ opacity: contentOpacity }}
       >
@@ -91,9 +91,8 @@ const HeroLanding: React.FC<HeroLandingProps> = ({ onOpenWaitlist }) => {
 
         {/* Headline - NO animation delay, renders immediately for LCP */}
         <h1
-          className={`font-serif text-4xl sm:text-5xl md:text-6xl lg:text-7xl text-white tracking-tight mb-5 ${
-            language === 'bn' ? 'leading-[1.2]' : 'leading-[1.1]'
-          }`}
+          className={`font-serif font-bold text-4xl sm:text-5xl md:text-6xl lg:text-7xl text-white tracking-tight mb-5 ${language === 'bn' ? 'leading-[1.2]' : 'leading-[1.1]'
+            }`}
           style={language === 'bn' ? { wordSpacing: '0.12em' } : undefined}
         >
           {t('hero.headline')}
@@ -128,10 +127,10 @@ const HeroLanding: React.FC<HeroLandingProps> = ({ onOpenWaitlist }) => {
         <p className="text-[10px] sm:text-xs text-white/40 mb-8 uppercase tracking-[0.25em] font-medium text-center">
           {language === 'bn' ? 'অনুপ্রাণিত' : 'Inspired from'}
         </p>
-        
+
         {/* Logo Marquee */}
         <div className="max-w-6xl mx-auto px-4 sm:px-6">
-          <div 
+          <div
             className="relative overflow-hidden"
             style={{
               maskImage: 'linear-gradient(to right, transparent, black 10%, black 90%, transparent)',
@@ -142,9 +141,9 @@ const HeroLanding: React.FC<HeroLandingProps> = ({ onOpenWaitlist }) => {
               {/* First set */}
               {logos.map((logo, i) => (
                 logo.type === 'image' ? (
-                  <img 
+                  <img
                     key={`a-${i}`}
-                    src={logo.src} 
+                    src={logo.src}
                     alt={logo.alt}
                     width={logo.width}
                     height={logo.imgHeight}
@@ -152,7 +151,7 @@ const HeroLanding: React.FC<HeroLandingProps> = ({ onOpenWaitlist }) => {
                     className={`${logo.height} w-auto opacity-50 hover:opacity-80 transition-opacity brightness-0 invert flex-shrink-0`}
                   />
                 ) : (
-                  <span 
+                  <span
                     key={`a-${i}`}
                     className="text-white/50 font-serif text-xl sm:text-2xl tracking-tight hover:text-white/80 transition-colors flex-shrink-0"
                   >
@@ -163,9 +162,9 @@ const HeroLanding: React.FC<HeroLandingProps> = ({ onOpenWaitlist }) => {
               {/* Duplicate set */}
               {logos.map((logo, i) => (
                 logo.type === 'image' ? (
-                  <img 
+                  <img
                     key={`b-${i}`}
-                    src={logo.src} 
+                    src={logo.src}
                     alt={logo.alt}
                     width={logo.width}
                     height={logo.imgHeight}
@@ -173,7 +172,7 @@ const HeroLanding: React.FC<HeroLandingProps> = ({ onOpenWaitlist }) => {
                     className={`${logo.height} w-auto opacity-50 hover:opacity-80 transition-opacity brightness-0 invert flex-shrink-0`}
                   />
                 ) : (
-                  <span 
+                  <span
                     key={`b-${i}`}
                     className="text-white/50 font-serif text-xl sm:text-2xl tracking-tight hover:text-white/80 transition-colors flex-shrink-0"
                   >
