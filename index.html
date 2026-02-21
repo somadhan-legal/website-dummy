@@ -70,7 +70,7 @@
       margin: 0;
       background: #F9FAFB;
       color: #0F172A;
-      font-family: Inter, system-ui, sans-serif;
+      font-family: "Open Sans", system-ui, sans-serif;
       -webkit-font-smoothing: antialiased
     }
 
@@ -79,7 +79,7 @@
     }
 
     .font-serif {
-      font-family: "DM Serif Display", serif
+      font-family: "Playfair Display", serif
     }
 
     /* Hero section critical styles */
@@ -94,7 +94,7 @@
     }
 
     [data-hero] h1 {
-      font-family: "DM Serif Display", serif;
+      font-family: "Playfair Display", serif;
       color: #fff;
       text-align: center;
       margin: 0
@@ -143,12 +143,7 @@
     }, { once: true, passive: true });
   </script>
 
-  <!-- Non-render-blocking Google Fonts -->
-  <link rel="preload" as="style"
-    href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Inter:wght@400;500;600;700&display=swap">
-  <link
-    href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Inter:wght@400;500;600;700&display=swap"
-    rel="stylesheet" media="print" onload="this.media='all'">
+  <!-- Fonts are locally hosted and loaded via CSS, avoiding render blocking -->
 
   <!-- JSON-LD Structured Data for SEO -->
   <script type="application/ld+json">
