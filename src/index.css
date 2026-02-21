@@ -179,18 +179,6 @@ html[lang="bn"] * {
   font-family: "Li Ador Noirrit", "Anek Bangla", sans-serif !important;
 }
 
-/* Visually match Bengali font size to English (it usually looks ~10% smaller) */
-html[lang="bn"] {
-  font-size: 105%;
-}
-
-/* Targeting Navbar specifically for the requested fix */
-html[lang="bn"] nav a,
-html[lang="bn"] nav button {
-  font-size: 1.1rem;
-  letter-spacing: 0;
-}
-
 /* Base spacing for Bengali sentences */
 html[lang="bn"] p,
 html[lang="bn"] li,
