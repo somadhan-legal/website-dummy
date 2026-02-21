@@ -274,7 +274,7 @@ const WaitlistPage: React.FC<WaitlistPageProps> = ({ isOpen, onClose, source }) 
                     <img
                       src={language === 'bn' ? '/Somadhan BLT.svg' : '/Somadhan ELT.svg'}
                       alt="Somadhan"
-                      className="h-6 w-auto mx-auto mb-4"
+                      className="h-5 w-auto mx-auto mb-4"
                     />
                   </motion.div>
 

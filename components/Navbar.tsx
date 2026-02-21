@@ -93,7 +93,7 @@ const Navbar: React.FC<NavbarProps> = ({ onOpenWaitlist }) => {
               <img
                 src={language === 'bn' ? (isScrolled ? '/Somadhan BLT.svg' : '/Somadhan BLW.svg') : (isScrolled ? '/Somadhan ELT.svg' : '/Somadhan ELW.svg')}
                 alt="Somadhan"
-                className="h-6 sm:h-7 w-auto transition-all duration-300"
+                className="h-5 sm:h-6 w-auto transition-all duration-300"
               />
             </a>
 
@@ -180,7 +180,7 @@ const Navbar: React.FC<NavbarProps> = ({ onOpenWaitlist }) => {
                 <img
                   src={language === 'bn' ? '/Somadhan BLT.svg' : '/Somadhan ELT.svg'}
                   alt="Somadhan"
-                  className="h-5 sm:h-6 w-auto"
+                  className="h-5 sm:h-5 w-auto"
                 />
                 <button
                   onClick={() => { trackMobileMenuClose(); setIsMobileMenuOpen(false); }}
