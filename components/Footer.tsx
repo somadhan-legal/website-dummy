@@ -68,7 +68,7 @@ const Footer: React.FC<FooterProps> = ({ onOpenWaitlist }) => {
             <img
               src={language === 'bn' ? '/Somadhan BLT.svg' : '/Somadhan ELT.svg'}
               alt="Somadhan"
-              className="h-8 w-auto mb-4"
+              className="h-7 w-auto mb-4"
             />
             <p className={`text-slate-500 text-sm leading-relaxed mb-4 max-w-[260px] ${language === 'bn' ? 'leading-relaxed' : ''}`}>
               {t('footer.tagline')}
