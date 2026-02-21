@@ -1,123 +1,161 @@
 @import "tailwindcss";
 
-/* Li Ador Norit Font - Self-hosted */
+/* Playfair Display - English Headline */
 @font-face {
-  font-family: "Li Ador Norit";
-  src: url('/fonts/Li Ador Noirrit ExtraLight.ttf') format('truetype');
+  font-family: "Playfair Display";
+  src: url('/fonts/english/PlayfairDisplay-VariableFont_wght.ttf') format('truetype');
+  font-weight: 400 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Playfair Display";
+  src: url('/fonts/english/PlayfairDisplay-Italic-VariableFont_wght.ttf') format('truetype');
+  font-weight: 400 900;
+  font-style: italic;
+  font-display: swap;
+}
+
+/* Open Sans - English Primary */
+@font-face {
+  font-family: "Open Sans";
+  src: url('/fonts/english/OpenSans-VariableFont_wdth,wght.ttf') format('truetype');
+  font-weight: 300 800;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Open Sans";
+  src: url('/fonts/english/OpenSans-Italic-VariableFont_wdth,wght.ttf') format('truetype');
+  font-weight: 300 800;
+  font-style: italic;
+  font-display: swap;
+}
+
+/* Inter - English Backup */
+@font-face {
+  font-family: "Inter";
+  src: url('/fonts/english/Inter-VariableFont_opsz,wght.ttf') format('truetype');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Li Shadhinata 2.0 - Bengali Headline */
+@font-face {
+  font-family: "Li Shadhinata 2.0";
+  src: url('/fonts/bangla/Li Shadhinata 2.0 Unicode.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Li Shadhinata 2.0";
+  src: url('/fonts/bangla/Li Shadhinata 2.0 Unicode Italic.ttf') format('truetype');
+  font-weight: normal;
+  font-style: italic;
+  font-display: swap;
+}
+
+/* Li Ador Noirrit - Bengali Primary */
+@font-face {
+  font-family: "Li Ador Noirrit";
+  src: url('/fonts/bangla/Li Ador Noirrit ExtraLight.ttf') format('truetype');
   font-weight: 200;
   font-style: normal;
   font-display: swap;
 }
 
 @font-face {
-  font-family: "Li Ador Norit";
-  src: url('/fonts/Li Ador Noirrit ExtraLight Italic.ttf') format('truetype');
-  font-weight: 200;
-  font-style: italic;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: "Li Ador Norit";
-  src: url('/fonts/Li Ador Noirrit Light.ttf') format('truetype');
+  font-family: "Li Ador Noirrit";
+  src: url('/fonts/bangla/Li Ador Noirrit Light.ttf') format('truetype');
   font-weight: 300;
   font-style: normal;
   font-display: swap;
 }
 
 @font-face {
-  font-family: "Li Ador Norit";
-  src: url('/fonts/Li Ador Noirrit Light Italic.ttf') format('truetype');
-  font-weight: 300;
-  font-style: italic;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: "Li Ador Norit";
-  src: url('/fonts/Li Ador Noirrit Regular.ttf') format('truetype');
+  font-family: "Li Ador Noirrit";
+  src: url('/fonts/bangla/Li Ador Noirrit Regular.ttf') format('truetype');
   font-weight: 400;
   font-style: normal;
   font-display: swap;
 }
 
 @font-face {
-  font-family: "Li Ador Norit";
-  src: url('/fonts/Li Ador Noirrit Italic.ttf') format('truetype');
-  font-weight: 400;
-  font-style: italic;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: "Li Ador Norit";
-  src: url('/fonts/Li Ador Noirrit SemiBold.ttf') format('truetype');
+  font-family: "Li Ador Noirrit";
+  src: url('/fonts/bangla/Li Ador Noirrit SemiBold.ttf') format('truetype');
   font-weight: 600;
   font-style: normal;
   font-display: swap;
 }
 
 @font-face {
-  font-family: "Li Ador Norit";
-  src: url('/fonts/Li Ador Noirrit SemiBold Italic.ttf') format('truetype');
-  font-weight: 600;
-  font-style: italic;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: "Li Ador Norit";
-  src: url('/fonts/Li Ador Noirrit Bold.ttf') format('truetype');
+  font-family: "Li Ador Noirrit";
+  src: url('/fonts/bangla/Li Ador Noirrit Bold.ttf') format('truetype');
   font-weight: 700;
   font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: "Li Ador Norit";
-  src: url('/fonts/Li Ador Noirrit Bold Italic.ttf') format('truetype');
-  font-weight: 700;
-  font-style: italic;
   font-display: swap;
 }
 
 /* Custom theme variables for Tailwind v4 */
 @theme {
   /* Brand colors */
-  --color-brand-50: #E8F0F0;
-  --color-brand-100: #D1E1E1;
-  --color-brand-200: #A3C3C3;
-  --color-brand-300: #75A5A5;
-  --color-brand-400: #478787;
-  --color-brand-500: #1A4A4A;
-  --color-brand-600: #0F2E2E;
-  --color-brand-700: #0C2424;
-  --color-brand-800: #091A1A;
-  --color-brand-900: #060F0F;
-  --color-brand: #0F2E2E;
-  
+  --color-brand-mist: #E4EEF0;
+  --color-brand-teal: #075056;
+  --color-brand-coral: #F95943;
+  --color-brand-charcoal: #232323;
+  --color-brand-blush: #FF988D;
+  --color-brand-aquamarine: #5DB8BA;
+
+  --color-brand-50: #E4EEF0;
+  --color-brand-100: #8CC4C8;
+  --color-brand-200: #5DB8BA;
+  --color-brand-300: #338C91;
+  --color-brand-400: #1D6D73;
+  --color-brand-500: #075056;
+  --color-brand-600: #054045;
+  --color-brand-700: #043034;
+  --color-brand-800: #022023;
+  --color-brand-900: #011011;
+  --color-brand: #075056;
+
   /* Slate extras */
   --color-slate-850: #1e293b;
-  
+
   /* Fonts */
-  --font-serif: "DM Serif Display", serif;
-  --font-sans: "Inter", sans-serif;
-  --font-bengali: "Li Ador Norit", sans-serif;
-  
+  --font-serif: "Playfair Display", "Li Shadhinata 2.0", serif;
+  --font-sans: "Open Sans", "Inter", sans-serif;
+  --font-bengali: "Li Ador Noirrit", "Anek Bangla", sans-serif;
+
   /* Custom shadows */
   --shadow-glass: 0 4px 30px rgba(0, 0, 0, 0.1);
   --shadow-subtle: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
   --shadow-card: 0 4px 6px -1px rgba(0, 0, 0, 0.02), 0 2px 4px -1px rgba(0, 0, 0, 0.02);
   --shadow-float: 0 20px 25px -5px rgba(0, 0, 0, 0.05), 0 10px 10px -5px rgba(0, 0, 0, 0.01);
-  
+
   /* Blob animation */
   --animate-blob: blob 7s infinite;
-  
+
   @keyframes blob {
-    0% { transform: translate(0px, 0px) scale(1); }
-    33% { transform: translate(30px, -50px) scale(1.1); }
-    66% { transform: translate(-20px, 20px) scale(0.9); }
-    100% { transform: translate(0px, 0px) scale(1); }
+    0% {
+      transform: translate(0px, 0px) scale(1);
+    }
+
+    33% {
+      transform: translate(30px, -50px) scale(1.1);
+    }
+
+    66% {
+      transform: translate(-20px, 20px) scale(0.9);
+    }
+
+    100% {
+      transform: translate(0px, 0px) scale(1);
+    }
   }
 }
 
@@ -135,23 +173,35 @@ body {
 }
 
 /* Global Bengali Font & Spacing Fixes */
-[lang="bn"], 
+[lang="bn"],
 .font-bengali,
 html[lang="bn"] * {
-  font-family: "Li Ador Norit", sans-serif !important;
+  font-family: "Li Ador Noirrit", "Anek Bangla", sans-serif !important;
+}
+
+/* Visually match Bengali font size to English (it usually looks ~10% smaller) */
+html[lang="bn"] {
+  font-size: 105%;
+}
+
+/* Targeting Navbar specifically for the requested fix */
+html[lang="bn"] nav a,
+html[lang="bn"] nav button {
+  font-size: 1.1rem;
+  letter-spacing: 0;
 }
 
 /* Base spacing for Bengali sentences */
-html[lang="bn"] p, 
-html[lang="bn"] li, 
+html[lang="bn"] p,
+html[lang="bn"] li,
 html[lang="bn"] div:not(.font-serif) {
   line-height: 1.6;
   letter-spacing: 0.01em;
 }
 
 /* Tight line height for headings */
-html[lang="bn"] h1, 
-html[lang="bn"] h2, 
+html[lang="bn"] h1,
+html[lang="bn"] h2,
 html[lang="bn"] h3,
 html[lang="bn"] h4,
 html[lang="bn"] .font-serif,
@@ -165,13 +215,16 @@ html[lang="bn"] .font-serif span {
   width: 6px;
   height: 6px;
 }
+
 ::-webkit-scrollbar-track {
   background: transparent;
 }
+
 ::-webkit-scrollbar-thumb {
   background: #CBD5E1;
   border-radius: 3px;
 }
+
 ::-webkit-scrollbar-thumb:hover {
   background: #94A3B8;
 }
@@ -179,6 +232,7 @@ html[lang="bn"] .font-serif span {
 .hide-scrollbar::-webkit-scrollbar {
   display: none;
 }
+
 .hide-scrollbar {
   -ms-overflow-style: none;
   scrollbar-width: none;
@@ -186,9 +240,15 @@ html[lang="bn"] .font-serif span {
 
 /* Marquee animation */
 @keyframes marquee-smooth {
-  0% { transform: translateX(0); }
-  100% { transform: translateX(-50%); }
+  0% {
+    transform: translateX(0);
+  }
+
+  100% {
+    transform: translateX(-50%);
+  }
 }
+
 .animate-marquee-smooth {
   animation: marquee-smooth 30s linear infinite;
   will-change: transform;
@@ -200,12 +260,19 @@ html[lang="bn"] .font-serif span {
     opacity: 0;
     transform: translateY(15px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
   }
 }
+
 @keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
 }

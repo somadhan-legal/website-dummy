@@ -81,22 +81,19 @@ const Navbar: React.FC<NavbarProps> = ({ onOpenWaitlist }) => {
         initial={{ y: -100 }}
         animate={{ y: 0 }}
         transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
-        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-          isScrolled
-            ? 'bg-white/90 backdrop-blur-xl shadow-sm border-b border-slate-100'
-            : 'bg-transparent'
-        }`}
+        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${isScrolled
+          ? 'bg-white/90 backdrop-blur-xl shadow-sm border-b border-slate-100'
+          : 'bg-transparent'
+          }`}
       >
         <div className="max-w-6xl mx-auto px-4 sm:px-6">
           <div className="flex items-center justify-between h-16 md:h-18">
             {/* Logo */}
             <a href="#hero" onClick={handleLogoClick} className="flex items-center">
-              <img 
-                src="/Logo.svg" 
-                alt="Somadhan" 
-                width="120"
-                height="28"
-                className={`h-6 sm:h-7 transition-all duration-300 ${isScrolled ? '' : 'brightness-0 invert'}`}
+              <img
+                src={language === 'bn' ? (isScrolled ? '/Somadhan BLT.svg' : '/Somadhan BLW.svg') : (isScrolled ? '/Somadhan ELT.svg' : '/Somadhan ELW.svg')}
+                alt="Somadhan"
+                className="h-7 sm:h-8 w-auto transition-all duration-300"
               />
             </a>
 
@@ -107,9 +104,8 @@ const Navbar: React.FC<NavbarProps> = ({ onOpenWaitlist }) => {
                   key={link.href}
                   href={link.href}
                   onClick={(e) => scrollToSection(e, link.href, link.id)}
-                  className={`text-sm font-medium transition-colors ${
-                    isScrolled ? 'text-slate-600 hover:text-brand-600' : 'text-white/80 hover:text-white'
-                  } ${language === 'bn' ? 'tracking-wide' : ''}`}
+                  className={`text-sm font-medium transition-colors ${isScrolled ? 'text-slate-600 hover:text-brand-600' : 'text-white/80 hover:text-white'
+                    } ${language === 'bn' ? 'tracking-wide' : ''}`}
                 >
                   {link.label}
                 </a>
@@ -121,11 +117,10 @@ const Navbar: React.FC<NavbarProps> = ({ onOpenWaitlist }) => {
               {/* Language Toggle */}
               <button
                 onClick={toggleLanguage}
-                className={`hidden sm:flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium transition-all ${
-                  isScrolled
-                    ? 'bg-slate-100 text-slate-600 hover:bg-slate-200'
-                    : 'bg-white/10 text-white/80 hover:bg-white/20'
-                }`}
+                className={`hidden sm:flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium transition-all ${isScrolled
+                  ? 'bg-slate-100 text-slate-600 hover:bg-slate-200'
+                  : 'bg-white/10 text-white/80 hover:bg-white/20'
+                  }`}
               >
                 <Globe className="w-3.5 h-3.5" />
                 {language === 'en' ? 'বাং' : 'EN'}
@@ -135,11 +130,10 @@ const Navbar: React.FC<NavbarProps> = ({ onOpenWaitlist }) => {
               <a
                 href="mailto:info@somadhan.com"
                 onClick={() => handleContactClick('navbar')}
-                className={`hidden sm:flex items-center px-5 py-2 rounded-full text-sm font-semibold transition-all hover:scale-105 active:scale-95 ${
-                  isScrolled
-                    ? 'bg-brand-600 text-white hover:bg-brand-700'
-                    : 'bg-white text-brand-600 hover:bg-white/90'
-                }`}
+                className={`hidden sm:flex items-center px-5 py-2 rounded-full text-sm font-semibold transition-all hover:scale-105 active:scale-95 ${isScrolled
+                  ? 'bg-brand-600 text-white hover:bg-brand-700'
+                  : 'bg-white text-brand-600 hover:bg-white/90'
+                  }`}
               >
                 {language === 'bn' ? 'যোগাযোগ' : 'Contact Us'}
               </a>
@@ -149,9 +143,8 @@ const Navbar: React.FC<NavbarProps> = ({ onOpenWaitlist }) => {
                 onClick={handleMobileMenuToggle}
                 aria-label={isMobileMenuOpen ? 'Close menu' : 'Open menu'}
                 aria-expanded={isMobileMenuOpen}
-                className={`md:hidden w-10 h-10 flex items-center justify-center rounded-full transition-colors ${
-                  isScrolled ? 'text-slate-600 hover:bg-slate-100' : 'text-white hover:bg-white/10'
-                }`}
+                className={`md:hidden w-10 h-10 flex items-center justify-center rounded-full transition-colors ${isScrolled ? 'text-slate-600 hover:bg-slate-100' : 'text-white hover:bg-white/10'
+                  }`}
               >
                 {isMobileMenuOpen ? <X className="w-5 h-5" aria-hidden="true" /> : <Menu className="w-5 h-5" aria-hidden="true" />}
               </button>
@@ -173,7 +166,7 @@ const Navbar: React.FC<NavbarProps> = ({ onOpenWaitlist }) => {
               onClick={() => { trackMobileMenuClose(); setIsMobileMenuOpen(false); }}
               className="fixed inset-0 z-40 bg-black/20 backdrop-blur-sm md:hidden"
             />
-            
+
             {/* Menu Panel - Slide from right */}
             <motion.div
               initial={{ x: '100%' }}
@@ -184,7 +177,11 @@ const Navbar: React.FC<NavbarProps> = ({ onOpenWaitlist }) => {
             >
               {/* Header */}
               <div className="flex items-center justify-between p-5 border-b border-slate-100">
-                <img src="/Logo.svg" alt="Somadhan" width="100" height="24" className="h-6" />
+                <img
+                  src={language === 'bn' ? '/Somadhan BLT.svg' : '/Somadhan ELT.svg'}
+                  alt="Somadhan"
+                  className="h-6 sm:h-7 w-auto"
+                />
                 <button
                   onClick={() => { trackMobileMenuClose(); setIsMobileMenuOpen(false); }}
                   className="w-9 h-9 bg-slate-100 hover:bg-slate-200 rounded-full flex items-center justify-center transition-colors"

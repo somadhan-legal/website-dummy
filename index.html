@@ -1,111 +1,164 @@
 <!DOCTYPE html>
 <html lang="bn">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    
-    <!-- Critical preconnect hints - MUST be before any external resources -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="preconnect" href="https://images.unsplash.com" crossorigin>
-    <link rel="dns-prefetch" href="https://www.googletagmanager.com">
-    
-    <!-- Preload hero background image for faster LCP -->
-    <link rel="preload" as="image" href="https://images.unsplash.com/photo-1505664194779-8beaceb93744?q=30&w=1200&auto=format&fit=crop&fm=webp" fetchpriority="high">
-    
-    <title>Somadhan | Legal Support Platform</title>
-    <meta name="description" content="AI powered legal support that connects you with certified lawyers in Bangladesh. Get legal help anytime, anywhere.">
-    
-    <!-- Favicon - Multiple formats for better Google Search visibility -->
-    <link rel="icon" type="image/png" sizes="32x32" href="/Favicon.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="/Favicon.png">
-    <link rel="icon" type="image/png" sizes="192x192" href="/Favicon.png">
-    <link rel="icon" type="image/png" sizes="512x512" href="/Favicon.png">
-    <link rel="apple-touch-icon" sizes="180x180" href="/Favicon.png">
-    <link rel="shortcut icon" type="image/png" href="/Favicon.png">
-    <link rel="manifest" href="/site.webmanifest">
-    <meta name="theme-color" content="#0F2E2E">
-    
-    <!-- Open Graph / Facebook -->
-    <meta property="og:type" content="website">
-    <meta property="og:url" content="https://somadhan.com/">
-    <meta property="og:title" content="Somadhan | Legal Support Platform">
-    <meta property="og:description" content="AI powered legal support that connects you with certified lawyers in Bangladesh. Get legal help anytime, anywhere.">
-    <meta property="og:image" content="https://somadhan.com/Favicon.png">
-    <meta property="og:site_name" content="Somadhan">
-    
-    <!-- Twitter -->
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:url" content="https://somadhan.com/">
-    <meta name="twitter:title" content="Somadhan | Legal Support Platform">
-    <meta name="twitter:description" content="AI powered legal support that connects you with certified lawyers in Bangladesh. Get legal help anytime, anywhere.">
-    <meta name="twitter:image" content="https://somadhan.com/Favicon.png">
-    
-    <!-- Additional SEO -->
-    <meta name="robots" content="index, follow">
-    <meta name="author" content="Somadhan">
-    <link rel="canonical" href="https://somadhan.com/">
-    
-    <!-- Critical inline CSS for faster FCP -->
-    <style>
-      /* Critical above-the-fold styles */
-      *,*::before,*::after{box-sizing:border-box}
-      html{scroll-behavior:smooth;scroll-padding-top:80px}
-      body{margin:0;background:#F9FAFB;color:#0F172A;font-family:Inter,system-ui,sans-serif;-webkit-font-smoothing:antialiased}
-      #root{min-height:100vh}
-      .font-serif{font-family:"DM Serif Display",serif}
-      /* Hero section critical styles */
-      [data-hero]{min-height:100vh;display:flex;flex-direction:column;justify-content:center;position:relative;overflow:hidden;background:#0F2E2E}
-      [data-hero] h1{font-family:"DM Serif Display",serif;color:#fff;text-align:center;margin:0}
-      /* Navbar placeholder */
-      [data-nav]{position:fixed;top:0;left:0;right:0;height:64px;z-index:50}
-    </style>
-    
-    <!-- Google Analytics 4 - Deferred until user interaction -->
-    <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      var gaLoaded = false;
-      
-      function loadGA() {
-        if (gaLoaded) return;
-        gaLoaded = true;
-        var script = document.createElement('script');
-        script.src = 'https://www.googletagmanager.com/gtag/js?id=G-YKEDCJ07E2';
-        script.async = true;
-        script.onload = function() {
-          gtag('js', new Date());
-          gtag('config', 'G-YKEDCJ07E2', {
-            page_title: document.title,
-            page_location: window.location.href,
-            send_page_view: true,
-            cookie_flags: 'SameSite=None;Secure'
-          });
-        };
-        document.head.appendChild(script);
-      }
-      
-      // Load GA only after user scrolls or after 5s (whichever first)
-      var gaTimer = setTimeout(loadGA, 5000);
-      window.addEventListener('scroll', function() {
-        clearTimeout(gaTimer);
-        loadGA();
-      }, { once: true, passive: true });
-    </script>
-    
-    <!-- Non-render-blocking Google Fonts -->
-    <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Inter:wght@400;500;600;700&display=swap">
-    <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
-    
-    <!-- JSON-LD Structured Data for SEO -->
-    <script type="application/ld+json">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- Critical preconnect hints - MUST be before any external resources -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preconnect" href="https://images.unsplash.com" crossorigin>
+  <link rel="dns-prefetch" href="https://www.googletagmanager.com">
+
+  <!-- Preload hero background image for faster LCP -->
+  <link rel="preload" as="image"
+    href="https://images.unsplash.com/photo-1505664194779-8beaceb93744?q=30&w=1200&auto=format&fit=crop&fm=webp"
+    fetchpriority="high">
+
+  <title>Somadhan | Legal Support Platform</title>
+  <meta name="description"
+    content="AI powered legal support that connects you with certified lawyers in Bangladesh. Get legal help anytime, anywhere.">
+
+  <!-- Favicon - Multiple formats for better Google Search visibility -->
+  <link rel="icon" type="image/png" sizes="32x32" href="/Favicon.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/Favicon.png">
+  <link rel="icon" type="image/png" sizes="192x192" href="/Favicon.png">
+  <link rel="icon" type="image/png" sizes="512x512" href="/Favicon.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/Favicon.png">
+  <link rel="shortcut icon" type="image/png" href="/Favicon.png">
+  <link rel="manifest" href="/site.webmanifest">
+  <meta name="theme-color" content="#0F2E2E">
+
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://somadhan.com/">
+  <meta property="og:title" content="Somadhan | Legal Support Platform">
+  <meta property="og:description"
+    content="AI powered legal support that connects you with certified lawyers in Bangladesh. Get legal help anytime, anywhere.">
+  <meta property="og:image" content="https://somadhan.com/Favicon.png">
+  <meta property="og:site_name" content="Somadhan">
+
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:url" content="https://somadhan.com/">
+  <meta name="twitter:title" content="Somadhan | Legal Support Platform">
+  <meta name="twitter:description"
+    content="AI powered legal support that connects you with certified lawyers in Bangladesh. Get legal help anytime, anywhere.">
+  <meta name="twitter:image" content="https://somadhan.com/Favicon.png">
+
+  <!-- Additional SEO -->
+  <meta name="robots" content="index, follow">
+  <meta name="author" content="Somadhan">
+  <link rel="canonical" href="https://somadhan.com/">
+
+  <!-- Critical inline CSS for faster FCP -->
+  <style>
+    /* Critical above-the-fold styles */
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box
+    }
+
+    html {
+      scroll-behavior: smooth;
+      scroll-padding-top: 80px
+    }
+
+    body {
+      margin: 0;
+      background: #F9FAFB;
+      color: #0F172A;
+      font-family: Inter, system-ui, sans-serif;
+      -webkit-font-smoothing: antialiased
+    }
+
+    #root {
+      min-height: 100vh
+    }
+
+    .font-serif {
+      font-family: "DM Serif Display", serif
+    }
+
+    /* Hero section critical styles */
+    [data-hero] {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+      background: #0F2E2E
+    }
+
+    [data-hero] h1 {
+      font-family: "DM Serif Display", serif;
+      color: #fff;
+      text-align: center;
+      margin: 0
+    }
+
+    /* Navbar placeholder */
+    [data-nav] {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 64px;
+      z-index: 50
+    }
+  </style>
+
+  <!-- Google Analytics 4 - Deferred until user interaction -->
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    var gaLoaded = false;
+
+    function loadGA() {
+      if (gaLoaded) return;
+      gaLoaded = true;
+      var script = document.createElement('script');
+      script.src = 'https://www.googletagmanager.com/gtag/js?id=G-YKEDCJ07E2';
+      script.async = true;
+      script.onload = function () {
+        gtag('js', new Date());
+        gtag('config', 'G-YKEDCJ07E2', {
+          page_title: document.title,
+          page_location: window.location.href,
+          send_page_view: true,
+          cookie_flags: 'SameSite=None;Secure'
+        });
+      };
+      document.head.appendChild(script);
+    }
+
+    // Load GA only after user scrolls or after 5s (whichever first)
+    var gaTimer = setTimeout(loadGA, 5000);
+    window.addEventListener('scroll', function () {
+      clearTimeout(gaTimer);
+      loadGA();
+    }, { once: true, passive: true });
+  </script>
+
+  <!-- Non-render-blocking Google Fonts -->
+  <link rel="preload" as="style"
+    href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Inter:wght@400;500;600;700&display=swap">
+  <link
+    href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Inter:wght@400;500;600;700&display=swap"
+    rel="stylesheet" media="print" onload="this.media='all'">
+
+  <!-- JSON-LD Structured Data for SEO -->
+  <script type="application/ld+json">
     {
       "@context": "https://schema.org",
       "@type": "Organization",
       "name": "Somadhan",
       "alternateName": "সমাধান",
       "url": "https://somadhan.com",
-      "logo": "https://somadhan.com/Logo.svg",
+      "logo": "https://somadhan.com/Somadhan ELB.svg",
       "description": "AI powered legal support platform that connects you with certified lawyers in Bangladesh.",
       "sameAs": [
         "https://www.facebook.com/getsomadhan",
@@ -125,8 +178,10 @@
     }
     </script>
 </head>
-  <body>
-    <div id="root"></div>
+
+<body>
+  <div id="root"></div>
   <script type="module" src="/index.tsx"></script>
 </body>
+
 </html>
