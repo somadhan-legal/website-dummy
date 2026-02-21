@@ -22,6 +22,45 @@ export interface WaitlistResponse {
   data?: any;
 }
 
+export interface WaitlistEmailCheckResponse {
+  exists: boolean;
+  error?: string;
+}
+
+// Check if an email already exists in waitlist submissions
+export async function checkWaitlistEmailExists(email: string): Promise<WaitlistEmailCheckResponse> {
+  const normalizedEmail = email.trim().toLowerCase();
+
+  if (!normalizedEmail) {
+    return { exists: false };
+  }
+
+  try {
+    const response = await fetch(
+      `${SUPABASE_URL}/rest/v1/waitlist_submissions?select=id&email=eq.${encodeURIComponent(normalizedEmail)}&limit=1`,
+      {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          'apikey': SUPABASE_ANON_KEY,
+          'Authorization': `Bearer ${SUPABASE_ANON_KEY}`,
+        },
+      }
+    );
+
+    if (!response.ok) {
+      const errorData = await response.json().catch(() => ({}));
+      return { exists: false, error: errorData?.message || 'email_check_failed' };
+    }
+
+    const data = await response.json().catch(() => []);
+    return { exists: Array.isArray(data) && data.length > 0 };
+  } catch (error) {
+    console.error('Waitlist email check error:', error);
+    return { exists: false, error: 'network_error' };
+  }
+}
+
 // Submit waitlist form data to Supabase
 export async function submitWaitlist(data: WaitlistSubmission): Promise<WaitlistResponse> {
   try {
@@ -59,28 +98,5 @@ export async function submitWaitlist(data: WaitlistSubmission): Promise<Waitlist
   } catch (error) {
     console.error('Waitlist submission error:', error);
     return { success: false, error: 'network_error' };
-  }
-}
-
-// Check if an email is already registered
-export async function checkEmailExists(email: string): Promise<boolean> {
-  try {
-    const response = await fetch(`${SUPABASE_URL}/rest/v1/waitlist_submissions?email=eq.${encodeURIComponent(email)}&select=email`, {
-      method: 'GET',
-      headers: {
-        'apikey': SUPABASE_ANON_KEY,
-        'Authorization': `Bearer ${SUPABASE_ANON_KEY}`
-      }
-    });
-
-    if (!response.ok) {
-      return false; // Fail open - if we can't check, let them try to submit
-    }
-
-    const data = await response.json();
-    return data && data.length > 0;
-  } catch (error) {
-    console.error('Email check error:', error);
-    return false;
   }
 }
