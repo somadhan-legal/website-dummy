@@ -173,10 +173,20 @@ body {
 }
 
 /* Global Bengali Font & Spacing Fixes */
-[lang="bn"],
-.font-bengali,
-html[lang="bn"] * {
-  font-family: "Li Ador Noirrit", "Anek Bangla", sans-serif !important;
+html[lang="bn"] body {
+  font-family: "Li Ador Noirrit", "Anek Bangla", sans-serif;
+}
+
+/* Explicitly target headings and serif elements for the brand headline font */
+html[lang="bn"] .font-serif,
+html[lang="bn"] h1,
+html[lang="bn"] h2,
+html[lang="bn"] h3 {
+  font-family: "Li Shadhinata 2.0", serif !important;
+}
+
+[lang="bn"] .font-bengali {
+  font-family: "Li Ador Noirrit", "Anek Bangla", sans-serif;
 }
 
 /* Base spacing for Bengali sentences */
