@@ -91,7 +91,7 @@ const HeroLanding: React.FC<HeroLandingProps> = ({ onOpenWaitlist }) => {
 
         {/* Headline - NO animation delay, renders immediately for LCP */}
         <h1
-          className={`font-serif font-bold text-4xl sm:text-5xl md:text-6xl lg:text-7xl text-white tracking-tight mb-5 ${language === 'bn' ? 'leading-[1.2]' : 'leading-[1.1]'
+          className={`font-serif font-semibold text-4xl sm:text-5xl md:text-6xl lg:text-7xl text-white tracking-tight mb-5 ${language === 'bn' ? 'leading-[1.2]' : 'leading-[1.1]'
             }`}
           style={language === 'bn' ? { wordSpacing: '0.12em' } : undefined}
         >

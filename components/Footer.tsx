@@ -37,7 +37,7 @@ const Footer: React.FC<FooterProps> = ({ onOpenWaitlist }) => {
 
           <div className="relative z-10 flex flex-col sm:flex-row items-center justify-between gap-6">
             <div className="text-center sm:text-left">
-              <h2 className={`font-serif font-bold text-xl sm:text-2xl text-white mb-1.5 ${language === 'bn' ? 'leading-[1.4]' : ''}`}>
+              <h2 className={`font-serif font-semibold text-xl sm:text-2xl text-white mb-1.5 ${language === 'bn' ? 'leading-[1.4]' : ''}`}>
                 {language === 'bn' ? 'আজই শুরু করুন' : 'Ready to get started?'}
               </h2>
               <p className={`text-white/50 text-sm max-w-sm ${language === 'bn' ? 'leading-relaxed' : ''}`}>
