@@ -23,7 +23,6 @@ const WaitlistPage: React.FC<WaitlistPageProps> = ({ isOpen, onClose, source }) 
   const { language } = useLanguage();
   const [step, setStep] = useState(1);
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [isCheckingEmail, setIsCheckingEmail] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
   const [submitError, setSubmitError] = useState<string | null>(null);
   const [errors, setErrors] = useState<Record<string, string>>({});
@@ -155,9 +154,7 @@ const WaitlistPage: React.FC<WaitlistPageProps> = ({ isOpen, onClose, source }) 
       return false;
     }
 
-    setIsCheckingEmail(true);
     const result = await checkWaitlistEmailExists(normalizedEmail);
-    setIsCheckingEmail(false);
 
     if (result.exists) {
       setErrors(prev => ({ ...prev, email: getDuplicateEmailMessage() }));
@@ -166,19 +163,6 @@ const WaitlistPage: React.FC<WaitlistPageProps> = ({ isOpen, onClose, source }) 
     }
 
     return false;
-  };
-
-  const handleEmailBlur = async () => {
-    if (step !== 1) return;
-
-    const email = formData.email.trim();
-    if (!email || !validateEmail(email)) return;
-
-    if (errors.email === getDuplicateEmailMessage()) {
-      setErrors(prev => ({ ...prev, email: '' }));
-    }
-
-    await checkDuplicateEmail(email);
   };
 
   const handleNext = async () => {
@@ -390,19 +374,11 @@ const WaitlistPage: React.FC<WaitlistPageProps> = ({ isOpen, onClose, source }) 
                                   setErrors(prev => ({ ...prev, email: '' }));
                                 }}
                                 onFocus={() => handleFieldFocus('email')}
-                                onBlur={() => {
-                                  handleFieldBlur('email');
-                                  void handleEmailBlur();
-                                }}
+                                onBlur={() => handleFieldBlur('email')}
                                 placeholder="you@example.com"
                                 className={`w-full pl-10 pr-4 py-3 rounded-xl border ${errors.email ? 'border-red-300 focus:border-red-500 focus:ring-red-500/20' : 'border-slate-200 focus:border-brand-500 focus:ring-brand-500/20'} focus:ring-2 outline-none transition-all text-slate-800 placeholder:text-slate-400`}
                               />
                             </div>
-                            {isCheckingEmail && step === 1 && (
-                              <p className={`mt-1 text-xs text-slate-500 ${language === 'bn' ? 'leading-relaxed' : ''}`}>
-                                {language === 'bn' ? 'ইমেইল যাচাই করা হচ্ছে...' : 'Checking email...'}
-                              </p>
-                            )}
                             {errors.email && <p className={`mt-1 text-xs text-red-500 flex items-center gap-1 ${language === 'bn' ? 'leading-relaxed' : ''}`}><AlertCircle className="w-3 h-3" />{errors.email}</p>}
                           </div>
                           <div>
@@ -511,7 +487,6 @@ const WaitlistPage: React.FC<WaitlistPageProps> = ({ isOpen, onClose, source }) 
                     {step < totalSteps ? (
                       <button
                         onClick={handleNext}
-                        disabled={isCheckingEmail}
                         className={`flex items-center gap-2 px-6 py-3 bg-brand-600 hover:bg-brand-700 text-white font-semibold rounded-full transition-all text-sm hover:scale-105 active:scale-95 ${language === 'bn' ? 'leading-relaxed' : ''}`}
                       >
                         {language === 'bn' ? 'পরবর্তী' : 'Continue'}
