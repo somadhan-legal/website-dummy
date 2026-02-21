@@ -183,6 +183,7 @@ html[lang="bn"] h1,
 html[lang="bn"] h2,
 html[lang="bn"] h3 {
   font-family: "Li Shadhinata 2.0", serif !important;
+  font-weight: 500 !important;
 }
 
 [lang="bn"] .font-bengali {
