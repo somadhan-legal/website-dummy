@@ -46,12 +46,12 @@ export async function submitWaitlist(data: WaitlistSubmission): Promise<Waitlist
 
     if (!response.ok) {
       const errorData = await response.json().catch(() => ({}));
-      
+
       // Handle duplicate email error
       if (response.status === 409 || errorData?.code === '23505') {
         return { success: false, error: 'email_exists' };
       }
-      
+
       return { success: false, error: errorData?.message || 'submission_failed' };
     }
 
@@ -59,5 +59,28 @@ export async function submitWaitlist(data: WaitlistSubmission): Promise<Waitlist
   } catch (error) {
     console.error('Waitlist submission error:', error);
     return { success: false, error: 'network_error' };
+  }
+}
+
+// Check if an email is already registered
+export async function checkEmailExists(email: string): Promise<boolean> {
+  try {
+    const response = await fetch(`${SUPABASE_URL}/rest/v1/waitlist_submissions?email=eq.${encodeURIComponent(email)}&select=email`, {
+      method: 'GET',
+      headers: {
+        'apikey': SUPABASE_ANON_KEY,
+        'Authorization': `Bearer ${SUPABASE_ANON_KEY}`
+      }
+    });
+
+    if (!response.ok) {
+      return false; // Fail open - if we can't check, let them try to submit
+    }
+
+    const data = await response.json();
+    return data && data.length > 0;
+  } catch (error) {
+    console.error('Email check error:', error);
+    return false;
   }
 }

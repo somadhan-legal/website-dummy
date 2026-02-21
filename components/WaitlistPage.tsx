@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, ArrowRight, ArrowLeft, Check, Sparkles, User, Mail, Phone, AlertCircle } from 'lucide-react';
 import { useLanguage } from '../contexts/LanguageContext';
-import { submitWaitlist } from '../lib/supabase';
+import { submitWaitlist, checkEmailExists } from '../lib/supabase';
 import {
   trackWaitlistStepView,
   trackWaitlistStepComplete,
@@ -23,6 +23,7 @@ const WaitlistPage: React.FC<WaitlistPageProps> = ({ isOpen, onClose, source }) 
   const { language } = useLanguage();
   const [step, setStep] = useState(1);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isCheckingEmail, setIsCheckingEmail] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
   const [submitError, setSubmitError] = useState<string | null>(null);
   const [errors, setErrors] = useState<Record<string, string>>({});
@@ -103,48 +104,67 @@ const WaitlistPage: React.FC<WaitlistPageProps> = ({ isOpen, onClose, source }) 
     return re.test(phone.replace(/[\s-]/g, ''));
   };
 
-  const validateStep = () => {
+  const validateStep = async () => {
     const newErrors: Record<string, string> = {};
+    let isValid = true;
 
     if (step === 1) {
       if (!formData.fullName.trim()) {
         newErrors.fullName = language === 'bn' ? 'আপনার নাম আবশ্যক' : 'Name is required';
         trackWaitlistValidationError('fullName', 'required');
+        isValid = false;
       }
       if (!formData.email.trim()) {
         newErrors.email = language === 'bn' ? 'ইমেইল ঠিকানা আবশ্যক' : 'Email is required';
         trackWaitlistValidationError('email', 'required');
+        isValid = false;
       } else if (!validateEmail(formData.email)) {
         newErrors.email = language === 'bn' ? 'সঠিক ইমেইল ঠিকানা দিন' : 'Enter a valid email';
         trackWaitlistValidationError('email', 'invalid_format');
+        isValid = false;
+      } else {
+        // Only check DB if format is valid
+        setIsCheckingEmail(true);
+        const exists = await checkEmailExists(formData.email);
+        setIsCheckingEmail(false);
+        if (exists) {
+          newErrors.email = language === 'bn' ? 'এই ইমেইলটি ইতিমধ্যে নিবন্ধিত!' : 'This email is already registered!';
+          trackWaitlistValidationError('email', 'email_exists');
+          isValid = false;
+        }
       }
       if (formData.phone && !validatePhone(formData.phone)) {
         newErrors.phone = language === 'bn' ? 'সঠিক ফোন নম্বর দিন' : 'Enter a valid phone number';
         trackWaitlistValidationError('phone', 'invalid_format');
+        isValid = false;
       }
     }
 
     if (step === 2 && !formData.profession) {
       newErrors.profession = language === 'bn' ? 'আপনার পেশা নির্বাচন করুন' : 'Select your profession';
       trackWaitlistValidationError('profession', 'required');
+      isValid = false;
     }
 
     if (step === 3 && formData.services.length === 0) {
       newErrors.services = language === 'bn' ? 'অন্তত একটি সেবা নির্বাচন করুন' : 'Select at least one service';
       trackWaitlistValidationError('services', 'required');
+      isValid = false;
     }
 
     if (step === 4 && !formData.heardFrom) {
       newErrors.heardFrom = language === 'bn' ? 'যেকোনো একটি অপশন বেছে নিন' : 'Select an option';
       trackWaitlistValidationError('heardFrom', 'required');
+      isValid = false;
     }
 
     setErrors(newErrors);
-    return Object.keys(newErrors).length === 0;
+    return isValid;
   };
 
-  const handleNext = () => {
-    if (validateStep()) {
+  const handleNext = async () => {
+    const isValid = await validateStep();
+    if (isValid) {
       // Track step completion with relevant data
       const stepData: Record<string, any> = {};
       if (step === 1) stepData.has_phone = !!formData.phone;
@@ -455,8 +475,12 @@ const WaitlistPage: React.FC<WaitlistPageProps> = ({ isOpen, onClose, source }) 
                     {step < totalSteps ? (
                       <button
                         onClick={handleNext}
-                        className={`flex items-center gap-2 px-6 py-3 bg-brand-600 hover:bg-brand-700 text-white font-semibold rounded-full transition-all text-sm hover:scale-105 active:scale-95 ${language === 'bn' ? 'leading-relaxed' : ''}`}
+                        disabled={isCheckingEmail}
+                        className={`flex items-center gap-2 px-6 py-3 bg-brand-600 hover:bg-brand-700 disabled:opacity-70 disabled:hover:scale-100 text-white font-semibold rounded-full transition-all text-sm hover:scale-105 active:scale-95 ${language === 'bn' ? 'leading-relaxed' : ''}`}
                       >
+                        {isCheckingEmail ? (
+                          <span className="w-4 h-4 rounded-full border-2 border-white/20 border-t-white animate-spin mr-1" />
+                        ) : null}
                         {language === 'bn' ? 'পরবর্তী' : 'Continue'}
                         <ArrowRight className="w-4 h-4" />
                       </button>
