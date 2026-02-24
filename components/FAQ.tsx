@@ -33,7 +33,7 @@ const faqCategories = [
         qEn: "Can I access Somadhan from both mobile and desktop?",
         qBn: "মোবাইল ও ডেস্কটপ উভয় থেকেই কি ব্যবহার করা যাবে?",
         aEn: "Yes. Somadhan is designed to work smoothly on mobile phones, tablets, and desktop devices.",
-        aBn: "হ্যাঁ, সমাধান মোবাইল, ট্যাবলেট এবং ডেস্কটপ—সব ধরনের ডিভাইসেই স্বাচ্ছন্দ্যে ব্যবহার করা যায়।"
+        aBn: "হ্যাঁ, সমাধান মোবাইল, ট্যাবলেট এবং ডেস্কটপ—সব ধরনের ডিভাইসেই স্বাচ্ছন্দ্যে ব্যবহার করা যায় ।"
       },
     ]
   },
