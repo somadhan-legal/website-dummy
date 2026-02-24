@@ -30,7 +30,7 @@ const HowItWorks: React.FC = () => {
       label: language === 'bn' ? 'ম্যাচিং' : 'Match',
       title: language === 'bn' ? 'সেরা আইনজীবী খুঁজে নিন' : 'Find the best lawyers',
       desc: language === 'bn'
-        ? 'আপনার সমস্যার ধরন ও বাজেট অনুযায়ী যাচাইকৃত আইনজীবীদের একটি তালিকা দেখুন এবং সেরাজনকে বেছে নিন ।'
+        ? 'আপনার সমস্যার ধরন ও বাজেট অনুযায়ী যাচাইকৃত আইনজীবীদের একটি তালিকা দেখুন এবং সেরাজনকে বেছে নিন।'
         : 'See a list of verified lawyers based on your problem type and budget.',
       icon: Search,
     },
