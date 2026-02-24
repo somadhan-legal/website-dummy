@@ -11,7 +11,7 @@ const HowItWorks: React.FC = () => {
 
   useEffect(() => {
     if (isSectionInView) {
-      trackSectionView('process', language === 'bn' ? 'কিভাবে কাজ করে' : 'How It Works');
+      trackSectionView('process', language === 'bn' ? 'কিভাবে কাজ করে ' : 'How It Works');
     }
   }, [isSectionInView, language]);
 
