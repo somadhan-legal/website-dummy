@@ -18,7 +18,7 @@ const HowItWorks: React.FC = () => {
   const steps = [
     {
       num: '01',
-      label: language === 'bn' ? 'সমস্যা জানান ' : 'Describe',
+      label: language === 'bn' ? 'সমস্যা জানান' : 'Describe',
       title: language === 'bn' ? 'আপনার আইনি সমস্যাটি লিখুন' : 'Tell us your problem',
       desc: language === 'bn' 
         ? 'আপনার সমস্যাটি সহজ ভাষায় বর্ণনা করুন। আমাদের সিস্টেম স্বয়ংক্রিয়ভাবে আপনার জন্য উপযুক্ত আইনি বিভাগটি নির্বাচন করবে।'
@@ -30,7 +30,7 @@ const HowItWorks: React.FC = () => {
       label: language === 'bn' ? 'ম্যাচিং' : 'Match',
       title: language === 'bn' ? 'সেরা আইনজীবী খুঁজে নিন' : 'Find the best lawyers',
       desc: language === 'bn'
-        ? 'আপনার সমস্যার ধরন ও বাজেট অনুযায়ী যাচাইকৃত আইনজীবীদের একটি তালিকা দেখুন এবং সেরাজনকে বেছে নিন।'
+        ? 'আপনার সমস্যার ধরন ও বাজেট অনুযায়ী যাচাইকৃত আইনজীবীদের একটি তালিকা দেখুন এবং সেরাজনকে বেছে নিন ।'
         : 'See a list of verified lawyers based on your problem type and budget.',
       icon: Search,
     },
