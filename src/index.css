@@ -1,4 +1,5 @@
 @import "tailwindcss";
+@import url("https://fonts.googleapis.com/css2?family=Anek+Bangla:wght@100..800&display=swap");
 
 /* Playfair Display - English Headline */
 @font-face {
@@ -43,64 +44,6 @@
   font-display: swap;
 }
 
-/* Li Shadhinata 2.0 - Bengali Headline */
-@font-face {
-  font-family: "Li Shadhinata 2.0";
-  src: url('/fonts/bangla/Li Shadhinata 2.0 Unicode.ttf') format('truetype');
-  font-weight: normal;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: "Li Shadhinata 2.0";
-  src: url('/fonts/bangla/Li Shadhinata 2.0 Unicode Italic.ttf') format('truetype');
-  font-weight: normal;
-  font-style: italic;
-  font-display: swap;
-}
-
-/* Li Ador Noirrit - Bengali Primary */
-@font-face {
-  font-family: "Li Ador Noirrit";
-  src: url('/fonts/bangla/Li Ador Noirrit ExtraLight.ttf') format('truetype');
-  font-weight: 200;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: "Li Ador Noirrit";
-  src: url('/fonts/bangla/Li Ador Noirrit Light.ttf') format('truetype');
-  font-weight: 300;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: "Li Ador Noirrit";
-  src: url('/fonts/bangla/Li Ador Noirrit Regular.ttf') format('truetype');
-  font-weight: 400;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: "Li Ador Noirrit";
-  src: url('/fonts/bangla/Li Ador Noirrit SemiBold.ttf') format('truetype');
-  font-weight: 600;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: "Li Ador Noirrit";
-  src: url('/fonts/bangla/Li Ador Noirrit Bold.ttf') format('truetype');
-  font-weight: 700;
-  font-style: normal;
-  font-display: swap;
-}
-
 /* Custom theme variables for Tailwind v4 */
 @theme {
   /* Brand colors */
@@ -127,9 +70,9 @@
   --color-slate-850: #1e293b;
 
   /* Fonts */
-  --font-serif: "Playfair Display", "Li Shadhinata 2.0", serif;
+  --font-serif: "Playfair Display", "Anek Bangla", serif;
   --font-sans: "Open Sans", "Inter", sans-serif;
-  --font-bengali: "Li Ador Noirrit", "Anek Bangla", sans-serif;
+  --font-bengali: "Anek Bangla", sans-serif;
 
   /* Custom shadows */
   --shadow-glass: 0 4px 30px rgba(0, 0, 0, 0.1);
@@ -174,7 +117,7 @@ body {
 
 /* Global Bengali Font & Spacing Fixes */
 html[lang="bn"] body {
-  font-family: "Li Ador Noirrit", "Anek Bangla", sans-serif;
+  font-family: "Anek Bangla", sans-serif;
 }
 
 /* Explicitly target headings and serif elements for the brand headline font */
@@ -182,12 +125,12 @@ html[lang="bn"] .font-serif,
 html[lang="bn"] h1,
 html[lang="bn"] h2,
 html[lang="bn"] h3 {
-  font-family: "Li Shadhinata 2.0", serif !important;
+  font-family: "Anek Bangla", sans-serif !important;
   font-weight: 500 !important;
 }
 
 [lang="bn"] .font-bengali {
-  font-family: "Li Ador Noirrit", "Anek Bangla", sans-serif;
+  font-family: "Anek Bangla", sans-serif;
 }
 
 /* Base spacing for Bengali sentences */
