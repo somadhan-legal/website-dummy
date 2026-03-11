@@ -1,4 +1,5 @@
 import React, { useState, useEffect, lazy, Suspense } from 'react';
+import { SpeedInsights } from '@vercel/speed-insights/react';
 import { LanguageProvider, useLanguage } from './contexts/LanguageContext';
 import Navbar from './components/Navbar';
 import HeroLanding from './components/HeroLanding';
@@ -95,6 +96,8 @@ const AppContent: React.FC = () => {
           </svg>
         </button>
       )}
+
+      <SpeedInsights />
     </div>
   );
 };
