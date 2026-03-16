@@ -1,7 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowLeft, ChevronUp, ChevronRight, AlertCircle, CheckCircle2, Loader2 } from 'lucide-react';
+import { ArrowLeft, ChevronUp, ChevronRight } from 'lucide-react';
 import { useLanguage } from '../contexts/LanguageContext';
+import AccountDeletionModal from './AccountDeletionModal';
 
 const SUPABASE_URL = 'https://jlltjzwukpsuykfdixlx.supabase.co';
 const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImpsbHRqend1a3BzdXlrZmRpeGx4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njc2MTMwNDIsImV4cCI6MjA4MzE4OTA0Mn0.-HEQ8V4qElOtP4VzuAOS24Oqc9P7wZUvmE7lUoO7HYo';
@@ -26,14 +27,8 @@ const PrivacyPolicyPage: React.FC = () => {
   const [activeSection, setActiveSection] = useState('collection');
   const [showBackToTop, setShowBackToTop] = useState(false);
   const [isTocOpen, setIsTocOpen] = useState(false);
+  const [isDeletionModalOpen, setIsDeletionModalOpen] = useState(false);
   const sectionRefs = useRef<Record<string, HTMLElement | null>>({});
-
-  // Account deletion form state
-  const [deletionForm, setDeletionForm] = useState({ fullName: '', nidNumber: '', phone: '', reason: '' });
-  const [deletionErrors, setDeletionErrors] = useState<Record<string, string>>({});
-  const [deletionSubmitting, setDeletionSubmitting] = useState(false);
-  const [deletionSuccess, setDeletionSuccess] = useState(false);
-  const [deletionError, setDeletionError] = useState<string | null>(null);
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -42,6 +37,16 @@ const PrivacyPolicyPage: React.FC = () => {
   useEffect(() => {
     const handleScroll = () => {
       setShowBackToTop(window.scrollY > 400);
+      
+      // Check if we're at the bottom of the page
+      const isAtBottom = window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 50;
+
+      if (isAtBottom) {
+        // Force the last section to be active when at the bottom
+        setActiveSection(sections[sections.length - 1].id);
+        return;
+      }
+      
       const scrollPosition = window.scrollY + 120;
       for (let i = sections.length - 1; i >= 0; i--) {
         const el = sectionRefs.current[sections[i].id];
@@ -61,60 +66,6 @@ const PrivacyPolicyPage: React.FC = () => {
       window.scrollTo({ top: el.offsetTop - 100, behavior: 'smooth' });
     }
     setIsTocOpen(false);
-  };
-
-  const validateDeletionForm = () => {
-    const errors: Record<string, string> = {};
-    if (!deletionForm.fullName.trim()) {
-      errors.fullName = bn ? 'নাম আবশ্যক' : 'Name is required';
-    }
-    if (!deletionForm.nidNumber.trim()) {
-      errors.nidNumber = bn ? 'NID নম্বর আবশ্যক' : 'NID number is required';
-    } else if (!/^\d{10,17}$/.test(deletionForm.nidNumber.trim())) {
-      errors.nidNumber = bn ? 'সঠিক NID নম্বর দিন (১০-১৭ সংখ্যা)' : 'Enter a valid NID number (10-17 digits)';
-    }
-    if (!deletionForm.phone.trim()) {
-      errors.phone = bn ? 'ফোন নম্বর আবশ্যক' : 'Phone number is required';
-    } else if (!/^(\+?880)?0?1[3-9]\d{8}$/.test(deletionForm.phone.trim().replace(/[\s-]/g, ''))) {
-      errors.phone = bn ? 'সঠিক বাংলাদেশি ফোন নম্বর দিন' : 'Enter a valid Bangladeshi phone number';
-    }
-    setDeletionErrors(errors);
-    return Object.keys(errors).length === 0;
-  };
-
-  const handleDeletionSubmit = async () => {
-    if (!validateDeletionForm()) return;
-
-    setDeletionSubmitting(true);
-    setDeletionError(null);
-
-    try {
-      const response = await fetch(`${SUPABASE_URL}/rest/v1/account_deletion_requests`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'apikey': SUPABASE_ANON_KEY,
-          'Authorization': `Bearer ${SUPABASE_ANON_KEY}`,
-          'Prefer': 'return=minimal',
-        },
-        body: JSON.stringify({
-          full_name: deletionForm.fullName.trim(),
-          nid_number: deletionForm.nidNumber.trim(),
-          phone: deletionForm.phone.trim(),
-          reason: deletionForm.reason.trim() || null,
-        }),
-      });
-
-      if (!response.ok) {
-        throw new Error('submission_failed');
-      }
-
-      setDeletionSuccess(true);
-    } catch {
-      setDeletionError(bn ? 'জমা দিতে সমস্যা হয়েছে। অনুগ্রহ করে আবার চেষ্টা করুন।' : 'Failed to submit request. Please try again.');
-    } finally {
-      setDeletionSubmitting(false);
-    }
   };
 
   const bn = language === 'bn';
@@ -208,8 +159,8 @@ const PrivacyPolicyPage: React.FC = () => {
                 {/* Introduction */}
                 <p className="text-slate-600 leading-relaxed">
                   {bn
-                    ? 'সমাধান টেকনোলজিস লিমিটেড ("সমাধান", "আমরা", "আমাদের") আপনার গোপনীয়তা রক্ষায় প্রতিশ্রুতিবদ্ধ। এই গোপনীয়তা নীতি ("নীতি") ব্যাখ্যা করে কিভাবে আমরা আমাদের ওয়েবসাইট (somadhan.com), মোবাইল অ্যাপ্লিকেশন এবং সংশ্লিষ্ট সেবাসমূহ (সম্মিলিতভাবে "প্ল্যাটফর্ম") ব্যবহারের সময় আপনার তথ্য সংগ্রহ, ব্যবহার, সংরক্ষণ এবং সুরক্ষিত রাখি। এই নীতি বাংলাদেশের সাইবার নিরাপত্তা আইন ২০২৩ এবং প্রযোজ্য আন্তর্জাতিক ডেটা সুরক্ষা মানদণ্ডের সাথে সামঞ্জস্যপূর্ণ।'
-                    : 'Somadhan Technologies Limited ("Somadhan," "we," "our," "us") is committed to protecting your privacy. This Privacy Policy ("Policy") explains how we collect, use, store, and protect your information when you use our website (somadhan.com), mobile applications, and related services (collectively, the "Platform"). This Policy is designed in compliance with the Cyber Security Act 2023 of Bangladesh and applicable international data protection standards.'}
+                    ? 'সমাধান লিগ্যাল লিমিটেড ("সমাধান", "আমরা", "আমাদের") আপনার গোপনীয়তা রক্ষায় প্রতিশ্রুতিবদ্ধ। এই গোপনীয়তা নীতি ("নীতি") ব্যাখ্যা করে কিভাবে আমরা আমাদের ওয়েবসাইট (somadhan.com), মোবাইল অ্যাপ্লিকেশন এবং সংশ্লিষ্ট সেবাসমূহ (সম্মিলিতভাবে "প্ল্যাটফর্ম") ব্যবহারের সময় আপনার তথ্য সংগ্রহ, ব্যবহার, সংরক্ষণ এবং সুরক্ষিত রাখি। এই নীতি বাংলাদেশের সাইবার নিরাপত্তা আইন ২০২৩ এবং প্রযোজ্য আন্তর্জাতিক ডেটা সুরক্ষা মানদণ্ডের সাথে সামঞ্জস্যপূর্ণ।'
+                    : 'Somadhan Legal Limited ("Somadhan," "we," "our," "us") is committed to protecting your privacy. This Privacy Policy ("Policy") explains how we collect, use, store, and protect your information when you use our website (somadhan.com), mobile applications, and related services (collectively, the "Platform"). This Policy is designed in compliance with the Cyber Security Act 2023 of Bangladesh and applicable international data protection standards.'}
                 </p>
 
                 {/* Section 1 */}
@@ -226,7 +177,7 @@ const PrivacyPolicyPage: React.FC = () => {
                 <h3 className={`text-lg text-slate-800 mt-4 mb-2 ${bn ? 'leading-[1.4]' : ''}`}>
                   {bn ? 'ক. ব্যক্তিগত তথ্য' : 'a. Personal Information'}
                 </h3>
-                <ul className="text-slate-600 space-y-2">
+                <ul className="text-slate-600 space-y-2 list-disc list-inside marker:text-slate-400">
                   <li>{bn ? 'পুরো নাম' : 'Full name'}</li>
                   <li>{bn ? 'ইমেইল ঠিকানা' : 'Email address'}</li>
                   <li>{bn ? 'ফোন নম্বর' : 'Phone number'}</li>
@@ -237,7 +188,7 @@ const PrivacyPolicyPage: React.FC = () => {
                 <h3 className={`text-lg text-slate-800 mt-4 mb-2 ${bn ? 'leading-[1.4]' : ''}`}>
                   {bn ? 'খ. স্বয়ংক্রিয়ভাবে সংগৃহীত তথ্য' : 'b. Automatically Collected Information'}
                 </h3>
-                <ul className="text-slate-600 space-y-2">
+                <ul className="text-slate-600 space-y-2 list-disc list-inside marker:text-slate-400">
                   <li>{bn ? 'IP ঠিকানা ও ডিভাইসের তথ্য' : 'IP address and device information'}</li>
                   <li>{bn ? 'ব্রাউজার ধরন ও অপারেটিং সিস্টেম' : 'Browser type and operating system'}</li>
                   <li>{bn ? 'প্ল্যাটফর্ম ব্যবহারের ধরন ও পরিসংখ্যান' : 'Platform usage patterns and statistics'}</li>
@@ -246,7 +197,7 @@ const PrivacyPolicyPage: React.FC = () => {
                 <h3 className={`text-lg text-slate-800 mt-4 mb-2 ${bn ? 'leading-[1.4]' : ''}`}>
                   {bn ? 'গ. আইনি সেবা সম্পর্কিত তথ্য' : 'c. Legal Service Information'}
                 </h3>
-                <ul className="text-slate-600 space-y-2">
+                <ul className="text-slate-600 space-y-2 list-disc list-inside marker:text-slate-400">
                   <li>{bn ? 'আইনি সমস্যার বিবরণ' : 'Details of legal issues'}</li>
                   <li>{bn ? 'আইনজীবীর সাথে যোগাযোগের তথ্য' : 'Communication records with lawyers'}</li>
                   <li>{bn ? 'আপলোড করা নথিপত্র' : 'Uploaded documents'}</li>
@@ -264,10 +215,10 @@ const PrivacyPolicyPage: React.FC = () => {
                 <p className="text-slate-600 mb-3">
                   {bn ? 'আমরা আপনার তথ্য নিম্নলিখিত উদ্দেশ্যে ব্যবহার করি:' : 'We use your information for the following purposes:'}
                 </p>
-                <ul className="text-slate-600 space-y-2">
+                <ul className="text-slate-600 space-y-2 list-disc list-inside marker:text-slate-400">
                   <li>{bn ? 'আপনাকে সেবা প্রদান ও আইনজীবীদের সাথে সংযুক্ত করা' : 'Providing services and connecting you with lawyers'}</li>
                   <li>{bn ? 'আপনার অ্যাকাউন্ট তৈরি, রক্ষণাবেক্ষণ ও যাচাই' : 'Creating, maintaining, and verifying your account'}</li>
-                  <li>{bn ? 'পেমেন্ট প্রক্রিয়াকরণ ও ওয়ালেট ব্যবস্থাপনা' : 'Processing payments and managing wallet'}</li>
+                  <li>{bn ? 'পেমেন্ট প্রক্রিয়াকরণ ও লেনদেন ব্যবস্থাপনা' : 'Processing payments and transaction management'}</li>
                   <li>{bn ? 'সেবার মান উন্নয়ন ও ব্যবহারকারীর অভিজ্ঞতা উন্নতি' : 'Improving service quality and user experience'}</li>
                   <li>{bn ? 'নিরাপত্তা নিশ্চিতকরণ ও জালিয়াতি প্রতিরোধ' : 'Ensuring security and preventing fraud'}</li>
                   <li>{bn ? 'আইনি বাধ্যবাধকতা ও নিয়ন্ত্রক প্রয়োজনীয়তা মেনে চলা' : 'Complying with legal obligations and regulatory requirements'}</li>
@@ -288,7 +239,7 @@ const PrivacyPolicyPage: React.FC = () => {
                     ? 'আমরা আপনার ব্যক্তিগত তথ্য বিক্রি করি না। তবে নিম্নলিখিত ক্ষেত্রে তথ্য শেয়ার করা হতে পারে:'
                     : 'We do not sell your personal information. However, we may share information in the following circumstances:'}
                 </p>
-                <ul className="text-slate-600 space-y-2">
+                <ul className="text-slate-600 space-y-2 list-disc list-inside marker:text-slate-400">
                   <li><strong>{bn ? 'আইনজীবীদের সাথে:' : 'With Lawyers:'}</strong> {bn ? 'সেবা প্রদানের জন্য আপনার নির্বাচিত আইনজীবীর সাথে প্রয়োজনীয় তথ্য শেয়ার করা হয়' : 'Necessary information is shared with your selected lawyer to provide services'}</li>
                   <li><strong>{bn ? 'সেবা প্রদানকারীদের সাথে:' : 'With Service Providers:'}</strong> {bn ? 'পেমেন্ট প্রক্রিয়াকরণ, হোস্টিং, অ্যানালিটিক্স ইত্যাদি তৃতীয় পক্ষের সেবা প্রদানকারীদের সাথে' : 'Payment processing, hosting, analytics, and other third-party service providers'}</li>
                   <li><strong>{bn ? 'আইনি বাধ্যবাধকতায়:' : 'Legal Obligations:'}</strong> {bn ? 'আদালতের আদেশ, সরকারি নির্দেশনা বা আইন প্রয়োগকারী সংস্থার অনুরোধে' : 'In response to court orders, government directives, or law enforcement requests'}</li>
@@ -309,7 +260,7 @@ const PrivacyPolicyPage: React.FC = () => {
                     ? 'আমরা আপনার তথ্য সুরক্ষিত রাখতে শিল্প-মানের নিরাপত্তা ব্যবস্থা গ্রহণ করেছি:'
                     : 'We implement industry-standard security measures to protect your information:'}
                 </p>
-                <ul className="text-slate-600 space-y-2">
+                <ul className="text-slate-600 space-y-2 list-disc list-inside marker:text-slate-400">
                   <li>{bn ? 'ট্রান্সমিশন ও স্টোরেজে TLS/SSL এনক্রিপশন' : 'TLS/SSL encryption for data in transit and at rest'}</li>
                   <li>{bn ? 'সুরক্ষিত সার্ভার অবকাঠামো ও ফায়ারওয়াল' : 'Secure server infrastructure with firewalls'}</li>
                   <li>{bn ? 'নিয়মিত নিরাপত্তা অডিট ও মূল্যায়ন' : 'Regular security audits and assessments'}</li>
@@ -347,7 +298,7 @@ const PrivacyPolicyPage: React.FC = () => {
                 <p className="text-slate-600 mb-3">
                   {bn ? 'আপনার নিম্নলিখিত অধিকার রয়েছে:' : 'You have the following rights regarding your personal data:'}
                 </p>
-                <ul className="text-slate-600 space-y-2">
+                <ul className="text-slate-600 space-y-2 list-disc list-inside marker:text-slate-400">
                   <li><strong>{bn ? 'অ্যাক্সেসের অধিকার:' : 'Right to Access:'}</strong> {bn ? 'আমাদের কাছে সংরক্ষিত আপনার ব্যক্তিগত তথ্যের একটি অনুলিপি অনুরোধ করতে পারেন' : 'Request a copy of your personal data held by us'}</li>
                   <li><strong>{bn ? 'সংশোধনের অধিকার:' : 'Right to Correction:'}</strong> {bn ? 'ভুল বা অসম্পূর্ণ তথ্য সংশোধন বা হালনাগাদের অনুরোধ করতে পারেন' : 'Request correction or update of inaccurate or incomplete data'}</li>
                   <li><strong>{bn ? 'মুছে ফেলার অধিকার:' : 'Right to Deletion:'}</strong> {bn ? 'নির্দিষ্ট শর্ত সাপেক্ষে আপনার তথ্য মুছে ফেলার অনুরোধ করতে পারেন' : 'Request deletion of your data subject to certain conditions'}</li>
@@ -374,7 +325,7 @@ const PrivacyPolicyPage: React.FC = () => {
                     ? 'আমরা ওয়েবসাইটের কার্যকারিতা উন্নত করতে এবং ব্যবহারকারীর অভিজ্ঞতা পরিমাপ করতে কুকিজ ও অ্যানালিটিক্স টুল ব্যবহার করি:'
                     : 'We use cookies and analytics tools to improve website functionality and measure user experience:'}
                 </p>
-                <ul className="text-slate-600 space-y-2">
+                <ul className="text-slate-600 space-y-2 list-disc list-inside marker:text-slate-400">
                   <li><strong>{bn ? 'অত্যাবশ্যকীয় কুকিজ:' : 'Essential Cookies:'}</strong> {bn ? 'ওয়েবসাইটের মৌলিক কার্যকারিতার জন্য প্রয়োজনীয়' : 'Required for basic website functionality'}</li>
                   <li><strong>{bn ? 'অ্যানালিটিক্স কুকিজ:' : 'Analytics Cookies:'}</strong> {bn ? 'ওয়েবসাইটের ব্যবহার বুঝতে Google Analytics ব্যবহৃত হয়' : 'Google Analytics is used to understand website usage'}</li>
                   <li><strong>{bn ? 'পারফরম্যান্স কুকিজ:' : 'Performance Cookies:'}</strong> {bn ? 'ওয়েবসাইটের গতি ও কার্যক্ষমতা পরিমাপ করতে' : 'To measure website speed and performance'}</li>
@@ -421,155 +372,29 @@ const PrivacyPolicyPage: React.FC = () => {
                 >
                   {bn ? '১০. অ্যাকাউন্ট মুছে ফেলা' : '10. Account Deletion'}
                 </h2>
-                <p className="text-slate-600 mb-4">
+                <p className="text-slate-600 mb-6">
                   {bn
                     ? 'আপনি যেকোনো সময় আপনার অ্যাকাউন্ট মুছে ফেলার অনুরোধ করতে পারেন। অনুরোধ জমা দেওয়ার পর আমরা আপনার পরিচয় যাচাই করব এবং ৭ কার্যদিবসের মধ্যে আপনার অ্যাকাউন্ট ও সংশ্লিষ্ট তথ্য মুছে ফেলা শুরু করব। মুছে ফেলার প্রক্রিয়া চলাকালীন আপনি অনুরোধটি প্রত্যাহার করতে পারেন। আইনি বাধ্যবাধকতার জন্য প্রয়োজনীয় কিছু তথ্য নির্ধারিত সময়কাল পর্যন্ত সংরক্ষিত থাকতে পারে।'
                     : 'You may request deletion of your account at any time. After submitting a request, we will verify your identity and begin deleting your account and associated data within 7 business days. You may withdraw the request during the processing period. Certain information required for legal obligations may be retained for the designated retention period.'}
                 </p>
 
-                {/* Account Deletion Form */}
-                <div className="not-prose">
-                  <div className="bg-gradient-to-br from-slate-50 to-brand-50/30 rounded-2xl border border-slate-200 p-6 sm:p-8">
-                    <h3 className={`font-serif text-xl text-slate-900 mb-2 ${bn ? 'leading-[1.4]' : ''}`}>
-                      {bn ? 'অ্যাকাউন্ট মুছে ফেলার অনুরোধ' : 'Request Account Deletion'}
+                <div className="not-prose bg-slate-50 border border-slate-100 rounded-2xl p-6 sm:p-8 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6">
+                  <div>
+                    <h3 className={`font-serif text-lg text-slate-900 mb-2 ${bn ? 'leading-[1.4]' : ''}`}>
+                      {bn ? 'আপনার অ্যাকাউন্ট মুছে ফেলতে চান?' : 'Want to delete your account?'}
                     </h3>
-                    <p className="text-slate-500 text-sm mb-6">
+                    <p className="text-slate-500 text-sm max-w-md">
                       {bn
-                        ? 'আপনার অ্যাকাউন্ট মুছে ফেলতে নিচের ফর্মটি পূরণ করুন। আমরা ৭ কার্যদিবসের মধ্যে আপনার অনুরোধ প্রক্রিয়া করব।'
-                        : 'Fill out the form below to request account deletion. We will process your request within 7 business days.'}
+                        ? 'আপনার অ্যাকাউন্ট ও ব্যক্তিগত তথ্য স্থায়ীভাবে মুছে ফেলার জন্য একটি অনুরোধ জমা দিন।'
+                        : 'Submit a request to permanently delete your account and associated personal data.'}
                     </p>
-
-                    {deletionSuccess ? (
-                      <div className="text-center py-8">
-                        <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                          <CheckCircle2 className="w-8 h-8 text-green-600" />
-                        </div>
-                        <h4 className={`font-serif text-xl text-slate-900 mb-2 ${bn ? 'leading-[1.4]' : ''}`}>
-                          {bn ? 'অনুরোধ সফলভাবে জমা হয়েছে' : 'Request Submitted Successfully'}
-                        </h4>
-                        <p className="text-slate-500 text-sm max-w-md mx-auto mb-2">
-                          {bn
-                            ? 'আপনার অ্যাকাউন্ট মুছে ফেলার অনুরোধ গৃহীত হয়েছে। আমরা আপনার পরিচয় যাচাইয়ের পর ৭ কার্যদিবসের মধ্যে প্রক্রিয়া সম্পন্ন করব।'
-                            : 'Your account deletion request has been received. We will complete the process within 7 business days after verifying your identity.'}
-                        </p>
-                        <p className="text-slate-400 text-xs">
-                          {bn
-                            ? 'প্রক্রিয়া চলাকালীন আপনি info@somadhan.com-এ ইমেইল করে অনুরোধটি প্রত্যাহার করতে পারেন।'
-                            : 'You may withdraw this request by emailing info@somadhan.com during the processing period.'}
-                        </p>
-                      </div>
-                    ) : (
-                      <div className="space-y-4">
-                        {/* Full Name */}
-                        <div>
-                          <label className="block text-sm font-medium text-slate-700 mb-1.5">
-                            {bn ? 'পুরো নাম' : 'Full Name'} <span className="text-red-500">*</span>
-                          </label>
-                          <input
-                            type="text"
-                            value={deletionForm.fullName}
-                            onChange={(e) => { setDeletionForm(f => ({ ...f, fullName: e.target.value })); setDeletionErrors(e2 => ({ ...e2, fullName: '' })); }}
-                            placeholder={bn ? 'সরকারি পরিচয়পত্র অনুযায়ী আপনার নাম' : 'Your name as per government ID'}
-                            className={`w-full px-4 py-3 rounded-xl border ${deletionErrors.fullName ? 'border-red-300 bg-red-50' : 'border-slate-200 bg-white'} text-slate-900 text-sm placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-brand-500/20 focus:border-brand-500 transition-all`}
-                          />
-                          {deletionErrors.fullName && (
-                            <p className="flex items-center gap-1 text-red-500 text-xs mt-1">
-                              <AlertCircle className="w-3 h-3" /> {deletionErrors.fullName}
-                            </p>
-                          )}
-                        </div>
-
-                        {/* NID Number */}
-                        <div>
-                          <label className="block text-sm font-medium text-slate-700 mb-1.5">
-                            {bn ? 'জাতীয় পরিচয়পত্র (NID) নম্বর' : 'National ID (NID) Number'} <span className="text-red-500">*</span>
-                          </label>
-                          <input
-                            type="text"
-                            value={deletionForm.nidNumber}
-                            onChange={(e) => { setDeletionForm(f => ({ ...f, nidNumber: e.target.value })); setDeletionErrors(e2 => ({ ...e2, nidNumber: '' })); }}
-                            placeholder={bn ? 'আপনার ১০ বা ১৭ সংখ্যার NID নম্বর' : 'Your 10 or 17 digit NID number'}
-                            className={`w-full px-4 py-3 rounded-xl border ${deletionErrors.nidNumber ? 'border-red-300 bg-red-50' : 'border-slate-200 bg-white'} text-slate-900 text-sm placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-brand-500/20 focus:border-brand-500 transition-all`}
-                          />
-                          {deletionErrors.nidNumber && (
-                            <p className="flex items-center gap-1 text-red-500 text-xs mt-1">
-                              <AlertCircle className="w-3 h-3" /> {deletionErrors.nidNumber}
-                            </p>
-                          )}
-                        </div>
-
-                        {/* Phone Number */}
-                        <div>
-                          <label className="block text-sm font-medium text-slate-700 mb-1.5">
-                            {bn ? 'ফোন নম্বর' : 'Phone Number'} <span className="text-red-500">*</span>
-                          </label>
-                          <input
-                            type="tel"
-                            value={deletionForm.phone}
-                            onChange={(e) => { setDeletionForm(f => ({ ...f, phone: e.target.value })); setDeletionErrors(e2 => ({ ...e2, phone: '' })); }}
-                            placeholder={bn ? '+৮৮০ ১XXX-XXXXXX' : '+880 1XXX-XXXXXX'}
-                            className={`w-full px-4 py-3 rounded-xl border ${deletionErrors.phone ? 'border-red-300 bg-red-50' : 'border-slate-200 bg-white'} text-slate-900 text-sm placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-brand-500/20 focus:border-brand-500 transition-all`}
-                          />
-                          {deletionErrors.phone && (
-                            <p className="flex items-center gap-1 text-red-500 text-xs mt-1">
-                              <AlertCircle className="w-3 h-3" /> {deletionErrors.phone}
-                            </p>
-                          )}
-                        </div>
-
-                        {/* Reason (Optional) */}
-                        <div>
-                          <label className="block text-sm font-medium text-slate-700 mb-1.5">
-                            {bn ? 'কারণ (ঐচ্ছিক)' : 'Reason (Optional)'}
-                          </label>
-                          <textarea
-                            value={deletionForm.reason}
-                            onChange={(e) => setDeletionForm(f => ({ ...f, reason: e.target.value }))}
-                            placeholder={bn ? 'অ্যাকাউন্ট মুছে ফেলার কারণ (ঐচ্ছিক)' : 'Reason for account deletion (optional)'}
-                            rows={3}
-                            className="w-full px-4 py-3 rounded-xl border border-slate-200 bg-white text-slate-900 text-sm placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-brand-500/20 focus:border-brand-500 transition-all resize-none"
-                          />
-                        </div>
-
-                        {/* Notice */}
-                        <div className="bg-amber-50 border border-amber-200 rounded-xl p-4">
-                          <p className="text-amber-800 text-sm font-medium mb-1">
-                            {bn ? 'অনুগ্রহ করে মনে রাখবেন' : 'Please note'}
-                          </p>
-                          <ul className="text-amber-700 text-xs space-y-1.5">
-                            <li>• {bn ? 'অনুরোধ জমা দেওয়ার পর ৭ কার্যদিবসের মধ্যে প্রক্রিয়া শুরু হবে' : 'Processing will begin within 7 business days of submission'}</li>
-                            <li>• {bn ? 'পরিচয় যাচাইয়ের জন্য আমরা আপনার সাথে যোগাযোগ করতে পারি' : 'We may contact you for identity verification'}</li>
-                            <li>• {bn ? 'চলমান সেবা বা অমীমাংসিত পেমেন্ট থাকলে তা আগে নিষ্পত্তি করতে হবে' : 'Active services or pending payments must be resolved first'}</li>
-                            <li>• {bn ? 'মুছে ফেলা সম্পন্ন হলে পূর্বাবস্থায় ফেরানো সম্ভব নয়' : 'Deletion is irreversible once completed'}</li>
-                          </ul>
-                        </div>
-
-                        {/* Error Message */}
-                        {deletionError && (
-                          <div className="flex items-center gap-2 p-3 bg-red-50 border border-red-200 rounded-xl">
-                            <AlertCircle className="w-4 h-4 text-red-500 shrink-0" />
-                            <p className="text-red-600 text-sm">{deletionError}</p>
-                          </div>
-                        )}
-
-                        {/* Submit Button */}
-                        <button
-                          onClick={handleDeletionSubmit}
-                          disabled={deletionSubmitting}
-                          className="w-full flex items-center justify-center gap-2 px-6 py-3.5 bg-red-600 hover:bg-red-700 disabled:bg-red-400 text-white rounded-xl font-semibold text-sm transition-all hover:scale-[1.01] active:scale-[0.99]"
-                        >
-                          {deletionSubmitting ? (
-                            <>
-                              <Loader2 className="w-4 h-4 animate-spin" />
-                              {bn ? 'জমা হচ্ছে...' : 'Submitting...'}
-                            </>
-                          ) : (
-                            bn ? 'অ্যাকাউন্ট মুছে ফেলার অনুরোধ জমা দিন' : 'Submit Account Deletion Request'
-                          )}
-                        </button>
-                      </div>
-                    )}
                   </div>
+                  <button
+                    onClick={() => setIsDeletionModalOpen(true)}
+                    className="shrink-0 px-6 py-3 bg-red-50 hover:bg-red-100 text-red-600 font-medium text-sm rounded-xl transition-colors border border-red-100"
+                  >
+                    {bn ? 'অ্যাকাউন্ট মুছে ফেলার অনুরোধ' : 'Request Account Deletion'}
+                  </button>
                 </div>
 
                 {/* Section 11 */}
@@ -601,7 +426,7 @@ const PrivacyPolicyPage: React.FC = () => {
                 </p>
                 <div className="bg-slate-50 rounded-xl p-5 border border-slate-100 not-prose">
                   <p className="font-semibold text-slate-900 mb-2">
-                    {bn ? 'সমাধান টেকনোলজিস লিমিটেড' : 'Somadhan Technologies Limited'}
+                    {bn ? 'সমাধান লিগ্যাল লিমিটেড' : 'Somadhan Legal Limited'}
                   </p>
                   <div className="space-y-1 text-slate-600 text-sm">
                     <p>{bn ? 'ইমেইল: info@somadhan.com' : 'Email: info@somadhan.com'}</p>
@@ -648,6 +473,12 @@ const PrivacyPolicyPage: React.FC = () => {
           <ChevronUp className="w-5 h-5" />
         </button>
       )}
+
+      {/* Account Deletion Modal */}
+      <AccountDeletionModal 
+        isOpen={isDeletionModalOpen} 
+        onClose={() => setIsDeletionModalOpen(false)} 
+      />
     </div>
   );
 };

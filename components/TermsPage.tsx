@@ -35,6 +35,15 @@ const TermsPage: React.FC = () => {
     const handleScroll = () => {
       setShowBackToTop(window.scrollY > 400);
 
+      // Check if we're at the bottom of the page
+      const isAtBottom = window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 50;
+
+      if (isAtBottom) {
+        // Force the last section to be active when at the bottom
+        setActiveSection(sections[sections.length - 1].id);
+        return;
+      }
+
       const scrollPosition = window.scrollY + 120;
       for (let i = sections.length - 1; i >= 0; i--) {
         const el = sectionRefs.current[sections[i].id];
@@ -151,8 +160,8 @@ const TermsPage: React.FC = () => {
                 {/* Introduction */}
                 <p className={`text-slate-600 leading-relaxed ${bn ? '' : ''}`}>
                   {bn
-                    ? 'সমাধান-এ আপনাকে স্বাগতম। সমাধান টেকনোলজিস লিমিটেড ("সমাধান", "আমরা", "আমাদের") বাংলাদেশে নিবন্ধিত একটি প্রযুক্তি কোম্পানি যা ডিজিটাল আইনি সেবা প্রদান করে। এই শর্তাবলী ("শর্তাবলী") আপনার এবং সমাধান-এর মধ্যে একটি আইনত বাধ্যতামূলক চুক্তি গঠন করে। আমাদের ওয়েবসাইট (somadhan.com), মোবাইল অ্যাপ্লিকেশন এবং সংশ্লিষ্ট সেবাসমূহ (সম্মিলিতভাবে "প্ল্যাটফর্ম") ব্যবহার করার আগে অনুগ্রহ করে এই শর্তাবলী মনোযোগ সহকারে পড়ুন।'
-                    : 'Welcome to Somadhan. Somadhan Technologies Limited ("Somadhan," "we," "our," "us") is a technology company registered in Bangladesh that provides digital legal services. These Terms and Conditions ("Terms") constitute a legally binding agreement between you and Somadhan. Please read these Terms carefully before using our website (somadhan.com), mobile applications, and related services (collectively, the "Platform").'}
+                    ? 'সমাধান-এ আপনাকে স্বাগতম। সমাধান লিগ্যাল লিমিটেড ("সমাধান", "আমরা", "আমাদের") বাংলাদেশে নিবন্ধিত একটি আইনি প্রযুক্তি কোম্পানি যা ডিজিটাল আইনি সেবা প্রদান করে। এই শর্তাবলী ("শর্তাবলী") আপনার এবং সমাধান-এর মধ্যে একটি আইনত বাধ্যতামূলক চুক্তি গঠন করে। আমাদের ওয়েবসাইট (somadhan.com), মোবাইল অ্যাপ্লিকেশন এবং সংশ্লিষ্ট সেবাসমূহ (সম্মিলিতভাবে "প্ল্যাটফর্ম") ব্যবহার করার আগে অনুগ্রহ করে এই শর্তাবলী মনোযোগ সহকারে পড়ুন।'
+                    : 'Welcome to Somadhan. Somadhan Legal Limited ("Somadhan," "we," "our," "us") is a legal technology company registered in Bangladesh that provides digital legal services. These Terms and Conditions ("Terms") constitute a legally binding agreement between you and Somadhan. Please read these Terms carefully before using our website (somadhan.com), mobile applications, and related services (collectively, the "Platform").'}
                 </p>
 
                 {/* Section 1 */}
@@ -196,7 +205,7 @@ const TermsPage: React.FC = () => {
                     ? 'সমাধান একটি প্রযুক্তি-ভিত্তিক প্ল্যাটফর্ম যা ব্যবহারকারীদের যাচাইকৃত আইনজীবীদের সাথে সংযুক্ত করে। আমাদের সেবাসমূহের মধ্যে রয়েছে:'
                     : 'Somadhan is a technology-enabled platform that connects users with verified lawyers. Our services include:'}
                 </p>
-                <ul className="text-slate-600 space-y-2">
+                <ul className="text-slate-600 space-y-2 list-disc list-inside marker:text-slate-400">
                   <li>{bn ? 'যাচাইকৃত আইনজীবীদের সাথে অডিও ও ভিডিও কলের মাধ্যমে পরামর্শ' : 'Audio and video consultations with verified lawyers'}</li>
                   <li>{bn ? 'আইনি বিভাগ অনুযায়ী আইনজীবী অনুসন্ধান ও মিলকরণ' : 'Lawyer search and matching based on legal categories'}</li>
                   <li>{bn ? 'আইনি নথিপত্র পর্যালোচনা ও প্রস্তুতি সহায়তা' : 'Legal document review and preparation assistance'}</li>
@@ -227,7 +236,7 @@ const TermsPage: React.FC = () => {
                     ? 'আমাদের সেবা ব্যবহার করতে আপনাকে একটি অ্যাকাউন্ট তৈরি করতে হবে। অ্যাকাউন্ট তৈরির সময় আপনাকে সঠিক ও হালনাগাদ তথ্য প্রদান করতে হবে, যার মধ্যে রয়েছে:'
                     : 'To use our services, you must create an account. During registration, you must provide accurate and up-to-date information, including:'}
                 </p>
-                <ul className="text-slate-600 space-y-2">
+                <ul className="text-slate-600 space-y-2 list-disc list-inside marker:text-slate-400">
                   <li>{bn ? 'পুরো নাম (সরকারি পরিচয়পত্র অনুযায়ী)' : 'Full name (as per government-issued ID)'}</li>
                   <li>{bn ? 'ইমেইল ঠিকানা' : 'Email address'}</li>
                   <li>{bn ? 'ফোন নম্বর' : 'Phone number'}</li>
@@ -252,12 +261,11 @@ const TermsPage: React.FC = () => {
                     ? 'প্ল্যাটফর্মের মাধ্যমে সেবা গ্রহণের জন্য নির্ধারিত ফি প্রযোজ্য। ফি সম্পর্কিত গুরুত্বপূর্ণ তথ্য:'
                     : 'Fees are applicable for services accessed through the Platform. Important information regarding fees:'}
                 </p>
-                <ul className="text-slate-600 space-y-2">
+                <ul className="text-slate-600 space-y-2 list-disc list-inside marker:text-slate-400">
                   <li>{bn ? 'সেবার ফি পরামর্শ বুকিং বা সেবা কেনার পূর্বে স্পষ্টভাবে প্রদর্শিত হবে' : 'Service fees will be clearly displayed before booking a consultation or purchasing a service'}</li>
                   <li>{bn ? 'পেমেন্ট বিকাশ, নগদ, রকেট, ব্যাংক কার্ড বা অন্যান্য অনুমোদিত মাধ্যমে করা যাবে' : 'Payments can be made via bKash, Nagad, Rocket, bank cards, or other approved methods'}</li>
                   <li>{bn ? 'কল-ভিত্তিক পরামর্শে আইনজীবীর নির্ধারিত রেট অনুযায়ী প্রতি মিনিটে চার্জ প্রযোজ্য' : 'Call-based consultations are charged per minute based on the lawyer\'s rate'}</li>
-                  <li>{bn ? 'ওয়ালেট ব্যালেন্সের মাধ্যমে পেমেন্ট কাটা হবে' : 'Payments are deducted from your wallet balance'}</li>
-                  <li>{bn ? 'রিফান্ড সেবার শর্তাবলী অনুযায়ী প্রসেস করা হবে এবং সাধারণত ওয়ালেটে ফেরত দেওয়া হবে' : 'Refunds are processed according to service terms and are typically credited back to your wallet'}</li>
+                  <li>{bn ? 'রিফান্ড সেবার শর্তাবলী অনুযায়ী প্রসেস করা হবে এবং পেমেন্ট মাধ্যমে ফেরত দেওয়া হবে' : 'Refunds are processed according to service terms and are credited back to the original payment method'}</li>
                 </ul>
                 <p className="text-slate-600 mt-3">
                   {bn
@@ -276,7 +284,7 @@ const TermsPage: React.FC = () => {
                 <p className="text-slate-600 mb-3">
                   {bn ? 'প্ল্যাটফর্ম ব্যবহারের সময় আপনি নিম্নলিখিত কাজগুলো করবেন না:' : 'While using the Platform, you agree not to:'}
                 </p>
-                <ul className="text-slate-600 space-y-2">
+                <ul className="text-slate-600 space-y-2 list-disc list-inside marker:text-slate-400">
                   <li>{bn ? 'মিথ্যা, বিভ্রান্তিকর বা প্রতারণামূলক তথ্য প্রদান' : 'Provide false, misleading, or fraudulent information'}</li>
                   <li>{bn ? 'অন্য কোনো ব্যক্তির পরিচয়ে ছদ্মবেশ ধারণ' : 'Impersonate any other person or entity'}</li>
                   <li>{bn ? 'প্ল্যাটফর্মের নিরাপত্তা ব্যবস্থা লঙ্ঘন বা পরিবর্তনের চেষ্টা' : 'Attempt to breach or circumvent any security measures of the Platform'}</li>
@@ -296,8 +304,8 @@ const TermsPage: React.FC = () => {
                 </h2>
                 <p className="text-slate-600">
                   {bn
-                    ? 'প্ল্যাটফর্মের সমস্ত কন্টেন্ট, ডিজাইন, লোগো, ট্রেডমার্ক, সফটওয়্যার কোড এবং অন্যান্য মেধাস্বত্ব সমাধান টেকনোলজিস লিমিটেড-এর সম্পত্তি এবং বাংলাদেশের কপিরাইট আইন ২০০০, ট্রেডমার্ক আইন ২০০৯ এবং প্রযোজ্য আন্তর্জাতিক আইন দ্বারা সুরক্ষিত। আমাদের পূর্ব লিখিত অনুমতি ব্যতীত প্ল্যাটফর্মের কোনো অংশ পুনরুৎপাদন, বিতরণ, পরিবর্তন বা বাণিজ্যিকভাবে ব্যবহার করা যাবে না।'
-                    : 'All content, design, logos, trademarks, software code, and other intellectual property on the Platform are the property of Somadhan Technologies Limited and are protected by the Copyright Act 2000, the Trademarks Act 2009 of Bangladesh, and applicable international laws. No part of the Platform may be reproduced, distributed, modified, or used commercially without our prior written consent.'}
+                    ? 'প্ল্যাটফর্মের সমস্ত কন্টেন্ট, ডিজাইন, লোগো, ট্রেডমার্ক, সফটওয়্যার কোড এবং অন্যান্য মেধাস্বত্ব সমাধান লিগ্যাল লিমিটেড-এর সম্পত্তি এবং বাংলাদেশের কপিরাইট আইন ২০০০, ট্রেডমার্ক আইন ২০০৯ এবং প্রযোজ্য আন্তর্জাতিক আইন দ্বারা সুরক্ষিত। আমাদের পূর্ব লিখিত অনুমতি ব্যতীত প্ল্যাটফর্মের কোনো অংশ পুনরুৎপাদন, বিতরণ, পরিবর্তন বা বাণিজ্যিকভাবে ব্যবহার করা যাবে না।'
+                    : 'All content, design, logos, trademarks, software code, and other intellectual property on the Platform are the property of Somadhan Legal Limited and are protected by the Copyright Act 2000, the Trademarks Act 2009 of Bangladesh, and applicable international laws. No part of the Platform may be reproduced, distributed, modified, or used commercially without our prior written consent.'}
                 </p>
 
                 {/* Section 8 */}
@@ -313,7 +321,7 @@ const TermsPage: React.FC = () => {
                     ? 'প্ল্যাটফর্ম এবং সেবাসমূহ "যেমন আছে" ভিত্তিতে প্রদান করা হয়। সমাধান নিম্নলিখিত বিষয়ে কোনো ওয়ারেন্টি বা গ্যারান্টি প্রদান করে না:'
                     : 'The Platform and services are provided on an "as is" and "as available" basis. Somadhan makes no warranties or guarantees regarding:'}
                 </p>
-                <ul className="text-slate-600 space-y-2">
+                <ul className="text-slate-600 space-y-2 list-disc list-inside marker:text-slate-400">
                   <li>{bn ? 'প্ল্যাটফর্মের মাধ্যমে প্রদত্ত আইনি পরামর্শের মান বা ফলাফল' : 'The quality or outcome of legal advice provided through the Platform'}</li>
                   <li>{bn ? 'সেবার নিরবচ্ছিন্নতা, নির্ভুলতা বা ত্রুটিমুক্ততা' : 'Uninterrupted, accurate, or error-free service availability'}</li>
                   <li>{bn ? 'কোনো নির্দিষ্ট আইনি ফলাফল অর্জন' : 'Achievement of any particular legal outcome'}</li>
@@ -359,7 +367,7 @@ const TermsPage: React.FC = () => {
                 <p className="text-slate-600 mb-3">
                   {bn ? 'আমরা নিম্নলিখিত পরিস্থিতিতে আপনার অ্যাকাউন্ট স্থগিত বা বন্ধ করার অধিকার সংরক্ষণ করি:' : 'We reserve the right to suspend or terminate your account under the following circumstances:'}
                 </p>
-                <ul className="text-slate-600 space-y-2">
+                <ul className="text-slate-600 space-y-2 list-disc list-inside marker:text-slate-400">
                   <li>{bn ? 'শর্তাবলী লঙ্ঘন করলে' : 'Violation of these Terms'}</li>
                   <li>{bn ? 'প্রতারণামূলক বা সন্দেহজনক কার্যকলাপ সনাক্ত হলে' : 'Detection of fraudulent or suspicious activity'}</li>
                   <li>{bn ? 'আইন প্রয়োগকারী সংস্থার অনুরোধে' : 'At the request of law enforcement authorities'}</li>
@@ -367,8 +375,8 @@ const TermsPage: React.FC = () => {
                 </ul>
                 <p className="text-slate-600 mt-3">
                   {bn
-                    ? 'আপনি যেকোনো সময় আমাদের গোপনীয়তা নীতিতে উল্লিখিত অ্যাকাউন্ট মুছে ফেলার প্রক্রিয়া অনুসরণ করে আপনার অ্যাকাউন্ট বন্ধ করতে পারেন। অ্যাকাউন্ট বন্ধ হলে আপনার অব্যবহৃত ওয়ালেট ব্যালেন্স রিফান্ড নীতি অনুযায়ী ফেরত দেওয়া হবে।'
-                    : 'You may close your account at any time by following the account deletion process outlined in our Privacy Policy. Upon account closure, any unused wallet balance will be refunded according to our refund policy.'}
+                    ? 'আপনি যেকোনো সময় আমাদের গোপনীয়তা নীতিতে উল্লিখিত অ্যাকাউন্ট মুছে ফেলার প্রক্রিয়া অনুসরণ করে আপনার অ্যাকাউন্ট বন্ধ করতে পারেন। অ্যাকাউন্ট বন্ধ হলে রিফান্ড নীতি অনুযায়ী আনুষঙ্গিক বিষয়াদি নিষ্পত্তি করা হবে।'
+                    : 'You may close your account at any time by following the account deletion process outlined in our Privacy Policy. Upon account closure, any related matters will be settled according to our refund policy.'}
                 </p>
 
                 {/* Section 12 */}
@@ -414,7 +422,7 @@ const TermsPage: React.FC = () => {
                 </p>
                 <div className="bg-slate-50 rounded-xl p-5 border border-slate-100">
                   <p className="font-semibold text-slate-900 mb-2">
-                    {bn ? 'সমাধান টেকনোলজিস লিমিটেড' : 'Somadhan Technologies Limited'}
+                    {bn ? 'সমাধান লিগ্যাল লিমিটেড' : 'Somadhan Legal Limited'}
                   </p>
                   <div className="space-y-1 text-slate-600 text-sm">
                     <p>{bn ? 'ইমেইল: info@somadhan.com' : 'Email: info@somadhan.com'}</p>
