@@ -100,3 +100,36 @@ export async function submitWaitlist(data: WaitlistSubmission): Promise<Waitlist
     return { success: false, error: 'network_error' };
   }
 }
+
+// Account Deletion Submissions
+export interface AccountDeletionSubmission {
+  full_name: string;
+  nid_number: string;
+  phone: string;
+  reason?: string | null;
+}
+
+export async function submitAccountDeletion(data: AccountDeletionSubmission): Promise<{ success: boolean; error?: string }> {
+  try {
+    const response = await fetch(`${SUPABASE_URL}/rest/v1/account_deletion_requests`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'apikey': SUPABASE_ANON_KEY,
+        'Authorization': `Bearer ${SUPABASE_ANON_KEY}`,
+        'Prefer': 'return=minimal'
+      },
+      body: JSON.stringify(data)
+    });
+
+    if (!response.ok) {
+      const errorData = await response.json().catch(() => ({}));
+      return { success: false, error: errorData?.message || 'submission_failed' };
+    }
+
+    return { success: true };
+  } catch (error) {
+    console.error('Account deletion submission error:', error);
+    return { success: false, error: 'network_error' };
+  }
+}

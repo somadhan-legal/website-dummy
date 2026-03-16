@@ -239,12 +239,12 @@ const PrivacyPolicyPage: React.FC = () => {
                     ? 'আমরা আপনার ব্যক্তিগত তথ্য বিক্রি করি না। তবে নিম্নলিখিত ক্ষেত্রে তথ্য শেয়ার করা হতে পারে:'
                     : 'We do not sell your personal information. However, we may share information in the following circumstances:'}
                 </p>
-                <ul className="text-slate-600 space-y-2 list-disc list-inside marker:text-slate-400">
-                  <li><strong>{bn ? 'আইনজীবীদের সাথে:' : 'With Lawyers:'}</strong> {bn ? 'সেবা প্রদানের জন্য আপনার নির্বাচিত আইনজীবীর সাথে প্রয়োজনীয় তথ্য শেয়ার করা হয়' : 'Necessary information is shared with your selected lawyer to provide services'}</li>
-                  <li><strong>{bn ? 'সেবা প্রদানকারীদের সাথে:' : 'With Service Providers:'}</strong> {bn ? 'পেমেন্ট প্রক্রিয়াকরণ, হোস্টিং, অ্যানালিটিক্স ইত্যাদি তৃতীয় পক্ষের সেবা প্রদানকারীদের সাথে' : 'Payment processing, hosting, analytics, and other third-party service providers'}</li>
-                  <li><strong>{bn ? 'আইনি বাধ্যবাধকতায়:' : 'Legal Obligations:'}</strong> {bn ? 'আদালতের আদেশ, সরকারি নির্দেশনা বা আইন প্রয়োগকারী সংস্থার অনুরোধে' : 'In response to court orders, government directives, or law enforcement requests'}</li>
-                  <li><strong>{bn ? 'ব্যবসায়িক হস্তান্তরে:' : 'Business Transfers:'}</strong> {bn ? 'একীভূতকরণ, অধিগ্রহণ বা সম্পদ বিক্রির ক্ষেত্রে' : 'In the event of a merger, acquisition, or asset sale'}</li>
-                  <li><strong>{bn ? 'সম্মতিক্রমে:' : 'With Consent:'}</strong> {bn ? 'আপনার সুস্পষ্ট সম্মতিতে অন্যান্য ক্ষেত্রে' : 'With your explicit consent in other cases'}</li>
+                <ul className="text-slate-600 space-y-3">
+                  <li className="pl-0"><strong>{bn ? 'আইনজীবীদের সাথে:' : 'With Lawyers:'}</strong><br/>{bn ? 'সেবা প্রদানের জন্য আপনার নির্বাচিত আইনজীবীর সাথে প্রয়োজনীয় তথ্য শেয়ার করা হয়' : 'Necessary information is shared with your selected lawyer to provide services'}</li>
+                  <li className="pl-0"><strong>{bn ? 'সেবা প্রদানকারীদের সাথে:' : 'With Service Providers:'}</strong><br/>{bn ? 'পেমেন্ট প্রক্রিয়াকরণ, হোস্টিং, অ্যানালিটিক্স ইত্যাদি তৃতীয় পক্ষের সেবা প্রদানকারীদের সাথে' : 'Payment processing, hosting, analytics, and other third-party service providers'}</li>
+                  <li className="pl-0"><strong>{bn ? 'আইনি বাধ্যবাধকতায়:' : 'Legal Obligations:'}</strong><br/>{bn ? 'আদালতের আদেশ, সরকারি নির্দেশনা বা আইন প্রয়োগকারী সংস্থার অনুরোধে' : 'In response to court orders, government directives, or law enforcement requests'}</li>
+                  <li className="pl-0"><strong>{bn ? 'ব্যবসায়িক হস্তান্তরে:' : 'Business Transfers:'}</strong><br/>{bn ? 'একীভূতকরণ, অধিগ্রহণ বা সম্পদ বিক্রির ক্ষেত্রে' : 'In the event of a merger, acquisition, or asset sale'}</li>
+                  <li className="pl-0"><strong>{bn ? 'সম্মতিক্রমে:' : 'With Consent:'}</strong><br/>{bn ? 'আপনার সুস্পষ্ট সম্মতিতে অন্যান্য ক্ষেত্রে' : 'With your explicit consent in other cases'}</li>
                 </ul>
 
                 {/* Section 4 */}
@@ -298,13 +298,13 @@ const PrivacyPolicyPage: React.FC = () => {
                 <p className="text-slate-600 mb-3">
                   {bn ? 'আপনার নিম্নলিখিত অধিকার রয়েছে:' : 'You have the following rights regarding your personal data:'}
                 </p>
-                <ul className="text-slate-600 space-y-2 list-disc list-inside marker:text-slate-400">
-                  <li><strong>{bn ? 'অ্যাক্সেসের অধিকার:' : 'Right to Access:'}</strong> {bn ? 'আমাদের কাছে সংরক্ষিত আপনার ব্যক্তিগত তথ্যের একটি অনুলিপি অনুরোধ করতে পারেন' : 'Request a copy of your personal data held by us'}</li>
-                  <li><strong>{bn ? 'সংশোধনের অধিকার:' : 'Right to Correction:'}</strong> {bn ? 'ভুল বা অসম্পূর্ণ তথ্য সংশোধন বা হালনাগাদের অনুরোধ করতে পারেন' : 'Request correction or update of inaccurate or incomplete data'}</li>
-                  <li><strong>{bn ? 'মুছে ফেলার অধিকার:' : 'Right to Deletion:'}</strong> {bn ? 'নির্দিষ্ট শর্ত সাপেক্ষে আপনার তথ্য মুছে ফেলার অনুরোধ করতে পারেন' : 'Request deletion of your data subject to certain conditions'}</li>
-                  <li><strong>{bn ? 'আপত্তির অধিকার:' : 'Right to Object:'}</strong> {bn ? 'মার্কেটিং উদ্দেশ্যে তথ্য ব্যবহারে আপত্তি জানাতে পারেন' : 'Object to the processing of your data for marketing purposes'}</li>
-                  <li><strong>{bn ? 'পোর্টেবিলিটির অধিকার:' : 'Right to Portability:'}</strong> {bn ? 'আপনার তথ্য একটি কাঠামোগত, পঠনযোগ্য ফরম্যাটে পাওয়ার অনুরোধ করতে পারেন' : 'Request your data in a structured, readable format'}</li>
-                  <li><strong>{bn ? 'সম্মতি প্রত্যাহারের অধিকার:' : 'Right to Withdraw Consent:'}</strong> {bn ? 'যেকোনো সময় তথ্য প্রক্রিয়াকরণের জন্য দেওয়া সম্মতি প্রত্যাহার করতে পারেন' : 'Withdraw your consent for data processing at any time'}</li>
+                <ul className="text-slate-600 space-y-3">
+                  <li className="pl-0"><strong>{bn ? 'অ্যাক্সেসের অধিকার:' : 'Right to Access:'}</strong><br/>{bn ? 'আমাদের কাছে সংরক্ষিত আপনার ব্যক্তিগত তথ্যের একটি অনুলিপি অনুরোধ করতে পারেন' : 'Request a copy of your personal data held by us'}</li>
+                  <li className="pl-0"><strong>{bn ? 'সংশোধনের অধিকার:' : 'Right to Correction:'}</strong><br/>{bn ? 'ভুল বা অসম্পূর্ণ তথ্য সংশোধন বা হালনাগাদের অনুরোধ করতে পারেন' : 'Request correction or update of inaccurate or incomplete data'}</li>
+                  <li className="pl-0"><strong>{bn ? 'মুছে ফেলার অধিকার:' : 'Right to Deletion:'}</strong><br/>{bn ? 'নির্দিষ্ট শর্ত সাপেক্ষে আপনার তথ্য মুছে ফেলার অনুরোধ করতে পারেন' : 'Request deletion of your data subject to certain conditions'}</li>
+                  <li className="pl-0"><strong>{bn ? 'আপত্তির অধিকার:' : 'Right to Object:'}</strong><br/>{bn ? 'মার্কেটিং উদ্দেশ্যে তথ্য ব্যবহারে আপত্তি জানাতে পারেন' : 'Object to the processing of your data for marketing purposes'}</li>
+                  <li className="pl-0"><strong>{bn ? 'পোর্টেবিলিটির অধিকার:' : 'Right to Portability:'}</strong><br/>{bn ? 'আপনার তথ্য একটি কাঠামোগত, পঠনযোগ্য ফরম্যাটে পাওয়ার অনুরোধ করতে পারেন' : 'Request your data in a structured, readable format'}</li>
+                  <li className="pl-0"><strong>{bn ? 'সম্মতি প্রত্যাহারের অধিকার:' : 'Right to Withdraw Consent:'}</strong><br/>{bn ? 'যেকোনো সময় তথ্য প্রক্রিয়াকরণের জন্য দেওয়া সম্মতি প্রত্যাহার করতে পারেন' : 'Withdraw your consent for data processing at any time'}</li>
                 </ul>
                 <p className="text-slate-600 mt-3">
                   {bn
@@ -325,10 +325,10 @@ const PrivacyPolicyPage: React.FC = () => {
                     ? 'আমরা ওয়েবসাইটের কার্যকারিতা উন্নত করতে এবং ব্যবহারকারীর অভিজ্ঞতা পরিমাপ করতে কুকিজ ও অ্যানালিটিক্স টুল ব্যবহার করি:'
                     : 'We use cookies and analytics tools to improve website functionality and measure user experience:'}
                 </p>
-                <ul className="text-slate-600 space-y-2 list-disc list-inside marker:text-slate-400">
-                  <li><strong>{bn ? 'অত্যাবশ্যকীয় কুকিজ:' : 'Essential Cookies:'}</strong> {bn ? 'ওয়েবসাইটের মৌলিক কার্যকারিতার জন্য প্রয়োজনীয়' : 'Required for basic website functionality'}</li>
-                  <li><strong>{bn ? 'অ্যানালিটিক্স কুকিজ:' : 'Analytics Cookies:'}</strong> {bn ? 'ওয়েবসাইটের ব্যবহার বুঝতে Google Analytics ব্যবহৃত হয়' : 'Google Analytics is used to understand website usage'}</li>
-                  <li><strong>{bn ? 'পারফরম্যান্স কুকিজ:' : 'Performance Cookies:'}</strong> {bn ? 'ওয়েবসাইটের গতি ও কার্যক্ষমতা পরিমাপ করতে' : 'To measure website speed and performance'}</li>
+                <ul className="text-slate-600 space-y-3">
+                  <li className="pl-0"><strong>{bn ? 'অত্যাবশ্যকীয় কুকিজ:' : 'Essential Cookies:'}</strong><br/>{bn ? 'ওয়েবসাইটের মৌলিক কার্যকারিতার জন্য প্রয়োজনীয়' : 'Required for basic website functionality'}</li>
+                  <li className="pl-0"><strong>{bn ? 'অ্যানালিটিক্স কুকিজ:' : 'Analytics Cookies:'}</strong><br/>{bn ? 'ওয়েবসাইটের ব্যবহার বুঝতে Google Analytics ব্যবহৃত হয়' : 'Google Analytics is used to understand website usage'}</li>
+                  <li className="pl-0"><strong>{bn ? 'পারফরম্যান্স কুকিজ:' : 'Performance Cookies:'}</strong><br/>{bn ? 'ওয়েবসাইটের গতি ও কার্যক্ষমতা পরিমাপ করতে' : 'To measure website speed and performance'}</li>
                 </ul>
                 <p className="text-slate-600 mt-3">
                   {bn

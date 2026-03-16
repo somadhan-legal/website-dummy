@@ -2,14 +2,12 @@ import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, AlertCircle, CheckCircle2, Loader2 } from 'lucide-react';
 import { useLanguage } from '../contexts/LanguageContext';
+import { submitAccountDeletion } from '../lib/supabase';
 
 interface AccountDeletionModalProps {
   isOpen: boolean;
   onClose: () => void;
 }
-
-const SUPABASE_URL = 'https://jlltjzwukpsuykfdixlx.supabase.co';
-const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImpsbHRqend1a3BzdXlrZmRpeGx4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njc2MTMwNDIsImV4cCI6MjA4MzE4OTA0Mn0.-HEQ8V4qElOtP4VzuAOS24Oqc9P7wZUvmE7lUoO7HYo';
 
 const AccountDeletionModal: React.FC<AccountDeletionModalProps> = ({ isOpen, onClose }) => {
   const { language } = useLanguage();
@@ -66,33 +64,20 @@ const AccountDeletionModal: React.FC<AccountDeletionModalProps> = ({ isOpen, onC
     setIsSubmitting(true);
     setSubmitError(null);
 
-    try {
-      const response = await fetch(`${SUPABASE_URL}/rest/v1/account_deletion_requests`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'apikey': SUPABASE_ANON_KEY,
-          'Authorization': `Bearer ${SUPABASE_ANON_KEY}`,
-          'Prefer': 'return=minimal',
-        },
-        body: JSON.stringify({
-          full_name: form.fullName.trim(),
-          nid_number: form.nidNumber.trim(),
-          phone: form.phone.trim(),
-          reason: form.reason.trim() || null,
-        }),
-      });
+    const result = await submitAccountDeletion({
+      full_name: form.fullName.trim(),
+      nid_number: form.nidNumber.trim(),
+      phone: form.phone.trim(),
+      reason: form.reason.trim() || null,
+    });
 
-      if (!response.ok) {
-        throw new Error('submission_failed');
-      }
-
+    if (result.success) {
       setIsSuccess(true);
-    } catch {
+    } else {
       setSubmitError(bn ? 'জমা দিতে সমস্যা হয়েছে। অনুগ্রহ করে আবার চেষ্টা করুন।' : 'Failed to submit request. Please try again.');
-    } finally {
-      setIsSubmitting(false);
     }
+    
+    setIsSubmitting(false);
   };
 
   return (
