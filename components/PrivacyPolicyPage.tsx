@@ -48,12 +48,6 @@ const PrivacyPolicyPage: React.FC = () => {
         }
       }
 
-      // Check if we're at the very bottom of the document
-      const isAtBottom = window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 10;
-      if (isAtBottom) {
-        activeId = sections[sections.length - 1].id;
-      }
-
       setActiveSection(activeId);
     };
     window.addEventListener('scroll', handleScroll, { passive: true });
