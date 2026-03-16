@@ -38,23 +38,23 @@ const PrivacyPolicyPage: React.FC = () => {
     const handleScroll = () => {
       setShowBackToTop(window.scrollY > 400);
       
-      // Check if we're at the bottom of the page
-      const isAtBottom = window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 50;
-
-      if (isAtBottom) {
-        // Force the last section to be active when at the bottom
-        setActiveSection(sections[sections.length - 1].id);
-        return;
-      }
-      
       const scrollPosition = window.scrollY + 120;
-      for (let i = sections.length - 1; i >= 0; i--) {
+      let activeId = sections[0].id;
+
+      for (let i = 0; i < sections.length; i++) {
         const el = sectionRefs.current[sections[i].id];
         if (el && el.offsetTop <= scrollPosition) {
-          setActiveSection(sections[i].id);
-          break;
+          activeId = sections[i].id;
         }
       }
+
+      // Check if we're at the very bottom of the document
+      const isAtBottom = window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 10;
+      if (isAtBottom) {
+        activeId = sections[sections.length - 1].id;
+      }
+
+      setActiveSection(activeId);
     };
     window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
@@ -159,8 +159,8 @@ const PrivacyPolicyPage: React.FC = () => {
                 {/* Introduction */}
                 <p className="text-slate-600 leading-relaxed">
                   {bn
-                    ? 'সমাধান লিগ্যাল লিমিটেড ("সমাধান", "আমরা", "আমাদের") আপনার গোপনীয়তা রক্ষায় প্রতিশ্রুতিবদ্ধ। এই গোপনীয়তা নীতি ("নীতি") ব্যাখ্যা করে কিভাবে আমরা আমাদের ওয়েবসাইট (somadhan.com), মোবাইল অ্যাপ্লিকেশন এবং সংশ্লিষ্ট সেবাসমূহ (সম্মিলিতভাবে "প্ল্যাটফর্ম") ব্যবহারের সময় আপনার তথ্য সংগ্রহ, ব্যবহার, সংরক্ষণ এবং সুরক্ষিত রাখি। এই নীতি বাংলাদেশের সাইবার নিরাপত্তা আইন ২০২৩ এবং প্রযোজ্য আন্তর্জাতিক ডেটা সুরক্ষা মানদণ্ডের সাথে সামঞ্জস্যপূর্ণ।'
-                    : 'Somadhan Legal Limited ("Somadhan," "we," "our," "us") is committed to protecting your privacy. This Privacy Policy ("Policy") explains how we collect, use, store, and protect your information when you use our website (somadhan.com), mobile applications, and related services (collectively, the "Platform"). This Policy is designed in compliance with the Cyber Security Act 2023 of Bangladesh and applicable international data protection standards.'}
+                    ? 'সমাধান লিগ্যাল লিমিটেড ("সমাধান", "আমরা", "আমাদের") আপনার গোপনীয়তা রক্ষায় প্রতিশ্রুতিবদ্ধ। এই গোপনীয়তা নীতি ("নীতি") ব্যাখ্যা করে কিভাবে আমরা আমাদের ওয়েবসাইট (somadhan.com), মোবাইল অ্যাপ্লিকেশন এবং সংশ্লিষ্ট সেবাসমূহ (সম্মিলিতভাবে "প্ল্যাটফর্ম") ব্যবহারের সময় আপনার তথ্য সংগ্রহ, ব্যবহার, সংরক্ষণ এবং সুরক্ষিত রাখি। এই নীতি বাংলাদেশের সাইবার নিরাপত্তা আইন ২০২৩ এবং প্রযোজ্য অন্যান্য ডেটা সুরক্ষা মানদণ্ডের সাথে সামঞ্জস্যপূর্ণ।'
+                    : 'Somadhan Legal Limited ("Somadhan," "we," "our," "us") is committed to protecting your privacy. This Privacy Policy ("Policy") explains how we collect, use, store, and protect your information when you use our website (somadhan.com), mobile applications, and related services (collectively, the "Platform"). This Policy is designed in compliance with the Cyber Security Act 2023 of Bangladesh and other applicable data protection standards.'}
                 </p>
 
                 {/* Section 1 */}
@@ -240,11 +240,11 @@ const PrivacyPolicyPage: React.FC = () => {
                     : 'We do not sell your personal information. However, we may share information in the following circumstances:'}
                 </p>
                 <ul className="text-slate-600 space-y-3">
-                  <li className="pl-0"><strong>{bn ? 'আইনজীবীদের সাথে:' : 'With Lawyers:'}</strong><br/>{bn ? 'সেবা প্রদানের জন্য আপনার নির্বাচিত আইনজীবীর সাথে প্রয়োজনীয় তথ্য শেয়ার করা হয়' : 'Necessary information is shared with your selected lawyer to provide services'}</li>
-                  <li className="pl-0"><strong>{bn ? 'সেবা প্রদানকারীদের সাথে:' : 'With Service Providers:'}</strong><br/>{bn ? 'পেমেন্ট প্রক্রিয়াকরণ, হোস্টিং, অ্যানালিটিক্স ইত্যাদি তৃতীয় পক্ষের সেবা প্রদানকারীদের সাথে' : 'Payment processing, hosting, analytics, and other third-party service providers'}</li>
-                  <li className="pl-0"><strong>{bn ? 'আইনি বাধ্যবাধকতায়:' : 'Legal Obligations:'}</strong><br/>{bn ? 'আদালতের আদেশ, সরকারি নির্দেশনা বা আইন প্রয়োগকারী সংস্থার অনুরোধে' : 'In response to court orders, government directives, or law enforcement requests'}</li>
-                  <li className="pl-0"><strong>{bn ? 'ব্যবসায়িক হস্তান্তরে:' : 'Business Transfers:'}</strong><br/>{bn ? 'একীভূতকরণ, অধিগ্রহণ বা সম্পদ বিক্রির ক্ষেত্রে' : 'In the event of a merger, acquisition, or asset sale'}</li>
-                  <li className="pl-0"><strong>{bn ? 'সম্মতিক্রমে:' : 'With Consent:'}</strong><br/>{bn ? 'আপনার সুস্পষ্ট সম্মতিতে অন্যান্য ক্ষেত্রে' : 'With your explicit consent in other cases'}</li>
+                  <li className="pl-0"><strong>{bn ? 'আইনজীবীদের সাথে:' : 'With Lawyers:'}</strong> {bn ? 'সেবা প্রদানের জন্য আপনার নির্বাচিত আইনজীবীর সাথে প্রয়োজনীয় তথ্য শেয়ার করা হয়' : 'Necessary information is shared with your selected lawyer to provide services'}</li>
+                  <li className="pl-0"><strong>{bn ? 'সেবা প্রদানকারীদের সাথে:' : 'With Service Providers:'}</strong> {bn ? 'পেমেন্ট প্রক্রিয়াকরণ, হোস্টিং, অ্যানালিটিক্স ইত্যাদি তৃতীয় পক্ষের সেবা প্রদানকারীদের সাথে' : 'Payment processing, hosting, analytics, and other third-party service providers'}</li>
+                  <li className="pl-0"><strong>{bn ? 'আইনি বাধ্যবাধকতায়:' : 'Legal Obligations:'}</strong> {bn ? 'আদালতের আদেশ, সরকারি নির্দেশনা বা আইন প্রয়োগকারী সংস্থার অনুরোধে' : 'In response to court orders, government directives, or law enforcement requests'}</li>
+                  <li className="pl-0"><strong>{bn ? 'ব্যবসায়িক হস্তান্তরে:' : 'Business Transfers:'}</strong> {bn ? 'একীভূতকরণ, অধিগ্রহণ বা সম্পদ বিক্রির ক্ষেত্রে' : 'In the event of a merger, acquisition, or asset sale'}</li>
+                  <li className="pl-0"><strong>{bn ? 'সম্মতিক্রমে:' : 'With Consent:'}</strong> {bn ? 'আপনার সুস্পষ্ট সম্মতিতে অন্যান্য ক্ষেত্রে' : 'With your explicit consent in other cases'}</li>
                 </ul>
 
                 {/* Section 4 */}
@@ -283,8 +283,8 @@ const PrivacyPolicyPage: React.FC = () => {
                 </h2>
                 <p className="text-slate-600">
                   {bn
-                    ? 'আমরা আপনার তথ্য যতদিন আপনার অ্যাকাউন্ট সক্রিয় থাকবে বা সেবা প্রদানের জন্য প্রয়োজন হবে ততদিন সংরক্ষণ করব। অ্যাকাউন্ট মুছে ফেলার পর, আমরা আইনি বাধ্যবাধকতা, বিরোধ নিষ্পত্তি এবং চুক্তি প্রয়োগের জন্য প্রয়োজনীয় তথ্য নির্দিষ্ট সময়ের জন্য সংরক্ষণ করতে পারি (সর্বোচ্চ ৫ বছর, যদি না আইন দ্বারা দীর্ঘতর সময় প্রয়োজন হয়)। সংরক্ষণের মেয়াদ শেষ হলে তথ্য নিরাপদে মুছে ফেলা বা বেনামীকৃত করা হবে।'
-                    : 'We retain your information for as long as your account is active or as needed to provide services. After account deletion, we may retain certain information as required by legal obligations, dispute resolution, and contract enforcement for a specified period (up to 5 years, unless a longer period is required by law). After the retention period, data will be securely deleted or anonymized.'}
+                    ? 'আমরা আপনার ব্যক্তিগত তথ্য কেবল ততক্ষণ পর্যন্ত সংরক্ষণ করি যতক্ষণ না এই নীতিতে বর্ণিত উদ্দেশ্যগুলো পূরণের জন্য তা প্রয়োজনীয় হয়। আইনি বাধ্যবাধকতা, বিরোধ নিষ্পত্তি এবং আমাদের চুক্তিগুলো কার্যকর করার স্বার্থে আমরা প্রয়োজনীয় তথ্য নির্দিষ্ট সময়ের জন্য সংরক্ষণ করতে পারি। সংরক্ষণকাল শেষ হলে আমরা আপনার ডেটা নিরাপদে মুছে ফেলি বা বেনামী (anonymize) করে ফেলি।'
+                    : 'We retain your personal information only for as long as necessary to fulfill the purposes outlined in this Policy. We may retain certain information for specific periods to comply with our legal obligations, resolve disputes, and enforce our agreements. Once the retention period expires, we securely delete or anonymize your data.'}
                 </p>
 
                 {/* Section 6 */}
@@ -299,12 +299,12 @@ const PrivacyPolicyPage: React.FC = () => {
                   {bn ? 'আপনার নিম্নলিখিত অধিকার রয়েছে:' : 'You have the following rights regarding your personal data:'}
                 </p>
                 <ul className="text-slate-600 space-y-3">
-                  <li className="pl-0"><strong>{bn ? 'অ্যাক্সেসের অধিকার:' : 'Right to Access:'}</strong><br/>{bn ? 'আমাদের কাছে সংরক্ষিত আপনার ব্যক্তিগত তথ্যের একটি অনুলিপি অনুরোধ করতে পারেন' : 'Request a copy of your personal data held by us'}</li>
-                  <li className="pl-0"><strong>{bn ? 'সংশোধনের অধিকার:' : 'Right to Correction:'}</strong><br/>{bn ? 'ভুল বা অসম্পূর্ণ তথ্য সংশোধন বা হালনাগাদের অনুরোধ করতে পারেন' : 'Request correction or update of inaccurate or incomplete data'}</li>
-                  <li className="pl-0"><strong>{bn ? 'মুছে ফেলার অধিকার:' : 'Right to Deletion:'}</strong><br/>{bn ? 'নির্দিষ্ট শর্ত সাপেক্ষে আপনার তথ্য মুছে ফেলার অনুরোধ করতে পারেন' : 'Request deletion of your data subject to certain conditions'}</li>
-                  <li className="pl-0"><strong>{bn ? 'আপত্তির অধিকার:' : 'Right to Object:'}</strong><br/>{bn ? 'মার্কেটিং উদ্দেশ্যে তথ্য ব্যবহারে আপত্তি জানাতে পারেন' : 'Object to the processing of your data for marketing purposes'}</li>
-                  <li className="pl-0"><strong>{bn ? 'পোর্টেবিলিটির অধিকার:' : 'Right to Portability:'}</strong><br/>{bn ? 'আপনার তথ্য একটি কাঠামোগত, পঠনযোগ্য ফরম্যাটে পাওয়ার অনুরোধ করতে পারেন' : 'Request your data in a structured, readable format'}</li>
-                  <li className="pl-0"><strong>{bn ? 'সম্মতি প্রত্যাহারের অধিকার:' : 'Right to Withdraw Consent:'}</strong><br/>{bn ? 'যেকোনো সময় তথ্য প্রক্রিয়াকরণের জন্য দেওয়া সম্মতি প্রত্যাহার করতে পারেন' : 'Withdraw your consent for data processing at any time'}</li>
+                  <li className="pl-0"><strong>{bn ? 'অ্যাক্সেসের অধিকার:' : 'Right to Access:'}</strong> {bn ? 'আমাদের কাছে সংরক্ষিত আপনার ব্যক্তিগত তথ্যের একটি অনুলিপি অনুরোধ করতে পারেন' : 'Request a copy of your personal data held by us'}</li>
+                  <li className="pl-0"><strong>{bn ? 'সংশোধনের অধিকার:' : 'Right to Correction:'}</strong> {bn ? 'ভুল বা অসম্পূর্ণ তথ্য সংশোধন বা হালনাগাদের অনুরোধ করতে পারেন' : 'Request correction or update of inaccurate or incomplete data'}</li>
+                  <li className="pl-0"><strong>{bn ? 'মুছে ফেলার অধিকার:' : 'Right to Deletion:'}</strong> {bn ? 'নির্দিষ্ট শর্ত সাপেক্ষে আপনার তথ্য মুছে ফেলার অনুরোধ করতে পারেন' : 'Request deletion of your data subject to certain conditions'}</li>
+                  <li className="pl-0"><strong>{bn ? 'আপত্তির অধিকার:' : 'Right to Object:'}</strong> {bn ? 'মার্কেটিং উদ্দেশ্যে তথ্য ব্যবহারে আপত্তি জানাতে পারেন' : 'Object to the processing of your data for marketing purposes'}</li>
+                  <li className="pl-0"><strong>{bn ? 'পোর্টেবিলিটির অধিকার:' : 'Right to Portability:'}</strong> {bn ? 'আপনার তথ্য একটি কাঠামোগত, পঠনযোগ্য ফরম্যাটে পাওয়ার অনুরোধ করতে পারেন' : 'Request your data in a structured, readable format'}</li>
+                  <li className="pl-0"><strong>{bn ? 'সম্মতি প্রত্যাহারের অধিকার:' : 'Right to Withdraw Consent:'}</strong> {bn ? 'যেকোনো সময় তথ্য প্রক্রিয়াকরণের জন্য দেওয়া সম্মতি প্রত্যাহার করতে পারেন' : 'Withdraw your consent for data processing at any time'}</li>
                 </ul>
                 <p className="text-slate-600 mt-3">
                   {bn
@@ -326,9 +326,9 @@ const PrivacyPolicyPage: React.FC = () => {
                     : 'We use cookies and analytics tools to improve website functionality and measure user experience:'}
                 </p>
                 <ul className="text-slate-600 space-y-3">
-                  <li className="pl-0"><strong>{bn ? 'অত্যাবশ্যকীয় কুকিজ:' : 'Essential Cookies:'}</strong><br/>{bn ? 'ওয়েবসাইটের মৌলিক কার্যকারিতার জন্য প্রয়োজনীয়' : 'Required for basic website functionality'}</li>
-                  <li className="pl-0"><strong>{bn ? 'অ্যানালিটিক্স কুকিজ:' : 'Analytics Cookies:'}</strong><br/>{bn ? 'ওয়েবসাইটের ব্যবহার বুঝতে Google Analytics ব্যবহৃত হয়' : 'Google Analytics is used to understand website usage'}</li>
-                  <li className="pl-0"><strong>{bn ? 'পারফরম্যান্স কুকিজ:' : 'Performance Cookies:'}</strong><br/>{bn ? 'ওয়েবসাইটের গতি ও কার্যক্ষমতা পরিমাপ করতে' : 'To measure website speed and performance'}</li>
+                  <li className="pl-0"><strong>{bn ? 'অত্যাবশ্যকীয় কুকিজ:' : 'Essential Cookies:'}</strong> {bn ? 'ওয়েবসাইটের মৌলিক কার্যকারিতার জন্য প্রয়োজনীয়' : 'Required for basic website functionality'}</li>
+                  <li className="pl-0"><strong>{bn ? 'অ্যানালিটিক্স কুকিজ:' : 'Analytics Cookies:'}</strong> {bn ? 'ওয়েবসাইটের ব্যবহার বুঝতে Google Analytics ব্যবহৃত হয়' : 'Google Analytics is used to understand website usage'}</li>
+                  <li className="pl-0"><strong>{bn ? 'পারফরম্যান্স কুকিজ:' : 'Performance Cookies:'}</strong> {bn ? 'ওয়েবসাইটের গতি ও কার্যক্ষমতা পরিমাপ করতে' : 'To measure website speed and performance'}</li>
                 </ul>
                 <p className="text-slate-600 mt-3">
                   {bn
@@ -360,8 +360,8 @@ const PrivacyPolicyPage: React.FC = () => {
                 </h2>
                 <p className="text-slate-600">
                   {bn
-                    ? 'আপনার তথ্য প্রাথমিকভাবে বাংলাদেশে প্রক্রিয়া ও সংরক্ষণ করা হবে। সেবা প্রদানের প্রয়োজনে কিছু তথ্য বাংলাদেশের বাইরে অবস্থিত সার্ভারে স্থানান্তরিত হতে পারে (যেমন ক্লাউড সেবা প্রদানকারী)। এই ক্ষেত্রে আমরা নিশ্চিত করব যে আপনার তথ্য পর্যাপ্ত সুরক্ষা ব্যবস্থার অধীনে রয়েছে এবং বাংলাদেশের সাইবার নিরাপত্তা আইন ২০২৩ অনুযায়ী আপনার পরিচয় তথ্য সুরক্ষিত থাকবে।'
-                    : 'Your information is primarily processed and stored in Bangladesh. Some data may be transferred to servers located outside Bangladesh (such as cloud service providers) for service delivery. In such cases, we ensure that your data is subject to adequate protection measures and your identity information remains protected in accordance with the Cyber Security Act 2023 of Bangladesh.'}
+                    ? 'আমাদের সেবাসমূহ বাংলাদেশ থেকে পরিচালিত হয়। আপনি যদি অন্য দেশ থেকে আমাদের প্ল্যাটফর্ম ব্যবহার করেন, তবে আপনার তথ্য বাংলাদেশে স্থানান্তরিত এবং প্রক্রিয়াজাত হতে পারে। আমাদের প্ল্যাটফর্ম ব্যবহার করে আপনি এই স্থানান্তরে সম্মতি প্রদান করছেন। আমরা নিশ্চিত করি যে স্থানান্তরিত ডেটা যথাযথ নিরাপত্তা ব্যবস্থার মাধ্যমে সুরক্ষিত থাকে।'
+                    : 'Our services are operated from Bangladesh. If you access our Platform from other countries, your information may be transferred to and processed in Bangladesh. By using our Platform, you consent to this transfer. We ensure that transferred data is protected through appropriate security measures.'}
                 </p>
 
                 {/* Section 10 - Account Deletion */}

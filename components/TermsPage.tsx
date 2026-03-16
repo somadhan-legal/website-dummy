@@ -35,23 +35,23 @@ const TermsPage: React.FC = () => {
     const handleScroll = () => {
       setShowBackToTop(window.scrollY > 400);
 
-      // Check if we're at the bottom of the page
-      const isAtBottom = window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 50;
-
-      if (isAtBottom) {
-        // Force the last section to be active when at the bottom
-        setActiveSection(sections[sections.length - 1].id);
-        return;
-      }
-
       const scrollPosition = window.scrollY + 120;
-      for (let i = sections.length - 1; i >= 0; i--) {
+      let activeId = sections[0].id;
+
+      for (let i = 0; i < sections.length; i++) {
         const el = sectionRefs.current[sections[i].id];
         if (el && el.offsetTop <= scrollPosition) {
-          setActiveSection(sections[i].id);
-          break;
+          activeId = sections[i].id;
         }
       }
+
+      // Check if we're at the very bottom of the document
+      const isAtBottom = window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 10;
+      if (isAtBottom) {
+        activeId = sections[sections.length - 1].id;
+      }
+
+      setActiveSection(activeId);
     };
 
     window.addEventListener('scroll', handleScroll, { passive: true });
@@ -174,8 +174,8 @@ const TermsPage: React.FC = () => {
                 </h2>
                 <p className="text-slate-600">
                   {bn
-                    ? 'প্ল্যাটফর্ম অ্যাক্সেস বা ব্যবহার করে আপনি নিশ্চিত করছেন যে আপনি এই শর্তাবলী পড়েছেন, বুঝেছেন এবং মেনে চলতে সম্মত হচ্ছেন। আপনি যদি এই শর্তাবলীর যেকোনো অংশের সাথে একমত না হন, তাহলে আপনি আমাদের প্ল্যাটফর্ম ব্যবহার করতে পারবেন না। এই শর্তাবলী আমাদের গোপনীয়তা নীতির সাথে সংযুক্ত, যা এই শর্তাবলীর একটি অবিচ্ছেদ্য অংশ।'
-                    : 'By accessing or using the Platform, you confirm that you have read, understood, and agree to be bound by these Terms. If you do not agree with any part of these Terms, you must not use our Platform. These Terms are supplemented by our Privacy Policy, which forms an integral part of this agreement.'}
+                    ? 'প্ল্যাটফর্মে প্রবেশ করে বা এটি ব্যবহার করে, আপনি স্বীকার করছেন যে আপনি এই শর্তাবলী পড়েছেন, বুঝেছেন এবং এতে সম্মত হয়েছেন। আপনি যদি এই শর্তাবলীর কোনো অংশের সাথে একমত না হন, তবে অনুগ্রহ করে আমাদের প্ল্যাটফর্ম ব্যবহার করা থেকে বিরত থাকুন।'
+                    : 'By accessing or using the Platform, you acknowledge that you have read, understood, and agree to be bound by these Terms. If you do not agree to any part of these Terms, please do not use our Platform.'}
                 </p>
 
                 {/* Section 2 */}
@@ -188,8 +188,8 @@ const TermsPage: React.FC = () => {
                 </h2>
                 <p className="text-slate-600">
                   {bn
-                    ? 'প্ল্যাটফর্ম ব্যবহার করতে আপনাকে অবশ্যই বাংলাদেশের আইন অনুযায়ী কমপক্ষে ১৮ বছর বয়সী এবং চুক্তি সম্পাদনে সক্ষম হতে হবে। আমাদের প্ল্যাটফর্ম ব্যবহার করে আপনি নিশ্চিত করছেন যে আপনি এই যোগ্যতার মানদণ্ড পূরণ করেন। ১৮ বছরের কম বয়সীদের অভিভাবকের তত্ত্বাবধানে প্ল্যাটফর্ম ব্যবহার করতে হবে।'
-                    : 'To use the Platform, you must be at least 18 years of age and legally capable of entering into binding contracts under Bangladeshi law. By using our Platform, you represent and warrant that you meet these eligibility requirements. Users under 18 must use the Platform under the supervision of a legal guardian.'}
+                    ? 'আমাদের সেবা ব্যবহার করার জন্য আপনার বয়স কমপক্ষে ১৮ বছর হতে হবে এবং বাংলাদেশের আইন অনুযায়ী চুক্তি করার আইনি সক্ষমতা থাকতে হবে। আপনি যদি কোনো প্রতিষ্ঠান বা সত্তার পক্ষে আমাদের প্ল্যাটফর্ম ব্যবহার করেন, তবে আপনি নিশ্চিত করছেন যে ঐ সত্তাকে এই শর্তাবলীর অধীনে আবদ্ধ করার আইনি অধিকার আপনার রয়েছে।'
+                    : 'You must be at least 18 years old and possess the legal capacity to enter into a contract under the laws of Bangladesh to use our services. If you are using the Platform on behalf of an organization or entity, you represent and warrant that you have the legal authority to bind that entity to these Terms.'}
                 </p>
 
                 {/* Section 3 */}
@@ -304,8 +304,8 @@ const TermsPage: React.FC = () => {
                 </h2>
                 <p className="text-slate-600">
                   {bn
-                    ? 'প্ল্যাটফর্মের সমস্ত কন্টেন্ট, ডিজাইন, লোগো, ট্রেডমার্ক, সফটওয়্যার কোড এবং অন্যান্য মেধাস্বত্ব সমাধান লিগ্যাল লিমিটেড-এর সম্পত্তি এবং বাংলাদেশের কপিরাইট আইন ২০০০, ট্রেডমার্ক আইন ২০০৯ এবং প্রযোজ্য আন্তর্জাতিক আইন দ্বারা সুরক্ষিত। আমাদের পূর্ব লিখিত অনুমতি ব্যতীত প্ল্যাটফর্মের কোনো অংশ পুনরুৎপাদন, বিতরণ, পরিবর্তন বা বাণিজ্যিকভাবে ব্যবহার করা যাবে না।'
-                    : 'All content, design, logos, trademarks, software code, and other intellectual property on the Platform are the property of Somadhan Legal Limited and are protected by the Copyright Act 2000, the Trademarks Act 2009 of Bangladesh, and applicable international laws. No part of the Platform may be reproduced, distributed, modified, or used commercially without our prior written consent.'}
+                    ? 'প্ল্যাটফর্মের সমস্ত কন্টেন্ট, ডিজাইন, লোগো, ট্রেডমার্ক, সফটওয়্যার কোড এবং অন্যান্য মেধাস্বত্ব সমাধান লিগ্যাল লিমিটেড-এর সম্পত্তি। এগুলো বাংলাদেশের কপিরাইট আইন ২০০০, ট্রেডমার্ক আইন ২০০৯ এবং প্রযোজ্য আন্তর্জাতিক আইন দ্বারা সুরক্ষিত। আমাদের পূর্ব লিখিত অনুমতি ব্যতীত প্ল্যাটফর্মের কোনো অংশ পুনরুৎপাদন, বিতরণ, পরিবর্তন বা বাণিজ্যিকভাবে ব্যবহার করা যাবে না।'
+                    : 'All content, design, logos, trademarks, software code, and other intellectual property on the Platform are the exclusive property of Somadhan Legal Limited. They are protected by the Copyright Act 2000, the Trademarks Act 2009 of Bangladesh, and applicable international laws. No part of the Platform may be reproduced, distributed, modified, or used commercially without our prior written consent.'}
                 </p>
 
                 {/* Section 8 */}
