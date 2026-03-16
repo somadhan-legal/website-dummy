@@ -1,4 +1,5 @@
 import React, { useState, useEffect, lazy, Suspense } from 'react';
+import { Routes, Route } from 'react-router-dom';
 import { SpeedInsights } from '@vercel/speed-insights/react';
 import { LanguageProvider, useLanguage } from './contexts/LanguageContext';
 import Navbar from './components/Navbar';
@@ -12,6 +13,8 @@ const TrustSection = lazy(() => import('./components/TrustSection'));
 const FAQ = lazy(() => import('./components/FAQ'));
 const Footer = lazy(() => import('./components/Footer'));
 const WaitlistPage = lazy(() => import('./components/WaitlistPage'));
+const TermsPage = lazy(() => import('./components/TermsPage'));
+const PrivacyPolicyPage = lazy(() => import('./components/PrivacyPolicyPage'));
 
 // Minimal loading placeholder
 const SectionLoader = () => <div className="py-20 bg-white" />;
@@ -105,7 +108,19 @@ const AppContent: React.FC = () => {
 const App: React.FC = () => {
   return (
     <LanguageProvider>
-      <AppContent />
+      <Routes>
+        <Route path="/" element={<AppContent />} />
+        <Route path="/terms" element={
+          <Suspense fallback={<SectionLoader />}>
+            <TermsPage />
+          </Suspense>
+        } />
+        <Route path="/privacy" element={
+          <Suspense fallback={<SectionLoader />}>
+            <PrivacyPolicyPage />
+          </Suspense>
+        } />
+      </Routes>
     </LanguageProvider>
   );
 };

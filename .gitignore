@@ -27,3 +27,6 @@ dist-ssr
 *.pdf
 Screenshot*.png
 PageSpeed*.pdf
+
+# Reference documents
+YC Legal Tech - Policies & Terms.md

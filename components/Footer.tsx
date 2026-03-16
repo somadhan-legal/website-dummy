@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Mail, Smartphone, Bell, ArrowRight } from 'lucide-react';
 import { useLanguage } from '../contexts/LanguageContext';
@@ -204,13 +205,24 @@ const Footer: React.FC<FooterProps> = ({ onOpenWaitlist }) => {
         </div>
 
         {/* Bottom Bar */}
-        <div className="mt-10 pt-6 border-t border-slate-200 flex flex-col sm:flex-row items-center justify-between gap-4">
-          <p className="text-slate-500 text-xs">
-            {t('footer.copyright')}
-          </p>
+        <div className="mt-10 pt-6 border-t border-slate-200">
+          <div className="flex flex-col sm:flex-row items-center justify-between gap-4 mb-4">
+            <p className="text-slate-500 text-xs">
+              {t('footer.copyright')}
+            </p>
+            <div className="flex items-center gap-4">
+              <Link to="/terms" className="text-slate-400 hover:text-brand-600 text-xs transition-colors">
+                {language === 'bn' ? 'শর্তাবলী' : 'Terms & Conditions'}
+              </Link>
+              <span className="text-slate-200">|</span>
+              <Link to="/privacy" className="text-slate-400 hover:text-brand-600 text-xs transition-colors">
+                {language === 'bn' ? 'গোপনীয়তা নীতি' : 'Privacy Policy'}
+              </Link>
+            </div>
+          </div>
 
           {/* Social Links */}
-          <div className="flex items-center gap-1.5">
+          <div className="flex items-center justify-center sm:justify-end gap-1.5">
             <a
               href="https://www.facebook.com/getsomadhan"
               target="_blank"
