@@ -147,20 +147,52 @@ const translations: Record<Language, Record<string, string>> = {
 const LanguageContext = createContext<LanguageContextType | undefined>(undefined);
 
 export const LanguageProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
-  const [language, setLanguage] = useState<Language>(() => {
-    if (typeof window === 'undefined') {
-      return 'bn';
-    }
-
-    const stored = window.localStorage.getItem('language');
-    return stored === 'en' || stored === 'bn' ? stored : 'bn';
-  });
+  const [language, setLanguage] = useState<Language>('en');
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    if (typeof window !== 'undefined') {
+    const initializeLanguage = async () => {
+      if (typeof window === 'undefined') {
+        setIsLoading(false);
+        return;
+      }
+
+      // Check if user has a stored preference
+      const stored = window.localStorage.getItem('language');
+      if (stored === 'en' || stored === 'bn') {
+        setLanguage(stored);
+        setIsLoading(false);
+        return;
+      }
+
+      // No stored preference - detect location
+      try {
+        const response = await fetch('https://ipapi.co/json/');
+        if (response.ok) {
+          const data = await response.json();
+          // Set Bengali for Bangladesh, English for others
+          const detectedLanguage: Language = data.country_code === 'BD' ? 'bn' : 'en';
+          setLanguage(detectedLanguage);
+        } else {
+          // Fallback to English if API fails
+          setLanguage('en');
+        }
+      } catch (error) {
+        // Fallback to English on error
+        setLanguage('en');
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    initializeLanguage();
+  }, []);
+
+  useEffect(() => {
+    if (typeof window !== 'undefined' && !isLoading) {
       window.localStorage.setItem('language', language);
     }
-  }, [language]);
+  }, [language, isLoading]);
 
   const t = (key: string): string => {
     return translations[language][key] || key;
