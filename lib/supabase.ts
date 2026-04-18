@@ -101,6 +101,34 @@ export async function submitWaitlist(data: WaitlistSubmission): Promise<Waitlist
   }
 }
 
+// Fetch total waitlist signup count
+export async function getWaitlistCount(): Promise<number> {
+  try {
+    const response = await fetch(
+      `${SUPABASE_URL}/rest/v1/waitlist_submissions?select=id&limit=1`,
+      {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          'apikey': SUPABASE_ANON_KEY,
+          'Authorization': `Bearer ${SUPABASE_ANON_KEY}`,
+          'Prefer': 'count=exact',
+        },
+      }
+    );
+
+    const contentRange = response.headers.get('content-range');
+    if (contentRange) {
+      const total = contentRange.split('/').pop();
+      return parseInt(total || '0', 10) || 0;
+    }
+    return 0;
+  } catch (error) {
+    console.error('Failed to fetch waitlist count:', error);
+    return 0;
+  }
+}
+
 // Account Deletion Submissions
 export interface AccountDeletionSubmission {
   full_name: string;

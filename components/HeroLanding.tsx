@@ -1,5 +1,6 @@
 import React, { useRef, useState, useEffect } from 'react';
 import { useLanguage } from '../contexts/LanguageContext';
+import { getWaitlistCount } from '../lib/supabase';
 
 interface HeroLandingProps {
   onOpenWaitlist: () => void;
@@ -10,6 +11,11 @@ const HeroLanding: React.FC<HeroLandingProps> = ({ onOpenWaitlist }) => {
   const heroRef = useRef<HTMLDivElement>(null);
   const [scrollY, setScrollY] = useState(0);
   const [isScrollEnabled, setIsScrollEnabled] = useState(false);
+  const [waitlistCount, setWaitlistCount] = useState(0);
+
+  useEffect(() => {
+    getWaitlistCount().then(setWaitlistCount);
+  }, []);
 
   // Delay scroll effects until after LCP to reduce TBT and avoid forced reflows
   useEffect(() => {
@@ -112,13 +118,24 @@ const HeroLanding: React.FC<HeroLandingProps> = ({ onOpenWaitlist }) => {
         </p>
 
         {/* Single CTA - CSS animation */}
-        <div className="animate-[fadeInUp_0.5s_ease-out_0.25s_both]">
+        <div className="animate-[fadeInUp_0.5s_ease-out_0.25s_both] flex flex-col items-center">
           <button
             onClick={onOpenWaitlist}
             className="group bg-white text-brand-600 px-8 py-3.5 rounded-full text-sm font-semibold transition-all duration-300 hover:shadow-lg hover:shadow-white/20 hover:scale-[1.02] active:scale-[0.98]"
           >
             {t('hero.joinWaitlist')}
           </button>
+
+          {waitlistCount > 0 && (
+            <p className="mt-5 text-sm text-white/45 animate-[fadeIn_0.6s_ease-out_0.6s_both]">
+              {language === 'bn' ? '' : 'Join '}
+              <span className="text-white/70 font-semibold">{waitlistCount}</span>
+              {language === 'bn' ? ' জনের সাথে যোগ দিন' : ' others'}
+              <span className="mx-2 text-white/20">·</span>
+              {language === 'bn' ? 'আপনার স্পট ' : 'Your spot: '}
+              <span className="text-emerald-400 font-bold">#{waitlistCount + 1}</span>
+            </p>
+          )}
         </div>
       </div>
 
