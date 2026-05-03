@@ -45,12 +45,10 @@
 
   <!-- Small badge top-left -->
   <g transform="translate(80, 90)">
-    <rect x="0" y="0" width="220" height="38" rx="19" fill="#FFFFFF" fill-opacity="0.08" stroke="#FFFFFF" stroke-opacity="0.15" stroke-width="1"/>
-    <circle cx="22" cy="19" r="5" fill="#34D399"/>
-    <circle cx="22" cy="19" r="5" fill="#34D399" opacity="0.4">
-      <animate attributeName="r" values="5;9;5" dur="2s" repeatCount="indefinite"/>
-    </circle>
-    <text x="42" y="25" font-family="Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="14" font-weight="500" fill="#FFFFFF" fill-opacity="0.9" letter-spacing="0.05em">#1 AI-POWERED LEGAL PLATFORM</text>
+    <rect x="0" y="0" width="340" height="40" rx="20" fill="#FFFFFF" fill-opacity="0.08" stroke="#FFFFFF" stroke-opacity="0.15" stroke-width="1"/>
+    <circle cx="24" cy="20" r="6" fill="#34D399" opacity="0.35"/>
+    <circle cx="24" cy="20" r="4" fill="#34D399"/>
+    <text x="42" y="26" textLength="280" lengthAdjust="spacingAndGlyphs" font-family="Arial, Helvetica, sans-serif" font-size="14" font-weight="700" fill="#FFFFFF" fill-opacity="0.9">#1 AI-POWERED LEGAL PLATFORM</text>
   </g>
 
   <!-- Main wordmark: SOMADHAN -->
@@ -60,26 +58,26 @@
   <text x="82" y="390" font-family="'Playfair Display', 'Times New Roman', serif" font-size="44" font-weight="400" font-style="italic" fill="#FFFFFF" fill-opacity="0.65" letter-spacing="-0.01em">Legal support. Anytime, anywhere.</text>
 
   <!-- Description -->
-  <text x="82" y="460" font-family="Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="22" font-weight="400" fill="#FFFFFF" fill-opacity="0.75">AI-powered legal platform connecting Bangladesh</text>
-  <text x="82" y="492" font-family="Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="22" font-weight="400" fill="#FFFFFF" fill-opacity="0.75">with verified lawyers for consultations, documents &amp; cases.</text>
+  <text x="82" y="460" font-family="Arial, Helvetica, sans-serif" font-size="22" font-weight="400" fill="#FFFFFF" fill-opacity="0.8">AI-powered legal platform connecting Bangladesh</text>
+  <text x="82" y="492" font-family="Arial, Helvetica, sans-serif" font-size="22" font-weight="400" fill="#FFFFFF" fill-opacity="0.8">with verified lawyers for consultations, documents &amp; cases.</text>
 
   <!-- Bottom divider -->
   <line x1="80" y1="550" x2="1120" y2="550" stroke="#FFFFFF" stroke-opacity="0.1" stroke-width="1"/>
 
   <!-- Footer row -->
-  <text x="80" y="585" font-family="Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="18" font-weight="600" fill="#FFFFFF" letter-spacing="0.1em">SOMADHAN.COM</text>
+  <text x="80" y="588" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="700" fill="#FFFFFF" letter-spacing="0.15em">SOMADHAN.COM</text>
 
   <!-- Footer chips -->
-  <g transform="translate(720, 568)">
-    <rect x="0" y="0" width="130" height="32" rx="16" fill="#FFFFFF" fill-opacity="0.08" stroke="#FFFFFF" stroke-opacity="0.15"/>
-    <text x="65" y="21" font-family="Inter, sans-serif" font-size="13" font-weight="500" fill="#FFFFFF" fill-opacity="0.85" text-anchor="middle">Verified Lawyers</text>
+  <g transform="translate(680, 566)">
+    <rect x="0" y="0" width="150" height="34" rx="17" fill="#FFFFFF" fill-opacity="0.08" stroke="#FFFFFF" stroke-opacity="0.15"/>
+    <text x="75" y="22" font-family="Arial, Helvetica, sans-serif" font-size="13" font-weight="600" fill="#FFFFFF" fill-opacity="0.9" text-anchor="middle">Verified Lawyers</text>
   </g>
-  <g transform="translate(860, 568)">
-    <rect x="0" y="0" width="110" height="32" rx="16" fill="#FFFFFF" fill-opacity="0.08" stroke="#FFFFFF" stroke-opacity="0.15"/>
-    <text x="55" y="21" font-family="Inter, sans-serif" font-size="13" font-weight="500" fill="#FFFFFF" fill-opacity="0.85" text-anchor="middle">100% Private</text>
+  <g transform="translate(840, 566)">
+    <rect x="0" y="0" width="130" height="34" rx="17" fill="#FFFFFF" fill-opacity="0.08" stroke="#FFFFFF" stroke-opacity="0.15"/>
+    <text x="65" y="22" font-family="Arial, Helvetica, sans-serif" font-size="13" font-weight="600" fill="#FFFFFF" fill-opacity="0.9" text-anchor="middle">100% Private</text>
   </g>
-  <g transform="translate(980, 568)">
-    <rect x="0" y="0" width="140" height="32" rx="16" fill="#FFFFFF" fill-opacity="0.08" stroke="#FFFFFF" stroke-opacity="0.15"/>
-    <text x="70" y="21" font-family="Inter, sans-serif" font-size="13" font-weight="500" fill="#FFFFFF" fill-opacity="0.85" text-anchor="middle">Anywhere Access</text>
+  <g transform="translate(980, 566)">
+    <rect x="0" y="0" width="150" height="34" rx="17" fill="#FFFFFF" fill-opacity="0.08" stroke="#FFFFFF" stroke-opacity="0.15"/>
+    <text x="75" y="22" font-family="Arial, Helvetica, sans-serif" font-size="13" font-weight="600" fill="#FFFFFF" fill-opacity="0.9" text-anchor="middle">Anywhere Access</text>
   </g>
 </svg>
