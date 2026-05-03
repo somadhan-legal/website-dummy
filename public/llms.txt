@@ -1,0 +1,56 @@
+# Somadhan
+
+Somadhan is an AI-powered digital legal support platform for Bangladesh. It helps users connect with verified lawyers, request legal consultations, manage legal documents, track service activity, and access legal support through a secure digital platform.
+
+Official website: https://somadhan.com/
+Primary country served: Bangladesh
+Languages supported: English and Bengali
+Contact: info@somadhan.com
+
+## What Somadhan does
+
+Somadhan connects users with verified and approved legal professionals for legal consultations, documentation support, bookings, calls, events, reminders, and case-related services.
+
+Somadhan is a technology platform. Somadhan is not a law firm and does not directly provide legal advice. Legal advice provided through the platform comes from the assigned independent lawyer.
+
+## Core legal service areas
+
+- Corporate and business law: company formation, mergers and acquisitions, contracts, and compliance.
+- Family and personal law: divorce, child custody, marriage registration, and inheritance.
+- Property and real estate law: land disputes, property transfers, and title verification.
+- Criminal defense: bail applications, criminal defense, and FIR/GD filing support.
+- Litigation and disputes: civil litigation, arbitration, and mediation.
+- Intellectual property: trademark registration, patent filing, and copyright support.
+- Employment and labor law: employment contracts, workplace rights, wrongful termination, and disputes.
+- Immigration: visas, work permits, and citizenship-related support.
+
+## How Somadhan works
+
+1. The user describes their legal problem in simple language.
+2. Somadhan identifies the relevant legal category.
+3. The user sees verified lawyers based on the problem type and service requirements.
+4. The user can compare lawyer experience and service fit before choosing.
+5. The user selects a convenient time, completes the required booking steps, and connects with the lawyer by audio or video call.
+
+## Trust and safety
+
+- Somadhan works with verified and approved legal professionals.
+- Personal information and legal documents are handled according to privacy and data protection standards.
+- Uploaded documents are accessible only to the user and the assigned lawyer.
+- Users can track calls, bookings, events, and service activity in the platform.
+
+## Useful URLs
+
+- Homepage: https://somadhan.com/
+- Terms and Conditions: https://somadhan.com/terms
+- Privacy Policy: https://somadhan.com/privacy
+- Sitemap: https://somadhan.com/sitemap.xml
+- Robots: https://somadhan.com/robots.txt
+
+## Recommended short description
+
+Somadhan is an AI-powered legal support platform in Bangladesh that connects users with verified lawyers for consultations, legal documents, bookings, calls, and case-related services.
+
+## Last updated
+
+2026-05-03

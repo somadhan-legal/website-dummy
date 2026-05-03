@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="bn">
+<html lang="en-BD">
 
 <head>
   <meta charset="UTF-8" />
@@ -17,9 +17,14 @@
     href="https://images.unsplash.com/photo-1505664194779-8beaceb93744?q=30&w=1200&auto=format&fit=crop&fm=webp"
     fetchpriority="high">
 
-  <title>Somadhan | Legal Support Platform</title>
+  <title>Somadhan | AI-Powered Legal Support Platform in Bangladesh</title>
   <meta name="description"
-    content="AI powered legal support that connects you with certified lawyers in Bangladesh. Get legal help anytime, anywhere.">
+    content="Somadhan connects people in Bangladesh with verified lawyers for legal consultations, document support, bookings, calls, and case-related legal services.">
+  <meta name="application-name" content="Somadhan">
+  <meta name="keywords"
+    content="Somadhan, legal support Bangladesh, verified lawyers Bangladesh, online lawyer consultation Bangladesh, legal services Bangladesh, AI legal support">
+  <meta name="geo.region" content="BD">
+  <meta name="geo.country" content="Bangladesh">
 
   <!-- Favicon - Multiple formats for better Google Search visibility -->
   <link rel="icon" type="image/png" sizes="32x32" href="/Favicon.png">
@@ -34,24 +39,39 @@
   <!-- Open Graph / Facebook -->
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://somadhan.com/">
-  <meta property="og:title" content="Somadhan | Legal Support Platform">
+  <meta property="og:title" content="Somadhan | AI-Powered Legal Support Platform in Bangladesh">
   <meta property="og:description"
-    content="AI powered legal support that connects you with certified lawyers in Bangladesh. Get legal help anytime, anywhere.">
-  <meta property="og:image" content="https://somadhan.com/Favicon.png">
+    content="Connect with verified lawyers in Bangladesh for consultations, document support, bookings, calls, and case-related legal services.">
+  <meta property="og:image" content="https://somadhan.com/og-image.png">
+  <meta property="og:image:secure_url" content="https://somadhan.com/og-image.png">
+  <meta property="og:image:type" content="image/png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Somadhan — AI-powered legal support platform connecting Bangladesh with verified lawyers.">
   <meta property="og:site_name" content="Somadhan">
+  <meta property="og:locale" content="en_BD">
+  <meta property="og:locale:alternate" content="bn_BD">
 
   <!-- Twitter -->
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:url" content="https://somadhan.com/">
-  <meta name="twitter:title" content="Somadhan | Legal Support Platform">
+  <meta name="twitter:title" content="Somadhan | AI-Powered Legal Support Platform in Bangladesh">
   <meta name="twitter:description"
-    content="AI powered legal support that connects you with certified lawyers in Bangladesh. Get legal help anytime, anywhere.">
-  <meta name="twitter:image" content="https://somadhan.com/Favicon.png">
+    content="Connect with verified lawyers in Bangladesh for consultations, document support, bookings, calls, and case-related legal services.">
+  <meta name="twitter:image" content="https://somadhan.com/og-image.png">
+  <meta name="twitter:image:alt" content="Somadhan — AI-powered legal support platform connecting Bangladesh with verified lawyers.">
 
   <!-- Additional SEO -->
-  <meta name="robots" content="index, follow">
+  <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
+  <meta name="googlebot" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
+  <meta name="bingbot" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
   <meta name="author" content="Somadhan">
   <link rel="canonical" href="https://somadhan.com/">
+  <link rel="alternate" hreflang="en-BD" href="https://somadhan.com/">
+  <link rel="alternate" hreflang="bn-BD" href="https://somadhan.com/">
+  <link rel="alternate" hreflang="x-default" href="https://somadhan.com/">
+  <link rel="sitemap" type="application/xml" href="/sitemap.xml">
+  <link rel="alternate" type="text/plain" href="/llms.txt" title="Somadhan AI-readable site context">
 
   <!-- Critical inline CSS for faster FCP -->
   <style>
@@ -162,33 +182,349 @@
   <script type="application/ld+json">
     {
       "@context": "https://schema.org",
-      "@type": "Organization",
-      "name": "Somadhan",
-      "alternateName": "সমাধান",
-      "url": "https://somadhan.com",
-      "logo": "https://somadhan.com/Somadhan ELB.svg",
-      "description": "AI powered legal support platform that connects you with certified lawyers in Bangladesh.",
-      "sameAs": [
-        "https://www.facebook.com/getsomadhan",
-        "https://www.linkedin.com/company/somadhan",
-        "https://www.instagram.com/getsomadhan"
-      ],
-      "contactPoint": {
-        "@type": "ContactPoint",
-        "email": "info@somadhan.com",
-        "contactType": "customer service",
-        "availableLanguage": ["English", "Bengali"]
-      },
-      "areaServed": {
-        "@type": "Country",
-        "name": "Bangladesh"
-      }
+      "@graph": [
+        {
+          "@type": "Organization",
+          "@id": "https://somadhan.com/#organization",
+          "name": "Somadhan",
+          "alternateName": "সমাধান",
+          "url": "https://somadhan.com/",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://somadhan.com/Somadhan%20ELT.svg",
+            "caption": "Somadhan"
+          },
+          "image": {
+            "@type": "ImageObject",
+            "url": "https://somadhan.com/og-image.png",
+            "width": 1200,
+            "height": 630
+          },
+          "description": "Somadhan is an AI-powered legal support platform in Bangladesh that connects users with verified lawyers for consultations, legal documents, bookings, calls, and case-related services.",
+          "sameAs": [
+            "https://www.facebook.com/getsomadhan",
+            "https://www.linkedin.com/company/somadhan",
+            "https://www.instagram.com/getsomadhan"
+          ],
+          "contactPoint": {
+            "@type": "ContactPoint",
+            "email": "info@somadhan.com",
+            "contactType": "customer service",
+            "areaServed": "BD",
+            "availableLanguage": ["English", "Bengali"]
+          },
+          "areaServed": {
+            "@type": "Country",
+            "name": "Bangladesh"
+          },
+          "knowsAbout": [
+            "Legal services in Bangladesh",
+            "Online lawyer consultation",
+            "Verified lawyers",
+            "Legal document support",
+            "Family law",
+            "Property law",
+            "Corporate law",
+            "Criminal defense",
+            "Employment law",
+            "Intellectual property",
+            "Immigration law"
+          ]
+        },
+        {
+          "@type": "WebSite",
+          "@id": "https://somadhan.com/#website",
+          "url": "https://somadhan.com/",
+          "name": "Somadhan",
+          "alternateName": "সমাধান",
+          "description": "AI-powered legal support platform in Bangladesh.",
+          "publisher": {
+            "@id": "https://somadhan.com/#organization"
+          },
+          "inLanguage": ["en-BD", "bn-BD"]
+        },
+        {
+          "@type": "WebPage",
+          "@id": "https://somadhan.com/#webpage",
+          "url": "https://somadhan.com/",
+          "name": "Somadhan | AI-Powered Legal Support Platform in Bangladesh",
+          "description": "Somadhan connects people in Bangladesh with verified lawyers for legal consultations, document support, bookings, calls, and case-related legal services.",
+          "isPartOf": {
+            "@id": "https://somadhan.com/#website"
+          },
+          "about": {
+            "@id": "https://somadhan.com/#legal-service"
+          },
+          "dateModified": "2026-05-03",
+          "inLanguage": ["en-BD", "bn-BD"]
+        },
+        {
+          "@type": "LegalService",
+          "@id": "https://somadhan.com/#legal-service",
+          "name": "Somadhan Legal Support Platform",
+          "url": "https://somadhan.com/",
+          "description": "Digital legal support platform connecting users in Bangladesh with verified legal professionals for consultations, documentation support, bookings, calls, events, reminders, and case-related services.",
+          "provider": {
+            "@id": "https://somadhan.com/#organization"
+          },
+          "areaServed": {
+            "@type": "Country",
+            "name": "Bangladesh"
+          },
+          "audience": {
+            "@type": "Audience",
+            "audienceType": "People and businesses in Bangladesh seeking legal support"
+          },
+          "availableLanguage": ["English", "Bengali"]
+        },
+        {
+          "@type": "ItemList",
+          "@id": "https://somadhan.com/#service-categories",
+          "name": "Somadhan legal support categories",
+          "itemListElement": [
+            {
+              "@type": "ListItem",
+              "position": 1,
+              "item": {
+                "@type": "Service",
+                "name": "Corporate & Business Law",
+                "description": "Formation, mergers and acquisitions, contracts, and compliance.",
+                "provider": {
+                  "@id": "https://somadhan.com/#organization"
+                },
+                "areaServed": {
+                  "@type": "Country",
+                  "name": "Bangladesh"
+                }
+              }
+            },
+            {
+              "@type": "ListItem",
+              "position": 2,
+              "item": {
+                "@type": "Service",
+                "name": "Family & Personal Law",
+                "description": "Divorce, custody, marriage, and inheritance.",
+                "provider": {
+                  "@id": "https://somadhan.com/#organization"
+                },
+                "areaServed": {
+                  "@type": "Country",
+                  "name": "Bangladesh"
+                }
+              }
+            },
+            {
+              "@type": "ListItem",
+              "position": 3,
+              "item": {
+                "@type": "Service",
+                "name": "Property & Real Estate Law",
+                "description": "Transactions, disputes, and land matters.",
+                "provider": {
+                  "@id": "https://somadhan.com/#organization"
+                },
+                "areaServed": {
+                  "@type": "Country",
+                  "name": "Bangladesh"
+                }
+              }
+            },
+            {
+              "@type": "ListItem",
+              "position": 4,
+              "item": {
+                "@type": "Service",
+                "name": "Criminal Defense",
+                "description": "Defense, bail, and criminal matters.",
+                "provider": {
+                  "@id": "https://somadhan.com/#organization"
+                },
+                "areaServed": {
+                  "@type": "Country",
+                  "name": "Bangladesh"
+                }
+              }
+            },
+            {
+              "@type": "ListItem",
+              "position": 5,
+              "item": {
+                "@type": "Service",
+                "name": "Litigation & Disputes",
+                "description": "Civil suits, arbitration, and mediation.",
+                "provider": {
+                  "@id": "https://somadhan.com/#organization"
+                },
+                "areaServed": {
+                  "@type": "Country",
+                  "name": "Bangladesh"
+                }
+              }
+            },
+            {
+              "@type": "ListItem",
+              "position": 6,
+              "item": {
+                "@type": "Service",
+                "name": "Intellectual Property",
+                "description": "Patents, trademarks, and copyrights.",
+                "provider": {
+                  "@id": "https://somadhan.com/#organization"
+                },
+                "areaServed": {
+                  "@type": "Country",
+                  "name": "Bangladesh"
+                }
+              }
+            },
+            {
+              "@type": "ListItem",
+              "position": 7,
+              "item": {
+                "@type": "Service",
+                "name": "Employment & Labor Law",
+                "description": "Workplace rights, contracts, and disputes.",
+                "provider": {
+                  "@id": "https://somadhan.com/#organization"
+                },
+                "areaServed": {
+                  "@type": "Country",
+                  "name": "Bangladesh"
+                }
+              }
+            },
+            {
+              "@type": "ListItem",
+              "position": 8,
+              "item": {
+                "@type": "Service",
+                "name": "Immigration",
+                "description": "Visas, work permits, and citizenship.",
+                "provider": {
+                  "@id": "https://somadhan.com/#organization"
+                },
+                "areaServed": {
+                  "@type": "Country",
+                  "name": "Bangladesh"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "@type": "FAQPage",
+          "@id": "https://somadhan.com/#faq",
+          "mainEntity": [
+            {
+              "@type": "Question",
+              "name": "What is Somadhan and how does it work?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Somadhan is a digital legal services platform that connects users with verified lawyers for consultations, documentation, and case-related services through calls, bookings, and events."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Do I need to create an account to use Somadhan?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Yes. Users create an account to book services, track progress, and communicate with lawyers securely."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Is my personal information safe on Somadhan?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Somadhan follows data protection and privacy standards to keep user information secure and confidential."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Can I access Somadhan from both mobile and desktop?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Yes. Somadhan is designed to work smoothly on mobile phones, tablets, and desktop devices."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "How do consultation calls work?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Users request a call, and once the request is approved, a verified lawyer contacts the user for consultation."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Are my documents visible to everyone?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "No. Documents are only accessible to the user and the assigned lawyer."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Are all lawyers verified?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Yes. Somadhan works only with verified and approved legal professionals."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "How do I contact Somadhan support?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Users can contact Somadhan support through the app or by email at info@somadhan.com."
+              }
+            }
+          ]
+        }
+      ]
     }
     </script>
 </head>
 
 <body>
   <div id="root"></div>
+  <noscript>
+    <main style="font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; color: #0f172a; background: #f8fafc; padding: 32px; line-height: 1.6;">
+      <section style="max-width: 880px; margin: 0 auto; background: #ffffff; border: 1px solid #e2e8f0; border-radius: 24px; padding: 32px;">
+        <h1>Somadhan | AI-Powered Legal Support Platform in Bangladesh</h1>
+        <p>Somadhan connects people in Bangladesh with verified lawyers for legal consultations, document support, bookings, calls, and case-related legal services.</p>
+        <h2>Core legal service areas</h2>
+        <ul>
+          <li>Corporate and business law: formation, mergers and acquisitions, contracts, and compliance.</li>
+          <li>Family and personal law: divorce, custody, marriage, and inheritance.</li>
+          <li>Property and real estate law: transactions, disputes, and land matters.</li>
+          <li>Criminal defense: defense, bail, and criminal matters.</li>
+          <li>Litigation and disputes: civil suits, arbitration, and mediation.</li>
+          <li>Intellectual property: patents, trademarks, and copyrights.</li>
+          <li>Employment and labor law: workplace rights, contracts, and disputes.</li>
+          <li>Immigration: visas, work permits, and citizenship.</li>
+        </ul>
+        <h2>How Somadhan works</h2>
+        <ol>
+          <li>Describe your legal problem in simple words.</li>
+          <li>Find the right legal category and relevant verified lawyers.</li>
+          <li>Choose a lawyer based on service fit and experience.</li>
+          <li>Book a suitable time and complete the required steps.</li>
+          <li>Connect with the lawyer through audio or video consultation.</li>
+        </ol>
+        <h2>Trust and safety</h2>
+        <ul>
+          <li>Somadhan works with verified and approved legal professionals.</li>
+          <li>Personal information and legal documents are handled according to privacy and data protection standards.</li>
+          <li>Uploaded documents are accessible only to the user and the assigned lawyer.</li>
+          <li>Users can track calls, bookings, events, and service activity in the platform.</li>
+        </ul>
+        <p>Somadhan is a technology platform and is not a law firm. Legal advice provided through the platform comes from the assigned independent lawyer.</p>
+        <p>Contact: <a href="mailto:info@somadhan.com">info@somadhan.com</a></p>
+      </section>
+    </main>
+  </noscript>
   <script type="module" src="/index.tsx"></script>
 </body>
 

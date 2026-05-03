@@ -1,11 +1,15 @@
 {
   "name": "Somadhan",
   "short_name": "Somadhan",
-  "description": "AI powered legal support that connects you with certified lawyers in Bangladesh",
+  "description": "AI-powered legal support platform in Bangladesh that connects users with verified lawyers for consultations, legal documents, bookings, calls, and case-related services.",
   "start_url": "/",
+  "scope": "/",
   "display": "standalone",
+  "lang": "en-BD",
+  "dir": "ltr",
   "background_color": "#F9FAFB",
   "theme_color": "#0F2E2E",
+  "categories": ["business", "productivity", "utilities"],
   "icons": [
     {
       "src": "/Favicon.png",

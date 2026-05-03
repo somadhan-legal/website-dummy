@@ -293,7 +293,7 @@ export const initializeAnalytics = () => {
   startTimeTracking();
   
   // Track initial page view
-  trackPageView('home', 'Somadhan | Legal Support Platform');
+  trackPageView('home', 'Somadhan | AI-Powered Legal Support Platform in Bangladesh');
   
   // Set user properties based on device
   setUserProperties({
