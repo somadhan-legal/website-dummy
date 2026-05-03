@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowLeft, ChevronUp, ChevronRight } from 'lucide-react';
 import { useLanguage } from '../contexts/LanguageContext';
+import { useDocumentMeta } from '../lib/useDocumentMeta';
 
 const sections = [
   { id: 'acceptance', titleEn: 'Acceptance of Terms', titleBn: 'শর্তাবলী গ্রহণ' },
@@ -26,6 +27,16 @@ const TermsPage: React.FC = () => {
   const [showBackToTop, setShowBackToTop] = useState(false);
   const [isTocOpen, setIsTocOpen] = useState(false);
   const sectionRefs = useRef<Record<string, HTMLElement | null>>({});
+
+  useDocumentMeta({
+    title: language === 'bn'
+      ? 'শর্তাবলী | সমাধান'
+      : 'Terms & Conditions | Somadhan',
+    description: language === 'bn'
+      ? 'সমাধান প্ল্যাটফর্মের ব্যবহারের শর্তাবলী, আইনি সেবার যোগ্যতা, অ্যাকাউন্ট, ব্যবহারকারীর আচরণ, দায় সীমাবদ্ধতা এবং প্রযোজ্য আইন।'
+      : 'Somadhan terms and conditions: platform usage, eligibility for legal services, account registration, user conduct, liability limitations, and governing law in Bangladesh.',
+    canonical: 'https://somadhan.com/terms',
+  });
 
   useEffect(() => {
     window.scrollTo(0, 0);

@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowLeft, ChevronUp, ChevronRight } from 'lucide-react';
 import { useLanguage } from '../contexts/LanguageContext';
+import { useDocumentMeta } from '../lib/useDocumentMeta';
 import AccountDeletionModal from './AccountDeletionModal';
 
 const SUPABASE_URL = 'https://jlltjzwukpsuykfdixlx.supabase.co';
@@ -29,6 +30,16 @@ const PrivacyPolicyPage: React.FC = () => {
   const [isTocOpen, setIsTocOpen] = useState(false);
   const [isDeletionModalOpen, setIsDeletionModalOpen] = useState(false);
   const sectionRefs = useRef<Record<string, HTMLElement | null>>({});
+
+  useDocumentMeta({
+    title: language === 'bn'
+      ? 'গোপনীয়তা নীতি | সমাধান'
+      : 'Privacy Policy | Somadhan',
+    description: language === 'bn'
+      ? 'সমাধান কীভাবে আপনার তথ্য সংগ্রহ, ব্যবহার ও সুরক্ষিত রাখে, আপনার অধিকার, কুকিজ, ডেটা সংরক্ষণ এবং অ্যাকাউন্ট মুছে ফেলার প্রক্রিয়া সম্পর্কে জানুন।'
+      : 'Learn how Somadhan collects, uses, and protects your information. Covers data security, retention, your rights, cookies, analytics, and account deletion in Bangladesh.',
+    canonical: 'https://somadhan.com/privacy',
+  });
 
   useEffect(() => {
     window.scrollTo(0, 0);
