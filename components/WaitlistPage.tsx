@@ -215,6 +215,10 @@ const WaitlistPage: React.FC<WaitlistPageProps> = ({ isOpen, onClose, source }) 
         hasFeedback: !!formData.feedback
       });
       setIsSuccess(true);
+      // Notify listeners (e.g. HeroLanding) to refresh the waitlist count
+      if (typeof window !== 'undefined') {
+        window.dispatchEvent(new CustomEvent('waitlist:submitted'));
+      }
     } else {
       trackWaitlistSubmitError(result.error || 'unknown');
       if (result.error === 'email_exists') {

@@ -1,4 +1,4 @@
-import React, { useRef, useState, useEffect } from 'react';
+import React, { useRef, useState, useEffect, useCallback } from 'react';
 import { useLanguage } from '../contexts/LanguageContext';
 import { getWaitlistCount } from '../lib/supabase';
 
@@ -13,9 +13,16 @@ const HeroLanding: React.FC<HeroLandingProps> = ({ onOpenWaitlist }) => {
   const [isScrollEnabled, setIsScrollEnabled] = useState(false);
   const [waitlistCount, setWaitlistCount] = useState(0);
 
-  useEffect(() => {
+  const refreshWaitlistCount = useCallback(() => {
     getWaitlistCount().then(setWaitlistCount);
   }, []);
+
+  // Fetch once on mount, and refetch whenever a submission succeeds
+  useEffect(() => {
+    refreshWaitlistCount();
+    window.addEventListener('waitlist:submitted', refreshWaitlistCount);
+    return () => window.removeEventListener('waitlist:submitted', refreshWaitlistCount);
+  }, [refreshWaitlistCount]);
 
   // Delay scroll effects until after LCP to reduce TBT and avoid forced reflows
   useEffect(() => {
