@@ -7,7 +7,6 @@ import HeroLanding from './components/HeroLanding';
 import { initializeAnalytics, trackWaitlistOpen, trackWaitlistClose, trackBackToTop, trackJoinWaitlistClick } from './lib/analytics';
 
 // Lazy load below-fold components to reduce initial bundle
-const SocialProof = lazy(() => import('./components/SocialProof'));
 const ServicesSection = lazy(() => import('./components/ServicesSection'));
 const HowItWorks = lazy(() => import('./components/HowItWorks'));
 const TrustSection = lazy(() => import('./components/TrustSection'));
@@ -69,7 +68,6 @@ const AppContent: React.FC = () => {
       <main>
         <HeroLanding onOpenWaitlist={() => openWaitlist('hero')} />
         <Suspense fallback={<SectionLoader />}>
-          <SocialProof />
           <ServicesSection />
           <HowItWorks />
           <TrustSection />
