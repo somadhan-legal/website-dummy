@@ -17,19 +17,19 @@
   font-display: swap;
 }
 
-/* Open Sans - English Primary */
+/* DM Sans - English Primary */
 @font-face {
-  font-family: "Open Sans";
-  src: url('/fonts/english/OpenSans-VariableFont_wdth,wght.ttf') format('truetype');
-  font-weight: 300 800;
+  font-family: "DM Sans";
+  src: url('/fonts/english/DMSans-VariableFont_opsz,wght.ttf') format('truetype');
+  font-weight: 100 900;
   font-style: normal;
   font-display: swap;
 }
 
 @font-face {
-  font-family: "Open Sans";
-  src: url('/fonts/english/OpenSans-Italic-VariableFont_wdth,wght.ttf') format('truetype');
-  font-weight: 300 800;
+  font-family: "DM Sans";
+  src: url('/fonts/english/DMSans-Italic-VariableFont_opsz,wght.ttf') format('truetype');
+  font-weight: 100 900;
   font-style: italic;
   font-display: swap;
 }
@@ -70,7 +70,7 @@
 
   /* Fonts */
   --font-serif: "Playfair Display", "Anek Bangla", serif;
-  --font-sans: "Open Sans", "Inter", sans-serif;
+  --font-sans: "DM Sans", "Inter", sans-serif;
   --font-bengali: "Anek Bangla", sans-serif;
 
   /* Custom shadows */
