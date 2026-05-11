@@ -219,7 +219,7 @@ const Footer: React.FC<FooterProps> = ({ onOpenWaitlist }) => {
               </span>
               {[
                 { name: 'ChatGPT', url: `https://chatgpt.com/?q=${aiPrompt}` },
-                { name: 'Claude', url: `https://claude.ai?q=${aiPrompt}` },
+                { name: 'Claude', url: `https://claude.ai/new?q=${aiPrompt}` },
                 { name: 'Perplexity', url: `https://www.perplexity.ai/search?q=${aiPrompt}` },
               ].map((ai) => (
                 <a
