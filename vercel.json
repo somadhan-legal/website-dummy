@@ -7,6 +7,10 @@
   ],
   "rewrites": [
     {
+      "source": "/about",
+      "destination": "/index.html"
+    },
+    {
       "source": "/terms",
       "destination": "/index.html"
     },
