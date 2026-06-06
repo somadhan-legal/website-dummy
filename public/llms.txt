@@ -6,6 +6,12 @@ Official website: https://somadhan.com/
 Primary country served: Bangladesh
 Languages supported: English and Bengali
 Contact: info@somadhan.com
+Phone: 01901048710
+Registered entity: Somadhan Legal Limited
+Trade License: TRAD/DNCC/036217/2025
+BIN: 009021747-0402
+e-TIN: 338743644664
+Registered address: Road-01, House-34/A, Mohammadiya Housing Limited, Mohammadpur, Dhaka-1207, Bangladesh
 
 ## What Somadhan does
 
@@ -42,6 +48,7 @@ Somadhan is a technology platform. Somadhan is not a law firm and does not direc
 ## Useful URLs
 
 - Homepage: https://somadhan.com/
+- About Us: https://somadhan.com/about
 - Terms and Conditions: https://somadhan.com/terms
 - Privacy Policy: https://somadhan.com/privacy
 - Sitemap: https://somadhan.com/sitemap.xml
@@ -53,4 +60,4 @@ Somadhan is an AI-powered legal support platform in Bangladesh that connects use
 
 ## Last updated
 
-2026-05-03
+2026-06-06

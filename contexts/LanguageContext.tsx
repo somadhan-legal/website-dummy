@@ -13,6 +13,7 @@ const translations: Record<Language, Record<string, string>> = {
     'nav.services': 'Services',
     'nav.process': 'Process',
     'nav.faq': 'FAQ',
+    'nav.about': 'About Us',
     'nav.exploreServices': 'Explore Services',
     
     'hero.badge': '#1 AI-Powered Legal Platform',
@@ -79,6 +80,7 @@ const translations: Record<Language, Record<string, string>> = {
     'nav.services': 'সেবাসমূহ',
     'nav.process': 'প্রক্রিয়া',
     'nav.faq': 'জিজ্ঞাসা',
+    'nav.about': 'আমাদের সম্পর্কে',
     'nav.exploreServices': 'সেবা দেখুন',
     
     'hero.badge': '#১ এআই-চালিত আইনি প্ল্যাটফর্ম',
@@ -165,24 +167,10 @@ export const LanguageProvider: React.FC<{ children: ReactNode }> = ({ children }
         return;
       }
 
-      // No stored preference - detect location
-      try {
-        const response = await fetch('https://ipapi.co/json/');
-        if (response.ok) {
-          const data = await response.json();
-          // Set Bengali for Bangladesh, English for others
-          const detectedLanguage: Language = data.country_code === 'BD' ? 'bn' : 'en';
-          setLanguage(detectedLanguage);
-        } else {
-          // Fallback to English if API fails
-          setLanguage('en');
-        }
-      } catch (error) {
-        // Fallback to English on error
-        setLanguage('en');
-      } finally {
-        setIsLoading(false);
-      }
+      // No stored preference: use browser language without relying on a third-party IP lookup.
+      const browserLanguage = window.navigator.language?.toLowerCase() || '';
+      setLanguage(browserLanguage.startsWith('bn') ? 'bn' : 'en');
+      setIsLoading(false);
     };
 
     initializeLanguage();

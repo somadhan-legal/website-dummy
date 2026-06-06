@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { ArrowLeft, ChevronUp, ChevronRight } from 'lucide-react';
 import { useLanguage } from '../contexts/LanguageContext';
 import { useDocumentMeta } from '../lib/useDocumentMeta';
+import { companyInfo } from '../lib/companyInfo';
 
 const sections = [
   { id: 'acceptance', titleEn: 'Acceptance of Terms', titleBn: 'শর্তাবলী গ্রহণ' },
@@ -10,6 +11,7 @@ const sections = [
   { id: 'services', titleEn: 'Description of Services', titleBn: 'সেবার বিবরণ' },
   { id: 'account', titleEn: 'Account Registration', titleBn: 'অ্যাকাউন্ট নিবন্ধন' },
   { id: 'fees', titleEn: 'Fees & Payments', titleBn: 'ফি ও পেমেন্ট' },
+  { id: 'refund', titleEn: 'Refund Policy', titleBn: 'রিফান্ড নীতি' },
   { id: 'conduct', titleEn: 'User Conduct', titleBn: 'ব্যবহারকারীর আচরণ' },
   { id: 'ip', titleEn: 'Intellectual Property', titleBn: 'মেধাস্বত্ব' },
   { id: 'disclaimer', titleEn: 'Disclaimers', titleBn: 'দাবিত্যাগ' },
@@ -128,7 +130,7 @@ const TermsPage: React.FC = () => {
             {bn ? 'শর্তাবলী' : 'Terms and Conditions'}
           </h1>
           <p className="text-slate-500 text-sm">
-            {bn ? 'সর্বশেষ আপডেট: ১৬ মার্চ, ২০২৬' : 'Last updated: March 16, 2026'}
+            {bn ? 'সর্বশেষ আপডেট: ৬ জুন, ২০২৬' : 'Last updated: June 6, 2026'}
           </p>
         </div>
 
@@ -270,7 +272,7 @@ const TermsPage: React.FC = () => {
                   <li>{bn ? 'সেবার ফি পরামর্শ বুকিং বা সেবা কেনার পূর্বে স্পষ্টভাবে প্রদর্শিত হবে' : 'Service fees will be clearly displayed before booking a consultation or purchasing a service'}</li>
                   <li>{bn ? 'পেমেন্ট বিকাশ, নগদ, রকেট, ব্যাংক কার্ড বা অন্যান্য অনুমোদিত মাধ্যমে করা যাবে' : 'Payments can be made via bKash, Nagad, Rocket, bank cards, or other approved methods'}</li>
                   <li>{bn ? 'কল-ভিত্তিক পরামর্শে আইনজীবীর নির্ধারিত রেট অনুযায়ী প্রতি মিনিটে চার্জ প্রযোজ্য' : 'Call-based consultations are charged per minute based on the lawyer\'s rate'}</li>
-                  <li>{bn ? 'রিফান্ড সেবার শর্তাবলী অনুযায়ী প্রসেস করা হবে এবং পেমেন্ট মাধ্যমে ফেরত দেওয়া হবে' : 'Refunds are processed according to service terms and are credited back to the original payment method'}</li>
+                  <li>{bn ? 'পেমেন্ট নিশ্চিতকরণ, রসিদ বা সেবা-সম্পর্কিত আপডেট প্ল্যাটফর্ম বা ইমেইলের মাধ্যমে পাঠানো হতে পারে' : 'Payment confirmations, receipts, or service-related updates may be shared through the Platform or email'}</li>
                 </ul>
                 <p className="text-slate-600 mt-3">
                   {bn
@@ -280,11 +282,32 @@ const TermsPage: React.FC = () => {
 
                 {/* Section 6 */}
                 <h2
+                  id="refund"
+                  ref={(el) => { sectionRefs.current['refund'] = el; }}
+                  className={`text-xl sm:text-2xl text-slate-900 mt-10 mb-4 scroll-mt-28 ${bn ? 'leading-[1.4]' : ''}`}
+                >
+                  {bn ? '৬. রিফান্ড নীতি' : '6. Refund Policy'}
+                </h2>
+                <p className="text-slate-600 mb-3">
+                  {bn
+                    ? 'রিফান্ড অনুরোধ সেবা, বুকিং অবস্থা, পেমেন্ট অবস্থা এবং সংশ্লিষ্ট আইনজীবী বা প্ল্যাটফর্মের ডেলিভারি স্ট্যাটাস যাচাই করে মূল্যায়ন করা হবে।'
+                    : 'Refund requests are reviewed based on the service, booking status, payment status, and the delivery status of the relevant lawyer or Platform service.'}
+                </p>
+                <ul className="text-slate-600 space-y-2 list-disc list-inside marker:text-slate-400">
+                  <li>{bn ? 'ডুপ্লিকেট বা ব্যর্থ পেমেন্ট, ভুলভাবে কাটা টাকা, অথবা সেবা শুরু হওয়ার আগে বাতিল হওয়া বুকিং রিফান্ডের জন্য বিবেচিত হতে পারে' : 'Duplicate or failed payments, incorrect charges, or bookings cancelled before the service begins may be considered for refund'}</li>
+                  <li>{bn ? 'আইনজীবী বা প্ল্যাটফর্ম-সংক্রান্ত কারণে নির্ধারিত সেবা প্রদান করা না গেলে অনুমোদিত রিফান্ড প্রযোজ্য হতে পারে' : 'If a scheduled service cannot be delivered due to lawyer or Platform-side issues, an approved refund may apply'}</li>
+                  <li>{bn ? 'সম্পন্ন পরামর্শ, ব্যবহৃত কল-মিনিট, বা ডেলিভার করা ডকুমেন্ট সাধারণত রিফান্ডযোগ্য নয়, যদি না স্পষ্ট সেবা-সংক্রান্ত সমস্যা প্রমাণিত হয়' : 'Completed consultations, used call minutes, or delivered documents are generally non-refundable unless a clear service issue is verified'}</li>
+                  <li>{bn ? 'রিফান্ড অনুরোধের জন্য ট্রানজ্যাকশন আইডি, বুকিং তথ্য এবং সমস্যার বিবরণসহ আমাদের ইমেইল বা ফোনে যোগাযোগ করতে হবে' : 'To request a refund, contact us by email or phone with the transaction ID, booking details, and a description of the issue'}</li>
+                  <li>{bn ? 'অনুমোদিত রিফান্ড মূল পেমেন্ট মাধ্যমে বা প্রযোজ্য আইনসম্মত বিকল্প মাধ্যমে প্রসেস করা হবে। পেমেন্ট গেটওয়ে, ব্যাংক বা মোবাইল ফিনান্সিয়াল সার্ভিসের নিজস্ব প্রসেসিং সময় ও চার্জ প্রযোজ্য হতে পারে' : 'Approved refunds will be processed to the original payment method or another legally permitted channel. Payment gateway, bank, or mobile financial service processing time and charges may apply'}</li>
+                </ul>
+
+                {/* Section 7 */}
+                <h2
                   id="conduct"
                   ref={(el) => { sectionRefs.current['conduct'] = el; }}
                   className={`text-xl sm:text-2xl text-slate-900 mt-10 mb-4 scroll-mt-28 ${bn ? 'leading-[1.4]' : ''}`}
                 >
-                  {bn ? '৬. ব্যবহারকারীর আচরণ' : '6. User Conduct'}
+                  {bn ? '৭. ব্যবহারকারীর আচরণ' : '7. User Conduct'}
                 </h2>
                 <p className="text-slate-600 mb-3">
                   {bn ? 'প্ল্যাটফর্ম ব্যবহারের সময় আপনি নিম্নলিখিত কাজগুলো করবেন না:' : 'While using the Platform, you agree not to:'}
@@ -299,13 +322,13 @@ const TermsPage: React.FC = () => {
                   <li>{bn ? 'বাংলাদেশের প্রচলিত আইন লঙ্ঘন করে এমন কোনো কাজে প্ল্যাটফর্ম ব্যবহার' : 'Use the Platform for any activity that violates the laws of Bangladesh'}</li>
                 </ul>
 
-                {/* Section 7 */}
+                {/* Section 8 */}
                 <h2
                   id="ip"
                   ref={(el) => { sectionRefs.current['ip'] = el; }}
                   className={`text-xl sm:text-2xl text-slate-900 mt-10 mb-4 scroll-mt-28 ${bn ? 'leading-[1.4]' : ''}`}
                 >
-                  {bn ? '৭. মেধাস্বত্ব' : '7. Intellectual Property'}
+                  {bn ? '৮. মেধাস্বত্ব' : '8. Intellectual Property'}
                 </h2>
                 <p className="text-slate-600">
                   {bn
@@ -313,13 +336,13 @@ const TermsPage: React.FC = () => {
                     : 'All content, design, logos, trademarks, software code, and other intellectual property on the Platform are the exclusive property of Somadhan Legal Limited. They are protected by the Copyright Act 2000, the Trademarks Act 2009 of Bangladesh, and applicable international laws. No part of the Platform may be reproduced, distributed, modified, or used commercially without our prior written consent.'}
                 </p>
 
-                {/* Section 8 */}
+                {/* Section 9 */}
                 <h2
                   id="disclaimer"
                   ref={(el) => { sectionRefs.current['disclaimer'] = el; }}
                   className={`text-xl sm:text-2xl text-slate-900 mt-10 mb-4 scroll-mt-28 ${bn ? 'leading-[1.4]' : ''}`}
                 >
-                  {bn ? '৮. দাবিত্যাগ' : '8. Disclaimers'}
+                  {bn ? '৯. দাবিত্যাগ' : '9. Disclaimers'}
                 </h2>
                 <p className="text-slate-600 mb-3">
                   {bn
@@ -333,13 +356,13 @@ const TermsPage: React.FC = () => {
                   <li>{bn ? 'তৃতীয় পক্ষের সেবা বা পেমেন্ট গেটওয়ের কার্যকারিতা' : 'The functionality of third-party services or payment gateways'}</li>
                 </ul>
 
-                {/* Section 9 */}
+                {/* Section 10 */}
                 <h2
                   id="limitation"
                   ref={(el) => { sectionRefs.current['limitation'] = el; }}
                   className={`text-xl sm:text-2xl text-slate-900 mt-10 mb-4 scroll-mt-28 ${bn ? 'leading-[1.4]' : ''}`}
                 >
-                  {bn ? '৯. দায় সীমাবদ্ধতা' : '9. Limitation of Liability'}
+                  {bn ? '১০. দায় সীমাবদ্ধতা' : '10. Limitation of Liability'}
                 </h2>
                 <p className="text-slate-600">
                   {bn
@@ -347,13 +370,13 @@ const TermsPage: React.FC = () => {
                     : 'To the maximum extent permitted by law, Somadhan shall not be liable for any indirect, incidental, special, consequential, or exemplary damages, including but not limited to loss of profits, loss of data, or loss of business opportunity. Somadhan\'s total aggregate liability shall not exceed the amount of fees paid by you to Somadhan in the 12 months preceding the claim.'}
                 </p>
 
-                {/* Section 10 */}
+                {/* Section 11 */}
                 <h2
                   id="indemnification"
                   ref={(el) => { sectionRefs.current['indemnification'] = el; }}
                   className={`text-xl sm:text-2xl text-slate-900 mt-10 mb-4 scroll-mt-28 ${bn ? 'leading-[1.4]' : ''}`}
                 >
-                  {bn ? '১০. ক্ষতিপূরণ' : '10. Indemnification'}
+                  {bn ? '১১. ক্ষতিপূরণ' : '11. Indemnification'}
                 </h2>
                 <p className="text-slate-600">
                   {bn
@@ -361,13 +384,13 @@ const TermsPage: React.FC = () => {
                     : 'You agree to indemnify and hold harmless Somadhan and its officers, directors, employees, and agents from any claims, damages, liabilities, and expenses (including legal fees) arising from (a) your breach of these Terms, (b) your use of the Platform, or (c) your violation of any applicable law.'}
                 </p>
 
-                {/* Section 11 */}
+                {/* Section 12 */}
                 <h2
                   id="termination"
                   ref={(el) => { sectionRefs.current['termination'] = el; }}
                   className={`text-xl sm:text-2xl text-slate-900 mt-10 mb-4 scroll-mt-28 ${bn ? 'leading-[1.4]' : ''}`}
                 >
-                  {bn ? '১১. সমাপ্তি' : '11. Termination'}
+                  {bn ? '১২. সমাপ্তি' : '12. Termination'}
                 </h2>
                 <p className="text-slate-600 mb-3">
                   {bn ? 'আমরা নিম্নলিখিত পরিস্থিতিতে আপনার অ্যাকাউন্ট স্থগিত বা বন্ধ করার অধিকার সংরক্ষণ করি:' : 'We reserve the right to suspend or terminate your account under the following circumstances:'}
@@ -384,13 +407,13 @@ const TermsPage: React.FC = () => {
                     : 'You may close your account at any time by following the account deletion process outlined in our Privacy Policy. Upon account closure, any related matters will be settled according to our refund policy.'}
                 </p>
 
-                {/* Section 12 */}
+                {/* Section 13 */}
                 <h2
                   id="governing"
                   ref={(el) => { sectionRefs.current['governing'] = el; }}
                   className={`text-xl sm:text-2xl text-slate-900 mt-10 mb-4 scroll-mt-28 ${bn ? 'leading-[1.4]' : ''}`}
                 >
-                  {bn ? '১২. প্রযোজ্য আইন' : '12. Governing Law'}
+                  {bn ? '১৩. প্রযোজ্য আইন' : '13. Governing Law'}
                 </h2>
                 <p className="text-slate-600">
                   {bn
@@ -398,13 +421,13 @@ const TermsPage: React.FC = () => {
                     : 'These Terms shall be governed by and construed in accordance with the laws of the People\'s Republic of Bangladesh. Any disputes arising from these Terms shall be subject to the exclusive jurisdiction of the courts of Dhaka, Bangladesh. You agree to first pursue arbitration under the Arbitration Act 2001 (as amended) before resorting to litigation.'}
                 </p>
 
-                {/* Section 13 */}
+                {/* Section 14 */}
                 <h2
                   id="changes"
                   ref={(el) => { sectionRefs.current['changes'] = el; }}
                   className={`text-xl sm:text-2xl text-slate-900 mt-10 mb-4 scroll-mt-28 ${bn ? 'leading-[1.4]' : ''}`}
                 >
-                  {bn ? '১৩. শর্তাবলী পরিবর্তন' : '13. Changes to Terms'}
+                  {bn ? '১৪. শর্তাবলী পরিবর্তন' : '14. Changes to Terms'}
                 </h2>
                 <p className="text-slate-600">
                   {bn
@@ -412,13 +435,13 @@ const TermsPage: React.FC = () => {
                     : 'We reserve the right to update or modify these Terms from time to time. For material changes, we will provide notice on the Platform or notify you via your registered email address. Your continued use of the Platform after the updated Terms become effective constitutes acceptance of the changes.'}
                 </p>
 
-                {/* Section 14 */}
+                {/* Section 15 */}
                 <h2
                   id="contact"
                   ref={(el) => { sectionRefs.current['contact'] = el; }}
                   className={`text-xl sm:text-2xl text-slate-900 mt-10 mb-4 scroll-mt-28 ${bn ? 'leading-[1.4]' : ''}`}
                 >
-                  {bn ? '১৪. যোগাযোগ' : '14. Contact Us'}
+                  {bn ? '১৫. যোগাযোগ' : '15. Contact Us'}
                 </h2>
                 <p className="text-slate-600 mb-3">
                   {bn
@@ -427,12 +450,16 @@ const TermsPage: React.FC = () => {
                 </p>
                 <div className="bg-slate-50 rounded-xl p-5 border border-slate-100">
                   <p className="font-semibold text-slate-900 mb-2">
-                    {bn ? 'সমাধান লিগ্যাল লিমিটেড' : 'Somadhan Legal Limited'}
+                    {bn ? companyInfo.legalNameBn : companyInfo.legalName}
                   </p>
                   <div className="space-y-1 text-slate-600 text-sm">
-                    <p>{bn ? 'ইমেইল: info@somadhan.com' : 'Email: info@somadhan.com'}</p>
-                    <p>{bn ? 'ওয়েবসাইট: somadhan.com' : 'Website: somadhan.com'}</p>
-                    <p>{bn ? 'ঠিকানা: ঢাকা, বাংলাদেশ' : 'Address: Dhaka, Bangladesh'}</p>
+                    <p>{bn ? `ইমেইল: ${companyInfo.email}` : `Email: ${companyInfo.email}`}</p>
+                    <p>{bn ? `ফোন: ${companyInfo.phoneDisplay}` : `Phone: ${companyInfo.phoneDisplay}`}</p>
+                    <p>{bn ? `ওয়েবসাইট: ${companyInfo.website}` : `Website: ${companyInfo.website}`}</p>
+                    <p>{bn ? `ঠিকানা: ${companyInfo.addressBn}` : `Address: ${companyInfo.address}`}</p>
+                    <p>{bn ? `ট্রেড লাইসেন্স: ${companyInfo.tradeLicenseNumber}` : `Trade License: ${companyInfo.tradeLicenseNumber}`}</p>
+                    <p>{bn ? `বিআইএন: ${companyInfo.binNumber}` : `BIN: ${companyInfo.binNumber}`}</p>
+                    <p>{bn ? `ই-টিআইএন: ${companyInfo.tinNumber}` : `e-TIN: ${companyInfo.tinNumber}`}</p>
                   </div>
                 </div>
 

@@ -4,6 +4,7 @@ import { ArrowLeft, ChevronUp, ChevronRight } from 'lucide-react';
 import { useLanguage } from '../contexts/LanguageContext';
 import { useDocumentMeta } from '../lib/useDocumentMeta';
 import AccountDeletionModal from './AccountDeletionModal';
+import { companyInfo } from '../lib/companyInfo';
 
 const SUPABASE_URL = 'https://jlltjzwukpsuykfdixlx.supabase.co';
 const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImpsbHRqend1a3BzdXlrZmRpeGx4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njc2MTMwNDIsImV4cCI6MjA4MzE4OTA0Mn0.-HEQ8V4qElOtP4VzuAOS24Oqc9P7wZUvmE7lUoO7HYo';
@@ -431,13 +432,14 @@ const PrivacyPolicyPage: React.FC = () => {
                 </p>
                 <div className="bg-slate-50 rounded-xl p-5 border border-slate-100 not-prose">
                   <p className="font-semibold text-slate-900 mb-2">
-                    {bn ? 'সমাধান লিগ্যাল লিমিটেড' : 'Somadhan Legal Limited'}
+                    {bn ? companyInfo.legalNameBn : companyInfo.legalName}
                   </p>
                   <div className="space-y-1 text-slate-600 text-sm">
-                    <p>{bn ? 'ইমেইল: info@somadhan.com' : 'Email: info@somadhan.com'}</p>
-                    <p>{bn ? 'গোপনীয়তা বিষয়ক ইমেইল: privacy@somadhan.com' : 'Privacy inquiries: privacy@somadhan.com'}</p>
-                    <p>{bn ? 'ওয়েবসাইট: somadhan.com' : 'Website: somadhan.com'}</p>
-                    <p>{bn ? 'ঠিকানা: ঢাকা, বাংলাদেশ' : 'Address: Dhaka, Bangladesh'}</p>
+                    <p>{bn ? `ইমেইল: ${companyInfo.email}` : `Email: ${companyInfo.email}`}</p>
+                    <p>{bn ? `গোপনীয়তা বিষয়ক ইমেইল: ${companyInfo.privacyEmail}` : `Privacy inquiries: ${companyInfo.privacyEmail}`}</p>
+                    <p>{bn ? `ফোন: ${companyInfo.phoneDisplay}` : `Phone: ${companyInfo.phoneDisplay}`}</p>
+                    <p>{bn ? `ওয়েবসাইট: ${companyInfo.website}` : `Website: ${companyInfo.website}`}</p>
+                    <p>{bn ? `ঠিকানা: ${companyInfo.addressBn}` : `Address: ${companyInfo.address}`}</p>
                   </div>
                 </div>
               </div>

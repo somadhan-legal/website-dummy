@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Mail, Smartphone, Bell, ArrowRight, ArrowUpRight } from 'lucide-react';
+import { BadgeCheck, Bell, Building2, FileText, Mail, MapPin, Phone, Smartphone, ArrowRight, ArrowUpRight } from 'lucide-react';
 import { useLanguage } from '../contexts/LanguageContext';
 import { trackCTAClick, trackSocialClick } from '../lib/analytics';
+import { companyInfo } from '../lib/companyInfo';
 
 interface FooterProps {
   onOpenWaitlist: () => void;
@@ -11,11 +12,23 @@ interface FooterProps {
 
 const Footer: React.FC<FooterProps> = ({ onOpenWaitlist }) => {
   const { t, language } = useLanguage();
+  const location = useLocation();
+  const navigate = useNavigate();
   const [showComingSoon, setShowComingSoon] = useState<string | null>(null);
   const aiPrompt = encodeURIComponent('What is Somadhan (somadhan.com)? Tell me about this AI-powered legal services platform from Bangladesh that connects people with verified lawyers, provides legal document management, and case tracking with full transparency.');
+  const businessDetails = [
+    { label: language === 'bn' ? 'ট্রেড লাইসেন্স' : 'Trade License', value: companyInfo.tradeLicenseNumber, icon: BadgeCheck },
+    { label: language === 'bn' ? 'বিআইএন' : 'BIN', value: companyInfo.binNumber, icon: FileText },
+    { label: language === 'bn' ? 'ই-টিআইএন' : 'e-TIN', value: companyInfo.tinNumber, icon: Building2 },
+  ];
 
   const scrollToSection = (e: React.MouseEvent<HTMLAnchorElement>, id: string) => {
     e.preventDefault();
+    if (location.pathname !== '/') {
+      navigate({ pathname: '/', hash: `#${id}` });
+      return;
+    }
+
     const element = document.getElementById(id);
     if (element) {
       const offset = 80;
@@ -62,6 +75,40 @@ const Footer: React.FC<FooterProps> = ({ onOpenWaitlist }) => {
         </div>
       </div>
 
+      {/* Registered Business Details */}
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 pt-6">
+        <div className="rounded-2xl border border-slate-200 bg-white p-5 sm:p-6 shadow-sm">
+          <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4 mb-5">
+            <div>
+              <p className="text-xs font-bold text-brand-600 uppercase tracking-wider mb-1">
+                {language === 'bn' ? 'নিবন্ধিত ব্যবসার তথ্য' : 'Registered business information'}
+              </p>
+              <p className={`text-sm text-slate-600 ${language === 'bn' ? 'leading-relaxed' : ''}`}>
+                {language === 'bn' ? companyInfo.legalNameBn : companyInfo.legalName}
+              </p>
+            </div>
+            <a
+              href={companyInfo.googleMapsUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center justify-center gap-1.5 px-4 py-2 rounded-full bg-slate-50 border border-slate-100 text-sm font-semibold text-brand-600 hover:bg-brand-50 hover:border-brand-100 transition-colors"
+            >
+              {language === 'bn' ? 'ম্যাপ দেখুন' : 'View Map'}
+              <ArrowUpRight className="w-3.5 h-3.5" />
+            </a>
+          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+            {businessDetails.map((detail) => (
+              <div key={detail.label} className="rounded-xl bg-slate-50 border border-slate-100 p-4">
+                <detail.icon className="w-4 h-4 text-brand-600 mb-2" strokeWidth={1.7} />
+                <p className="text-[11px] font-semibold text-slate-400 uppercase tracking-wider mb-1">{detail.label}</p>
+                <p className="text-sm font-semibold text-slate-900 break-words">{detail.value}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+
       {/* Main Footer Content */}
       <div className="max-w-6xl mx-auto px-4 sm:px-6 py-12">
         <div className="grid grid-cols-2 md:grid-cols-12 gap-8">
@@ -75,13 +122,33 @@ const Footer: React.FC<FooterProps> = ({ onOpenWaitlist }) => {
             <p className={`text-slate-500 text-sm leading-relaxed mb-4 max-w-[260px] ${language === 'bn' ? 'leading-relaxed' : ''}`}>
               {t('footer.tagline')}
             </p>
-            <a
-              href="mailto:info@somadhan.com"
-              className="inline-flex items-center gap-2 text-slate-500 hover:text-brand-600 text-sm transition-colors group"
-            >
-              <Mail className="w-4 h-4" />
-              <span className="group-hover:underline">info@somadhan.com</span>
-            </a>
+            <div className="space-y-2">
+              <a
+                href={`mailto:${companyInfo.email}`}
+                className="inline-flex items-center gap-2 text-slate-500 hover:text-brand-600 text-sm transition-colors group"
+              >
+                <Mail className="w-4 h-4" />
+                <span className="group-hover:underline">{companyInfo.email}</span>
+              </a>
+              <a
+                href={companyInfo.phoneHref}
+                className="flex items-center gap-2 text-slate-500 hover:text-brand-600 text-sm transition-colors group"
+              >
+                <Phone className="w-4 h-4" />
+                <span className="group-hover:underline">{companyInfo.phoneDisplay}</span>
+              </a>
+              <a
+                href={companyInfo.googleMapsUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-start gap-2 text-slate-500 hover:text-brand-600 text-sm transition-colors group max-w-[280px]"
+              >
+                <MapPin className="w-4 h-4 mt-0.5 flex-shrink-0" />
+                <span className={`${language === 'bn' ? 'leading-relaxed' : 'leading-relaxed'} group-hover:underline`}>
+                  {language === 'bn' ? companyInfo.addressBn : companyInfo.address}
+                </span>
+              </a>
+            </div>
           </div>
 
           {/* Quick Links */}
@@ -110,25 +177,13 @@ const Footer: React.FC<FooterProps> = ({ onOpenWaitlist }) => {
           <div className="md:col-span-2">
             <h3 className="font-semibold text-sm text-slate-900 mb-4">{t('footer.company')}</h3>
             <ul className="space-y-2.5">
-              <li className="flex items-center gap-2">
-                <button
-                  onClick={() => handleComingSoonClick('about')}
-                  className={`text-slate-500 hover:text-slate-700 text-sm transition-colors ${language === 'bn' ? 'tracking-wide' : ''}`}
+              <li>
+                <Link
+                  to="/about"
+                  className={`text-slate-500 hover:text-brand-600 text-sm transition-colors ${language === 'bn' ? 'tracking-wide' : ''}`}
                 >
                   {t('footer.about')}
-                </button>
-                <AnimatePresence>
-                  {showComingSoon === 'about' && (
-                    <motion.span
-                      initial={{ opacity: 0, scale: 0.8 }}
-                      animate={{ opacity: 1, scale: 1 }}
-                      exit={{ opacity: 0, scale: 0.8 }}
-                      className="px-1.5 py-0.5 bg-brand-600 text-white text-[9px] font-medium rounded whitespace-nowrap"
-                    >
-                      Soon
-                    </motion.span>
-                  )}
-                </AnimatePresence>
+                </Link>
               </li>
               <li className="flex items-center gap-2">
                 <button

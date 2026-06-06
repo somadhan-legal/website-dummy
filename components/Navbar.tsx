@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Menu, X, Globe, ChevronRight } from 'lucide-react';
 import { useLanguage } from '../contexts/LanguageContext';
@@ -14,9 +15,10 @@ const Navbar: React.FC<NavbarProps> = ({ onOpenWaitlist }) => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   const navLinks = [
-    { label: t('nav.services'), href: '#services', id: 'services' },
-    { label: t('nav.process'), href: '#process', id: 'process' },
-    { label: t('nav.faq'), href: '#faq', id: 'faq' },
+    { label: t('nav.services'), href: '#services', id: 'services', type: 'section' as const },
+    { label: t('nav.process'), href: '#process', id: 'process', type: 'section' as const },
+    { label: t('nav.faq'), href: '#faq', id: 'faq', type: 'section' as const },
+    { label: t('nav.about'), href: '/about', id: 'about', type: 'page' as const },
   ];
 
   useEffect(() => {
@@ -75,6 +77,11 @@ const Navbar: React.FC<NavbarProps> = ({ onOpenWaitlist }) => {
     trackContactClick('email', location);
   };
 
+  const handlePageNavClick = (linkId: string, href: string) => {
+    trackNavClick(linkId, href);
+    setIsMobileMenuOpen(false);
+  };
+
   return (
     <>
       <motion.nav
@@ -100,15 +107,27 @@ const Navbar: React.FC<NavbarProps> = ({ onOpenWaitlist }) => {
             {/* Desktop Navigation */}
             <div className="hidden md:flex items-center gap-8">
               {navLinks.map((link) => (
-                <a
-                  key={link.href}
-                  href={link.href}
-                  onClick={(e) => scrollToSection(e, link.href, link.id)}
-                  className={`text-sm font-medium transition-colors ${isScrolled ? 'text-slate-600 hover:text-brand-600' : 'text-white/80 hover:text-white'
-                    } ${language === 'bn' ? 'tracking-wide' : ''}`}
-                >
-                  {link.label}
-                </a>
+                link.type === 'section' ? (
+                  <a
+                    key={link.href}
+                    href={link.href}
+                    onClick={(e) => scrollToSection(e, link.href, link.id)}
+                    className={`text-sm font-medium transition-colors ${isScrolled ? 'text-slate-600 hover:text-brand-600' : 'text-white/80 hover:text-white'
+                      } ${language === 'bn' ? 'tracking-wide' : ''}`}
+                  >
+                    {link.label}
+                  </a>
+                ) : (
+                  <Link
+                    key={link.href}
+                    to={link.href}
+                    onClick={() => handlePageNavClick(link.id, link.href)}
+                    className={`text-sm font-medium transition-colors ${isScrolled ? 'text-slate-600 hover:text-brand-600' : 'text-white/80 hover:text-white'
+                      } ${language === 'bn' ? 'tracking-wide' : ''}`}
+                  >
+                    {link.label}
+                  </Link>
+                )
               ))}
             </div>
 
@@ -197,15 +216,27 @@ const Navbar: React.FC<NavbarProps> = ({ onOpenWaitlist }) => {
                 </p>
                 <div className="space-y-1">
                   {navLinks.map((link) => (
-                    <a
-                      key={link.href}
-                      href={link.href}
-                      onClick={(e) => scrollToSection(e, link.href, link.id)}
-                      className={`flex items-center justify-between px-3 py-3 text-slate-700 hover:bg-slate-50 rounded-xl font-medium transition-colors ${language === 'bn' ? 'leading-relaxed' : ''}`}
-                    >
-                      <span>{link.label}</span>
-                      <ChevronRight className="w-4 h-4 text-slate-300" />
-                    </a>
+                    link.type === 'section' ? (
+                      <a
+                        key={link.href}
+                        href={link.href}
+                        onClick={(e) => scrollToSection(e, link.href, link.id)}
+                        className={`flex items-center justify-between px-3 py-3 text-slate-700 hover:bg-slate-50 rounded-xl font-medium transition-colors ${language === 'bn' ? 'leading-relaxed' : ''}`}
+                      >
+                        <span>{link.label}</span>
+                        <ChevronRight className="w-4 h-4 text-slate-300" />
+                      </a>
+                    ) : (
+                      <Link
+                        key={link.href}
+                        to={link.href}
+                        onClick={() => handlePageNavClick(link.id, link.href)}
+                        className={`flex items-center justify-between px-3 py-3 text-slate-700 hover:bg-slate-50 rounded-xl font-medium transition-colors ${language === 'bn' ? 'leading-relaxed' : ''}`}
+                      >
+                        <span>{link.label}</span>
+                        <ChevronRight className="w-4 h-4 text-slate-300" />
+                      </Link>
+                    )
                   ))}
                 </div>
               </div>
