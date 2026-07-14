@@ -133,16 +133,18 @@ const AboutPage: React.FC = () => {
                   initial={{ opacity: 0, y: -4 }}
                   animate={{ opacity: 1, y: 0 }}
                   role="menu"
-                  className="absolute top-full left-1/2 mt-3 w-44 -translate-x-1/2 overflow-hidden rounded-lg border border-slate-200 bg-white p-1.5 shadow-lg shadow-slate-900/10"
+                  className="absolute top-full left-1/2 mt-2.5 w-40 -translate-x-1/2 overflow-hidden rounded-md bg-white shadow-[0_10px_30px_rgba(15,23,42,0.14)] ring-1 ring-slate-900/5"
                 >
                   <a
                     href={companyInfo.somadhanSignUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
                     role="menuitem"
                     onClick={() => {
                       trackNavClick('somadhan_sign', companyInfo.somadhanSignUrl);
                       setIsToolsOpen(false);
                     }}
-                    className="flex items-center justify-between rounded-md px-3 py-2.5 text-sm font-medium text-slate-700 transition-colors hover:bg-slate-50 hover:text-brand-600"
+                    className="flex items-center justify-between px-3.5 py-2.5 text-sm font-medium text-slate-700 transition-colors hover:bg-slate-50 hover:text-brand-600"
                   >
                     <span>Somadhan Sign</span>
                     <ExternalLink className="w-3.5 h-3.5 text-slate-400" aria-hidden="true" />
@@ -169,6 +171,8 @@ const AboutPage: React.FC = () => {
             </button>
             <a
               href={companyInfo.somadhanSignUrl}
+              target="_blank"
+              rel="noopener noreferrer"
               onClick={() => trackCTAClick('get_started', 'about_navbar')}
               className="inline-flex items-center px-4 sm:px-5 py-2 rounded-full text-sm font-semibold bg-brand-600 text-white hover:bg-brand-700 transition-all hover:scale-105 active:scale-95"
             >

@@ -152,16 +152,18 @@ const Navbar: React.FC<NavbarProps> = ({ onOpenWaitlist }) => {
                           exit={{ opacity: 0, y: -4 }}
                           transition={{ duration: 0.15 }}
                           role="menu"
-                          className="absolute top-full left-1/2 mt-3 w-44 -translate-x-1/2 overflow-hidden rounded-lg border border-slate-200 bg-white p-1.5 shadow-lg shadow-slate-900/10"
+                          className="absolute top-full left-1/2 mt-2.5 w-40 -translate-x-1/2 overflow-hidden rounded-md bg-white shadow-[0_10px_30px_rgba(15,23,42,0.14)] ring-1 ring-slate-900/5"
                         >
                           <a
                             href={companyInfo.somadhanSignUrl}
+                            target="_blank"
+                            rel="noopener noreferrer"
                             role="menuitem"
                             onClick={() => {
                               trackNavClick('somadhan_sign', companyInfo.somadhanSignUrl);
                               setIsToolsOpen(false);
                             }}
-                            className="flex items-center justify-between rounded-md px-3 py-2.5 text-sm font-medium text-slate-700 transition-colors hover:bg-slate-50 hover:text-brand-600"
+                            className="flex items-center justify-between px-3.5 py-2.5 text-sm font-medium text-slate-700 transition-colors hover:bg-slate-50 hover:text-brand-600"
                           >
                             <span>Somadhan Sign</span>
                             <ExternalLink className="w-3.5 h-3.5 text-slate-400" aria-hidden="true" />
@@ -211,6 +213,8 @@ const Navbar: React.FC<NavbarProps> = ({ onOpenWaitlist }) => {
               {/* Primary action */}
               <a
                 href={companyInfo.somadhanSignUrl}
+                target="_blank"
+                rel="noopener noreferrer"
                 onClick={() => handleGetStartedClick('navbar')}
                 className={`hidden sm:flex items-center px-5 py-2 rounded-full text-sm font-semibold transition-all hover:scale-105 active:scale-95 ${isScrolled
                   ? 'bg-brand-600 text-white hover:bg-brand-700'
@@ -301,12 +305,14 @@ const Navbar: React.FC<NavbarProps> = ({ onOpenWaitlist }) => {
                             >
                               <a
                                 href={companyInfo.somadhanSignUrl}
+                                target="_blank"
+                                rel="noopener noreferrer"
                                 onClick={() => {
                                   trackNavClick('somadhan_sign', companyInfo.somadhanSignUrl);
                                   setIsMobileMenuOpen(false);
                                   setIsToolsOpen(false);
                                 }}
-                                className="mx-3 mb-1 flex items-center justify-between rounded-lg border-l-2 border-brand-200 py-2.5 pl-4 pr-3 text-sm font-medium text-slate-600 transition-colors hover:bg-slate-50 hover:text-brand-600"
+                                className="mx-3 mb-1 flex items-center justify-between rounded-md py-2.5 pl-4 pr-3 text-sm font-medium text-slate-600 transition-colors hover:bg-slate-50 hover:text-brand-600"
                               >
                                 <span>Somadhan Sign</span>
                                 <ExternalLink className="w-3.5 h-3.5 text-slate-400" aria-hidden="true" />
@@ -354,6 +360,8 @@ const Navbar: React.FC<NavbarProps> = ({ onOpenWaitlist }) => {
                 {/* Primary action */}
                 <a
                   href={companyInfo.somadhanSignUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
                   onClick={() => handleGetStartedClick('mobile_menu')}
                   className="w-full flex items-center justify-center px-4 py-3 bg-brand-600 text-white rounded-xl font-semibold transition-colors hover:bg-brand-700"
                 >
