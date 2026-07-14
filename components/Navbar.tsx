@@ -152,7 +152,7 @@ const Navbar: React.FC<NavbarProps> = ({ onOpenWaitlist }) => {
                           exit={{ opacity: 0, y: -4 }}
                           transition={{ duration: 0.15 }}
                           role="menu"
-                          className="absolute top-full left-1/2 mt-2.5 w-40 -translate-x-1/2 overflow-hidden rounded-md bg-white shadow-[0_10px_30px_rgba(15,23,42,0.14)] ring-1 ring-slate-900/5"
+                          className="absolute top-full left-1/2 mt-2.5 w-40 -translate-x-1/2 overflow-hidden rounded-full bg-white shadow-[0_8px_24px_rgba(15,23,42,0.14)] ring-1 ring-slate-900/5"
                         >
                           <a
                             href={companyInfo.somadhanSignUrl}
