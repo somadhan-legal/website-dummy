@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import {
   Globe,
@@ -7,15 +7,20 @@ import {
   Sparkles,
   FileCheck2,
   CheckCircle2,
+  ChevronDown,
+  ExternalLink,
 } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { useLanguage } from '../contexts/LanguageContext';
 import { useDocumentMeta } from '../lib/useDocumentMeta';
 import { companyInfo } from '../lib/companyInfo';
+import { trackCTAClick, trackNavClick } from '../lib/analytics';
 
 const AboutPage: React.FC = () => {
   const { language, setLanguage, t } = useLanguage();
   const bn = language === 'bn';
+  const [isToolsOpen, setIsToolsOpen] = useState(false);
+  const toolsMenuRef = useRef<HTMLDivElement>(null);
 
   useDocumentMeta({
     title: bn ? 'আমাদের সম্পর্কে | সমাধান' : 'About Us | Somadhan',
@@ -29,12 +34,23 @@ const AboutPage: React.FC = () => {
     window.scrollTo(0, 0);
   }, []);
 
-  const navItems = [
-    { label: t('nav.services'), to: '/#services' },
-    { label: t('nav.process'), to: '/#process' },
-    { label: t('nav.faq'), to: '/#faq' },
-    { label: bn ? 'আমাদের সম্পর্কে' : 'About Us', to: '/about' },
-  ];
+  useEffect(() => {
+    const handlePointerDown = (event: MouseEvent) => {
+      if (toolsMenuRef.current && !toolsMenuRef.current.contains(event.target as Node)) {
+        setIsToolsOpen(false);
+      }
+    };
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') setIsToolsOpen(false);
+    };
+
+    document.addEventListener('mousedown', handlePointerDown);
+    document.addEventListener('keydown', handleKeyDown);
+    return () => {
+      document.removeEventListener('mousedown', handlePointerDown);
+      document.removeEventListener('keydown', handleKeyDown);
+    };
+  }, []);
 
   const principles = [
     {
@@ -94,17 +110,53 @@ const AboutPage: React.FC = () => {
           </Link>
 
           <div className="hidden md:flex items-center gap-7">
-            {navItems.map((item) => (
-              <Link
-                key={item.to}
-                to={item.to}
-                className={`text-sm font-medium transition-colors ${
-                  item.to === '/about' ? 'text-brand-600' : 'text-slate-500 hover:text-brand-600'
-                } ${bn ? 'tracking-wide' : ''}`}
+            <Link
+              to="/#services"
+              onClick={() => trackNavClick('services', '/#services')}
+              className={`text-sm font-medium text-slate-500 hover:text-brand-600 transition-colors ${bn ? 'tracking-wide' : ''}`}
+            >
+              {t('nav.services')}
+            </Link>
+            <div ref={toolsMenuRef} className="relative">
+              <button
+                type="button"
+                onClick={() => setIsToolsOpen((open) => !open)}
+                aria-expanded={isToolsOpen}
+                aria-haspopup="menu"
+                className={`inline-flex items-center gap-1 text-sm font-medium text-slate-500 hover:text-brand-600 transition-colors ${bn ? 'tracking-wide' : ''}`}
               >
-                {item.label}
-              </Link>
-            ))}
+                {t('nav.tools')}
+                <ChevronDown className={`w-3.5 h-3.5 transition-transform duration-200 ${isToolsOpen ? 'rotate-180' : ''}`} />
+              </button>
+              {isToolsOpen && (
+                <motion.div
+                  initial={{ opacity: 0, y: -4 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  role="menu"
+                  className="absolute top-full left-1/2 mt-3 w-44 -translate-x-1/2 overflow-hidden rounded-lg border border-slate-200 bg-white p-1.5 shadow-lg shadow-slate-900/10"
+                >
+                  <a
+                    href={companyInfo.somadhanSignUrl}
+                    role="menuitem"
+                    onClick={() => {
+                      trackNavClick('somadhan_sign', companyInfo.somadhanSignUrl);
+                      setIsToolsOpen(false);
+                    }}
+                    className="flex items-center justify-between rounded-md px-3 py-2.5 text-sm font-medium text-slate-700 transition-colors hover:bg-slate-50 hover:text-brand-600"
+                  >
+                    <span>Somadhan Sign</span>
+                    <ExternalLink className="w-3.5 h-3.5 text-slate-400" aria-hidden="true" />
+                  </a>
+                </motion.div>
+              )}
+            </div>
+            <Link
+              to="/about"
+              onClick={() => trackNavClick('about', '/about')}
+              className={`text-sm font-medium text-brand-600 transition-colors ${bn ? 'tracking-wide' : ''}`}
+            >
+              {t('nav.about')}
+            </Link>
           </div>
 
           <div className="flex items-center gap-2">
@@ -116,10 +168,11 @@ const AboutPage: React.FC = () => {
               {bn ? 'EN' : 'বাং'}
             </button>
             <a
-              href={`mailto:${companyInfo.email}`}
+              href={companyInfo.somadhanSignUrl}
+              onClick={() => trackCTAClick('get_started', 'about_navbar')}
               className="inline-flex items-center px-4 sm:px-5 py-2 rounded-full text-sm font-semibold bg-brand-600 text-white hover:bg-brand-700 transition-all hover:scale-105 active:scale-95"
             >
-              {bn ? 'যোগাযোগ' : 'Contact Us'}
+              {t('nav.getStarted')}
             </a>
           </div>
         </div>

@@ -11,9 +11,11 @@ interface LanguageContextType {
 const translations: Record<Language, Record<string, string>> = {
   en: {
     'nav.services': 'Services',
+    'nav.tools': 'Tools',
     'nav.process': 'Process',
     'nav.faq': 'FAQ',
     'nav.about': 'About Us',
+    'nav.getStarted': 'Get Started',
     'nav.exploreServices': 'Explore Services',
     
     'hero.badge': '#1 AI-Powered Legal Platform',
@@ -78,9 +80,11 @@ const translations: Record<Language, Record<string, string>> = {
   },
   bn: {
     'nav.services': 'সেবাসমূহ',
+    'nav.tools': 'টুলস',
     'nav.process': 'প্রক্রিয়া',
     'nav.faq': 'জিজ্ঞাসা',
     'nav.about': 'আমাদের সম্পর্কে',
+    'nav.getStarted': 'শুরু করুন',
     'nav.exploreServices': 'সেবা দেখুন',
     
     'hero.badge': '#১ এআই-চালিত আইনি প্ল্যাটফর্ম',

@@ -1,9 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Menu, X, Globe, ChevronRight } from 'lucide-react';
+import { Menu, X, Globe, ChevronRight, ChevronDown, ExternalLink } from 'lucide-react';
 import { useLanguage } from '../contexts/LanguageContext';
-import { trackNavClick, trackMobileMenuOpen, trackMobileMenuClose, trackLogoClick, trackLanguageChange, trackContactClick } from '../lib/analytics';
+import { trackNavClick, trackMobileMenuOpen, trackMobileMenuClose, trackLogoClick, trackLanguageChange, trackCTAClick } from '../lib/analytics';
+import { companyInfo } from '../lib/companyInfo';
 
 interface NavbarProps {
   onOpenWaitlist: () => void;
@@ -13,11 +14,12 @@ const Navbar: React.FC<NavbarProps> = ({ onOpenWaitlist }) => {
   const { language, setLanguage, t } = useLanguage();
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isToolsOpen, setIsToolsOpen] = useState(false);
+  const toolsMenuRef = useRef<HTMLDivElement>(null);
 
   const navLinks = [
     { label: t('nav.services'), href: '#services', id: 'services', type: 'section' as const },
-    { label: t('nav.process'), href: '#process', id: 'process', type: 'section' as const },
-    { label: t('nav.faq'), href: '#faq', id: 'faq', type: 'section' as const },
+    { label: t('nav.tools'), href: companyInfo.somadhanSignUrl, id: 'tools', type: 'tools' as const },
     { label: t('nav.about'), href: '/about', id: 'about', type: 'page' as const },
   ];
 
@@ -38,6 +40,24 @@ const Navbar: React.FC<NavbarProps> = ({ onOpenWaitlist }) => {
     return () => { document.body.style.overflow = 'unset'; };
   }, [isMobileMenuOpen]);
 
+  useEffect(() => {
+    const handlePointerDown = (event: MouseEvent) => {
+      if (!isMobileMenuOpen && toolsMenuRef.current && !toolsMenuRef.current.contains(event.target as Node)) {
+        setIsToolsOpen(false);
+      }
+    };
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') setIsToolsOpen(false);
+    };
+
+    document.addEventListener('mousedown', handlePointerDown);
+    document.addEventListener('keydown', handleKeyDown);
+    return () => {
+      document.removeEventListener('mousedown', handlePointerDown);
+      document.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [isMobileMenuOpen]);
+
   const scrollToSection = (e: React.MouseEvent<HTMLAnchorElement>, href: string, linkId: string) => {
     e.preventDefault();
     trackNavClick(linkId, href);
@@ -49,6 +69,7 @@ const Navbar: React.FC<NavbarProps> = ({ onOpenWaitlist }) => {
       window.scrollTo({ top: elementPosition - offset, behavior: 'smooth' });
     }
     setIsMobileMenuOpen(false);
+    setIsToolsOpen(false);
   };
 
   const handleLogoClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
@@ -67,14 +88,17 @@ const Navbar: React.FC<NavbarProps> = ({ onOpenWaitlist }) => {
   const handleMobileMenuToggle = () => {
     if (isMobileMenuOpen) {
       trackMobileMenuClose();
+      setIsToolsOpen(false);
     } else {
       trackMobileMenuOpen();
     }
     setIsMobileMenuOpen(!isMobileMenuOpen);
   };
 
-  const handleContactClick = (location: string) => {
-    trackContactClick('email', location);
+  const handleGetStartedClick = (location: string) => {
+    trackCTAClick('get_started', location);
+    setIsMobileMenuOpen(false);
+    setIsToolsOpen(false);
   };
 
   const handlePageNavClick = (linkId: string, href: string) => {
@@ -107,7 +131,46 @@ const Navbar: React.FC<NavbarProps> = ({ onOpenWaitlist }) => {
             {/* Desktop Navigation */}
             <div className="hidden md:flex items-center gap-8">
               {navLinks.map((link) => (
-                link.type === 'section' ? (
+                link.type === 'tools' ? (
+                  <div key={link.id} ref={toolsMenuRef} className="relative">
+                    <button
+                      type="button"
+                      onClick={() => setIsToolsOpen((open) => !open)}
+                      aria-expanded={isToolsOpen}
+                      aria-haspopup="menu"
+                      className={`inline-flex items-center gap-1 text-sm font-medium transition-colors ${isScrolled ? 'text-slate-600 hover:text-brand-600' : 'text-white/80 hover:text-white'
+                        } ${language === 'bn' ? 'tracking-wide' : ''}`}
+                    >
+                      {link.label}
+                      <ChevronDown className={`w-3.5 h-3.5 transition-transform duration-200 ${isToolsOpen ? 'rotate-180' : ''}`} />
+                    </button>
+                    <AnimatePresence>
+                      {isToolsOpen && (
+                        <motion.div
+                          initial={{ opacity: 0, y: -4 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          exit={{ opacity: 0, y: -4 }}
+                          transition={{ duration: 0.15 }}
+                          role="menu"
+                          className="absolute top-full left-1/2 mt-3 w-44 -translate-x-1/2 overflow-hidden rounded-lg border border-slate-200 bg-white p-1.5 shadow-lg shadow-slate-900/10"
+                        >
+                          <a
+                            href={companyInfo.somadhanSignUrl}
+                            role="menuitem"
+                            onClick={() => {
+                              trackNavClick('somadhan_sign', companyInfo.somadhanSignUrl);
+                              setIsToolsOpen(false);
+                            }}
+                            className="flex items-center justify-between rounded-md px-3 py-2.5 text-sm font-medium text-slate-700 transition-colors hover:bg-slate-50 hover:text-brand-600"
+                          >
+                            <span>Somadhan Sign</span>
+                            <ExternalLink className="w-3.5 h-3.5 text-slate-400" aria-hidden="true" />
+                          </a>
+                        </motion.div>
+                      )}
+                    </AnimatePresence>
+                  </div>
+                ) : link.type === 'section' ? (
                   <a
                     key={link.href}
                     href={link.href}
@@ -145,16 +208,16 @@ const Navbar: React.FC<NavbarProps> = ({ onOpenWaitlist }) => {
                 {language === 'en' ? 'বাং' : 'EN'}
               </button>
 
-              {/* Contact Button */}
+              {/* Primary action */}
               <a
-                href="mailto:info@somadhan.com"
-                onClick={() => handleContactClick('navbar')}
+                href={companyInfo.somadhanSignUrl}
+                onClick={() => handleGetStartedClick('navbar')}
                 className={`hidden sm:flex items-center px-5 py-2 rounded-full text-sm font-semibold transition-all hover:scale-105 active:scale-95 ${isScrolled
                   ? 'bg-brand-600 text-white hover:bg-brand-700'
                   : 'bg-white text-brand-600 hover:bg-white/90'
                   }`}
               >
-                {language === 'bn' ? 'যোগাযোগ' : 'Contact Us'}
+                {t('nav.getStarted')}
               </a>
 
               {/* Mobile Menu Button */}
@@ -182,7 +245,7 @@ const Navbar: React.FC<NavbarProps> = ({ onOpenWaitlist }) => {
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               transition={{ duration: 0.2 }}
-              onClick={() => { trackMobileMenuClose(); setIsMobileMenuOpen(false); }}
+              onClick={() => { trackMobileMenuClose(); setIsMobileMenuOpen(false); setIsToolsOpen(false); }}
               className="fixed inset-0 z-40 bg-black/20 backdrop-blur-sm md:hidden"
             />
 
@@ -202,7 +265,7 @@ const Navbar: React.FC<NavbarProps> = ({ onOpenWaitlist }) => {
                   className="h-5 sm:h-5 w-auto"
                 />
                 <button
-                  onClick={() => { trackMobileMenuClose(); setIsMobileMenuOpen(false); }}
+                  onClick={() => { trackMobileMenuClose(); setIsMobileMenuOpen(false); setIsToolsOpen(false); }}
                   className="w-9 h-9 bg-slate-100 hover:bg-slate-200 rounded-full flex items-center justify-center transition-colors"
                 >
                   <X className="w-4 h-4 text-slate-600" />
@@ -216,7 +279,43 @@ const Navbar: React.FC<NavbarProps> = ({ onOpenWaitlist }) => {
                 </p>
                 <div className="space-y-1">
                   {navLinks.map((link) => (
-                    link.type === 'section' ? (
+                    link.type === 'tools' ? (
+                      <div key={link.id}>
+                        <button
+                          type="button"
+                          onClick={() => setIsToolsOpen((open) => !open)}
+                          aria-expanded={isToolsOpen}
+                          className={`flex w-full items-center justify-between px-3 py-3 text-slate-700 hover:bg-slate-50 rounded-xl font-medium transition-colors ${language === 'bn' ? 'leading-relaxed' : ''}`}
+                        >
+                          <span>{link.label}</span>
+                          <ChevronDown className={`w-4 h-4 text-slate-400 transition-transform duration-200 ${isToolsOpen ? 'rotate-180' : ''}`} />
+                        </button>
+                        <AnimatePresence initial={false}>
+                          {isToolsOpen && (
+                            <motion.div
+                              initial={{ height: 0, opacity: 0 }}
+                              animate={{ height: 'auto', opacity: 1 }}
+                              exit={{ height: 0, opacity: 0 }}
+                              transition={{ duration: 0.18 }}
+                              className="overflow-hidden"
+                            >
+                              <a
+                                href={companyInfo.somadhanSignUrl}
+                                onClick={() => {
+                                  trackNavClick('somadhan_sign', companyInfo.somadhanSignUrl);
+                                  setIsMobileMenuOpen(false);
+                                  setIsToolsOpen(false);
+                                }}
+                                className="mx-3 mb-1 flex items-center justify-between rounded-lg border-l-2 border-brand-200 py-2.5 pl-4 pr-3 text-sm font-medium text-slate-600 transition-colors hover:bg-slate-50 hover:text-brand-600"
+                              >
+                                <span>Somadhan Sign</span>
+                                <ExternalLink className="w-3.5 h-3.5 text-slate-400" aria-hidden="true" />
+                              </a>
+                            </motion.div>
+                          )}
+                        </AnimatePresence>
+                      </div>
+                    ) : link.type === 'section' ? (
                       <a
                         key={link.href}
                         href={link.href}
@@ -252,13 +351,13 @@ const Navbar: React.FC<NavbarProps> = ({ onOpenWaitlist }) => {
                   {language === 'en' ? 'বাংলা' : 'English'}
                 </button>
 
-                {/* Contact Button */}
+                {/* Primary action */}
                 <a
-                  href="mailto:info@somadhan.com"
-                  onClick={() => { handleContactClick('mobile_menu'); setIsMobileMenuOpen(false); }}
+                  href={companyInfo.somadhanSignUrl}
+                  onClick={() => handleGetStartedClick('mobile_menu')}
                   className="w-full flex items-center justify-center px-4 py-3 bg-brand-600 text-white rounded-xl font-semibold transition-colors hover:bg-brand-700"
                 >
-                  {language === 'bn' ? 'যোগাযোগ করুন' : 'Contact Us'}
+                  {t('nav.getStarted')}
                 </a>
               </div>
             </motion.div>
