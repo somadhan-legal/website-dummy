@@ -183,6 +183,7 @@ export const LanguageProvider: React.FC<{ children: ReactNode }> = ({ children }
   useEffect(() => {
     if (typeof window !== 'undefined' && !isLoading) {
       window.localStorage.setItem('language', language);
+      document.documentElement.lang = language === 'bn' ? 'bn' : 'en-BD';
     }
   }, [language, isLoading]);
 

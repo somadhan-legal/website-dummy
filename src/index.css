@@ -115,8 +115,14 @@ body {
 }
 
 /* Global Bengali Font & Spacing Fixes */
-html[lang="bn"] body {
+html[lang="bn"] body,
+html[lang="bn"] .font-sans,
+html[lang="bn"] button,
+html[lang="bn"] input,
+html[lang="bn"] textarea,
+html[lang="bn"] select {
   font-family: "Anek Bangla", sans-serif;
+  font-stretch: semi-condensed;
 }
 
 /* Explicitly target headings and serif elements for the brand headline font */
@@ -125,11 +131,13 @@ html[lang="bn"] h1,
 html[lang="bn"] h2,
 html[lang="bn"] h3 {
   font-family: "Anek Bangla", sans-serif !important;
+  font-stretch: semi-condensed;
   font-weight: 500 !important;
 }
 
 [lang="bn"] .font-bengali {
   font-family: "Anek Bangla", sans-serif;
+  font-stretch: semi-condensed;
 }
 
 /* Base spacing for Bengali sentences */

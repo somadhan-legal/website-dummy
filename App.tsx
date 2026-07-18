@@ -1,7 +1,7 @@
 import React, { useState, useEffect, lazy, Suspense } from 'react';
 import { Routes, Route, useLocation } from 'react-router-dom';
 import { SpeedInsights } from '@vercel/speed-insights/react';
-import { LanguageProvider, useLanguage } from './contexts/LanguageContext';
+import { LanguageProvider } from './contexts/LanguageContext';
 import Navbar from './components/Navbar';
 import HeroLanding from './components/HeroLanding';
 import { initializeAnalytics, trackWaitlistOpen, trackWaitlistClose, trackBackToTop, trackJoinWaitlistClick } from './lib/analytics';
@@ -56,7 +56,6 @@ const HashScroller: React.FC = () => {
 };
 
 const AppContent: React.FC = () => {
-  const { language } = useLanguage();
   const [isWaitlistOpen, setIsWaitlistOpen] = useState(false);
   const [showBackToTop, setShowBackToTop] = useState(false);
   const [waitlistSource, setWaitlistSource] = useState<string>('unknown');
@@ -86,11 +85,6 @@ const AppContent: React.FC = () => {
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
-
-  // Update HTML lang attribute when language changes
-  useEffect(() => {
-    document.documentElement.lang = language;
-  }, [language]);
 
   const scrollToTop = () => {
     trackBackToTop();
@@ -142,7 +136,6 @@ const AppContent: React.FC = () => {
 };
 
 const AboutRoute: React.FC = () => {
-  const { language } = useLanguage();
   const [isWaitlistOpen, setIsWaitlistOpen] = useState(false);
   const [waitlistSource, setWaitlistSource] = useState<string>('unknown');
 
@@ -161,10 +154,6 @@ const AboutRoute: React.FC = () => {
   useEffect(() => {
     initializeAnalytics();
   }, []);
-
-  useEffect(() => {
-    document.documentElement.lang = language;
-  }, [language]);
 
   return (
     <div className="min-h-screen bg-slate-50 font-sans text-slate-900 antialiased selection:bg-brand-100 selection:text-brand-900">
