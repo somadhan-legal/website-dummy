@@ -295,6 +295,65 @@ html[lang="bn"] .font-serif span {
   will-change: transform;
 }
 
+/* Cinematic footer reveal */
+.cinematic-footer {
+  color: #e4eef0;
+  background: #011011;
+}
+
+.cinematic-footer-aurora {
+  background: radial-gradient(circle, rgba(29, 109, 115, 0.42), rgba(5, 80, 86, 0.2) 42%, transparent 72%);
+  animation: cinematic-footer-breathe 8s ease-in-out infinite alternate;
+}
+
+.cinematic-footer-grid {
+  background-size: 60px 60px;
+  background-image: linear-gradient(to right, rgba(93, 184, 186, 0.07) 1px, transparent 1px), linear-gradient(to bottom, rgba(93, 184, 186, 0.07) 1px, transparent 1px);
+  mask-image: linear-gradient(to bottom, transparent, black 30%, black 70%, transparent);
+}
+
+.cinematic-footer-watermark {
+  filter: brightness(0) invert(1);
+}
+
+.cinematic-footer-heading {
+  color: #e4eef0;
+  text-shadow: 0 0 32px rgba(93, 184, 186, 0.25);
+}
+
+.cinematic-footer-muted {
+  color: rgba(228, 238, 240, 0.55);
+}
+
+.cinematic-footer-pill {
+  color: #e4eef0;
+  border: 1px solid rgba(93, 184, 186, 0.16);
+  background: linear-gradient(145deg, rgba(93, 184, 186, 0.11), rgba(5, 80, 86, 0.05));
+  box-shadow: 0 10px 30px -10px rgba(1, 16, 17, 0.72), inset 0 1px 1px rgba(228, 238, 240, 0.1), inset 0 -1px 2px rgba(1, 16, 17, 0.8);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  transition: background 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease, color 0.3s ease;
+}
+
+a.cinematic-footer-pill:hover,
+button.cinematic-footer-pill:hover {
+  color: #fff;
+  border-color: rgba(93, 184, 186, 0.42);
+  background: linear-gradient(145deg, rgba(93, 184, 186, 0.2), rgba(5, 80, 86, 0.12));
+  box-shadow: 0 16px 36px -12px rgba(1, 16, 17, 0.8), inset 0 1px 1px rgba(228, 238, 240, 0.18);
+}
+
+@keyframes cinematic-footer-breathe {
+  from { transform: translate(-50%, -50%) scale(1); opacity: 0.55; }
+  to { transform: translate(-50%, -50%) scale(1.12); opacity: 0.9; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cinematic-footer-aurora {
+    animation: none;
+  }
+}
+
 .property-service-photo-overlay {
   background: linear-gradient(
     to top,

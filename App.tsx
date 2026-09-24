@@ -5,7 +5,7 @@ import { LanguageProvider } from './contexts/LanguageContext';
 import Navbar from './components/Navbar';
 import HeroLanding from './components/HeroLanding';
 import InspiredSection from './components/InspiredSection';
-import { initializeAnalytics, trackWaitlistOpen, trackWaitlistClose, trackBackToTop, trackJoinWaitlistClick } from './lib/analytics';
+import { initializeAnalytics, trackWaitlistOpen, trackWaitlistClose, trackJoinWaitlistClick } from './lib/analytics';
 
 // Lazy load below-fold components to reduce initial bundlee
 const ServicesSection = lazy(() => import('./components/ServicesSection'));
@@ -13,6 +13,7 @@ const HowItWorks = lazy(() => import('./components/HowItWorks'));
 const TrustSection = lazy(() => import('./components/TrustSection'));
 const FAQ = lazy(() => import('./components/FAQ'));
 const Footer = lazy(() => import('./components/Footer'));
+const CinematicFooter = lazy(() => import('./components/ui/motion-footer').then((module) => ({ default: module.CinematicFooter })));
 const WaitlistPage = lazy(() => import('./components/WaitlistPage'));
 const TermsPage = lazy(() => import('./components/TermsPage'));
 const PrivacyPolicyPage = lazy(() => import('./components/PrivacyPolicyPage'));
@@ -58,7 +59,6 @@ const HashScroller: React.FC = () => {
 
 const AppContent: React.FC = () => {
   const [isWaitlistOpen, setIsWaitlistOpen] = useState(false);
-  const [showBackToTop, setShowBackToTop] = useState(false);
   const [waitlistSource, setWaitlistSource] = useState<string>('unknown');
 
   const openWaitlist = (source: string = 'unknown') => {
@@ -78,25 +78,11 @@ const AppContent: React.FC = () => {
     initializeAnalytics();
   }, []);
 
-  useEffect(() => {
-    const handleScroll = () => {
-      setShowBackToTop(window.scrollY > 500);
-    };
-
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
-
-  const scrollToTop = () => {
-    trackBackToTop();
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  };
-
   return (
     <div className="min-h-screen bg-slate-50 font-sans text-slate-900 antialiased selection:bg-brand-100 selection:text-brand-900">
       <Navbar onOpenWaitlist={() => openWaitlist('navbar')} />
       
-      <main>
+      <main className="relative z-10">
         <HeroLanding onOpenWaitlist={() => openWaitlist('hero')} />
         <InspiredSection />
         <Suspense fallback={<SectionLoader />}>
@@ -107,8 +93,14 @@ const AppContent: React.FC = () => {
         </Suspense>
       </main>
 
+      <div className="relative z-10">
+        <Suspense fallback={null}>
+          <Footer onOpenWaitlist={() => openWaitlist('footer')} />
+        </Suspense>
+      </div>
+
       <Suspense fallback={null}>
-        <Footer onOpenWaitlist={() => openWaitlist('footer')} />
+        <CinematicFooter onOpenWaitlist={() => openWaitlist('cinematic_footer')} />
       </Suspense>
       
       <Suspense fallback={null}>
@@ -118,19 +110,6 @@ const AppContent: React.FC = () => {
           source={waitlistSource}
         />
       </Suspense>
-
-      {/* Back to Top Button - CSS only, no framer-motion */}
-      {showBackToTop && (
-        <button
-          onClick={scrollToTop}
-          className="fixed bottom-6 right-6 z-40 w-11 h-11 bg-brand-600 hover:bg-brand-700 text-white rounded-full shadow-lg flex items-center justify-center transition-all hover:scale-110 active:scale-95 animate-[fadeIn_0.2s_ease-out]"
-          aria-label="Back to top"
-        >
-          <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-            <path strokeLinecap="round" strokeLinejoin="round" d="M5 15l7-7 7 7" />
-          </svg>
-        </button>
-      )}
 
       <SpeedInsights />
     </div>
@@ -159,12 +138,17 @@ const AboutRoute: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-slate-50 font-sans text-slate-900 antialiased selection:bg-brand-100 selection:text-brand-900">
-      <Suspense fallback={<SectionLoader />}>
-        <AboutPage />
-      </Suspense>
+      <div className="relative z-10">
+        <Suspense fallback={<SectionLoader />}>
+          <AboutPage />
+        </Suspense>
+        <Suspense fallback={null}>
+          <Footer onOpenWaitlist={() => openWaitlist('about_footer')} />
+        </Suspense>
+      </div>
 
       <Suspense fallback={null}>
-        <Footer onOpenWaitlist={() => openWaitlist('about_footer')} />
+        <CinematicFooter onOpenWaitlist={() => openWaitlist('about_cinematic_footer')} />
       </Suspense>
 
       <Suspense fallback={null}>

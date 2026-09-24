@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowLeft, ChevronUp, ChevronRight } from 'lucide-react';
+import { ArrowLeft, ChevronRight } from 'lucide-react';
 import { useLanguage } from '../contexts/LanguageContext';
 import { useDocumentMeta } from '../lib/useDocumentMeta';
 import { companyInfo } from '../lib/companyInfo';
@@ -26,7 +26,6 @@ const sections = [
 const TermsPage: React.FC = () => {
   const { language } = useLanguage();
   const [activeSection, setActiveSection] = useState('acceptance');
-  const [showBackToTop, setShowBackToTop] = useState(false);
   const [isTocOpen, setIsTocOpen] = useState(false);
   const sectionRefs = useRef<Record<string, HTMLElement | null>>({});
 
@@ -46,8 +45,6 @@ const TermsPage: React.FC = () => {
 
   useEffect(() => {
     const handleScroll = () => {
-      setShowBackToTop(window.scrollY > 400);
-
       const scrollPosition = window.scrollY + 120;
       let activeId = sections[0].id;
 
@@ -491,16 +488,6 @@ const TermsPage: React.FC = () => {
         </div>
       </div>
 
-      {/* Back to Top */}
-      {showBackToTop && (
-        <button
-          onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-          className="fixed bottom-6 right-6 z-40 w-11 h-11 bg-brand-600 hover:bg-brand-700 text-white rounded-full shadow-lg flex items-center justify-center transition-all hover:scale-110 active:scale-95 animate-[fadeIn_0.2s_ease-out]"
-          aria-label="Back to top"
-        >
-          <ChevronUp className="w-5 h-5" />
-        </button>
-      )}
     </div>
   );
 };
