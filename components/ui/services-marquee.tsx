@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { createPortal } from 'react-dom';
 import { AnimatePresence, motion } from 'framer-motion';
 import { ArrowDownRight, X, type LucideIcon } from 'lucide-react';
 
@@ -86,7 +87,7 @@ const ServicesMarquee: React.FC<ServicesMarqueeProps> = ({ items, language, onIt
         </div>
       </div>
 
-      <AnimatePresence>
+      {createPortal(<AnimatePresence>
         {activeItem && (
           <motion.div
             className="fixed inset-0 z-[100] flex items-center justify-center overflow-y-auto bg-brand-950/70 p-4 backdrop-blur-sm sm:p-6"
@@ -100,7 +101,6 @@ const ServicesMarquee: React.FC<ServicesMarqueeProps> = ({ items, language, onIt
               className="relative my-auto w-full max-w-2xl overflow-hidden rounded-[2rem] bg-white shadow-2xl"
             >
               <div className={`relative overflow-hidden bg-gradient-to-br ${cardStyles[items.findIndex((item) => item.id === activeItem.id) % cardStyles.length]} px-7 pb-8 pt-10 text-white sm:px-10 sm:pb-10`}>
-                <div className="absolute -right-10 -top-10 h-56 w-56 rounded-full border border-white/15" />
                 <div className="absolute -right-10 -top-10 h-56 w-56 rounded-full border border-white/15" />
                 <button type="button" onClick={() => setActiveItem(null)} aria-label={language === 'bn' ? 'বন্ধ করুন' : 'Close'} className="absolute right-5 top-5 z-10 flex h-10 w-10 items-center justify-center rounded-full bg-white/15 text-white backdrop-blur transition hover:bg-white/25">
                   <X className="h-5 w-5" aria-hidden="true" />
@@ -118,7 +118,7 @@ const ServicesMarquee: React.FC<ServicesMarqueeProps> = ({ items, language, onIt
             </motion.div>
           </motion.div>
         )}
-      </AnimatePresence>
+      </AnimatePresence>, document.body)}
     </>
   );
 };
