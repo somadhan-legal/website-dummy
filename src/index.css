@@ -1,5 +1,86 @@
 @import "tailwindcss";
 
+.hero-glitter-badge::before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  inset: -1px;
+  border-radius: inherit;
+  padding: 1px;
+  background: linear-gradient(
+    110deg,
+    transparent 15%,
+    rgba(255, 255, 255, 0.18) 28%,
+    rgba(174, 255, 237, 0.9) 36%,
+    rgba(255, 255, 255, 0.22) 43%,
+    transparent 55%
+  );
+  background-size: 250% 100%;
+  animation: badge-glitter 4.5s ease-in-out infinite;
+  pointer-events: none;
+  mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  mask-composite: exclude;
+}
+
+@keyframes badge-glitter {
+  0%, 25% { background-position: 120% 0; }
+  75%, 100% { background-position: -20% 0; }
+}
+
+.hero-pulse-dot {
+  position: relative;
+  flex: 0 0 auto;
+  animation: badge-dot-glow 1.2s ease-in-out infinite;
+}
+
+@keyframes badge-dot-glow {
+  0%, 100% { opacity: 0.75; box-shadow: 0 0 4px rgba(52, 211, 153, 0.25); }
+  50% { opacity: 1; box-shadow: 0 0 14px rgba(52, 211, 153, 0.9); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-glitter-badge::before {
+    animation: none;
+  }
+
+  .hero-pulse-dot {
+    animation: none;
+  }
+}
+
+.hero-headline-window {
+  display: inline-flex;
+  vertical-align: baseline;
+  overflow: hidden;
+  height: 1.2em;
+  max-width: 100%;
+  line-height: 1.2em;
+  justify-content: center;
+  text-align: center;
+}
+
+.hero-headline-track {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  white-space: nowrap;
+  transition: transform 700ms cubic-bezier(0.22, 1, 0.36, 1);
+  will-change: transform;
+}
+
+.hero-headline-slide {
+  display: block;
+  height: 1.2em;
+  line-height: 1.2em;
+  flex: 0 0 1.2em;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-headline-track {
+    transition: none;
+  }
+}
+
 /* Playfair Display - English Headline */
 @font-face {
   font-family: "Playfair Display";
@@ -45,6 +126,11 @@
 
 /* Custom theme variables for Tailwind v4 */
 @theme {
+  --text-xs: 0.875rem;
+  --text-sm: 1rem;
+  --text-base: 1.125rem;
+  --text-lg: 1.375rem;
+
   /* Brand colors */
   --color-brand-mist: #E4EEF0;
   --color-brand-teal: #075056;
@@ -110,6 +196,7 @@ html {
 body {
   background-color: #F9FAFB;
   color: #0F172A;
+  font-size: 25px;
   -webkit-font-smoothing: antialiased;
   overflow-x: hidden;
 }

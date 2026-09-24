@@ -13,6 +13,10 @@ const HeroLanding: React.FC<HeroLandingProps> = ({ onOpenWaitlist }) => {
   const [scrollY, setScrollY] = useState(0);
   const [isScrollEnabled, setIsScrollEnabled] = useState(false);
   const [waitlistCount, setWaitlistCount] = useState(0);
+  const [headlineSlide, setHeadlineSlide] = useState(0);
+  const headlineSlides = language === 'bn'
+    ? ['হাতের মুঠোয়', 'এক ক্লিকেই', 'যেখানেই যান']
+    : ['right in your hand.', 'one tap away', 'wherever you go'];
 
   const refreshWaitlistCount = useCallback(() => {
     getWaitlistCount().then(setWaitlistCount);
@@ -24,6 +28,13 @@ const HeroLanding: React.FC<HeroLandingProps> = ({ onOpenWaitlist }) => {
     window.addEventListener('waitlist:submitted', refreshWaitlistCount);
     return () => window.removeEventListener('waitlist:submitted', refreshWaitlistCount);
   }, [refreshWaitlistCount]);
+
+  useEffect(() => {
+    const timer = window.setInterval(() => {
+      setHeadlineSlide((current) => (current + 1) % headlineSlides.length);
+    }, 3000);
+    return () => window.clearInterval(timer);
+  }, [headlineSlides.length]);
 
   // Delay scroll effects until after LCP to reduce TBT and avoid forced reflows
   useEffect(() => {
@@ -79,8 +90,8 @@ const HeroLanding: React.FC<HeroLandingProps> = ({ onOpenWaitlist }) => {
         style={{ opacity: contentOpacity }}
       >
         {/* Badge - CSS animation */}
-        <div className="inline-flex items-center gap-2.5 px-4 py-2 rounded-full bg-white/10 backdrop-blur-sm border border-white/15 mb-6 animate-[fadeIn_0.4s_ease-out_both]">
-          <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+        <div className="hero-glitter-badge relative isolate inline-flex items-center gap-2.5 px-4 py-2 rounded-full bg-white/10 backdrop-blur-sm border border-white/15 mb-6 animate-[fadeIn_0.4s_ease-out_both]">
+          <span className="hero-pulse-dot h-3.5 w-3.5 rounded-full bg-emerald-400" />
           <span className="text-sm text-white/90 font-medium tracking-wide">{t('hero.badge')}</span>
         </div>
 
@@ -91,18 +102,23 @@ const HeroLanding: React.FC<HeroLandingProps> = ({ onOpenWaitlist }) => {
           style={language === 'bn' ? { wordSpacing: '0.12em' } : undefined}
         >
           {t('hero.headline')}
-          {language === 'bn' && (
-            <>
-              <br />
-              {t('hero.headlineNext')}
-            </>
-          )}
           <br />
-          <span className="italic text-white/60">{t('hero.headlineAccent')}</span>
+          <span className={`hero-headline-window ${language === 'en' ? 'italic' : ''} text-white/60`} aria-live="polite">
+            <span
+              className="hero-headline-track"
+              style={{ transform: `translateY(-${headlineSlide * 1.2}em)` }}
+            >
+              {headlineSlides.map((slide) => (
+                <span key={`${language}-${slide}`} className="hero-headline-slide">
+                  {slide}
+                </span>
+              ))}
+            </span>
+          </span>
         </h1>
 
         {/* Subtext - CSS animation */}
-        <p className="text-base md:text-lg text-white/60 leading-relaxed max-w-xl mx-auto mb-8 animate-[fadeInUp_0.6s_ease-out_0.2s_both]">
+        <p className="mt-4 md:mt-6 text-base md:text-lg text-white/60 leading-relaxed max-w-xl mx-auto mb-8 animate-[fadeInUp_0.6s_ease-out_0.2s_both]">
           {t('hero.subtext')}
         </p>
 
@@ -110,7 +126,7 @@ const HeroLanding: React.FC<HeroLandingProps> = ({ onOpenWaitlist }) => {
         <div className="animate-[fadeInUp_0.5s_ease-out_0.25s_both] flex flex-col items-center">
           <button
             onClick={onOpenWaitlist}
-            className="group bg-white text-brand-600 px-8 py-3.5 rounded-full text-sm font-semibold transition-all duration-300 hover:shadow-lg hover:shadow-white/20 hover:scale-[1.02] active:scale-[0.98]"
+            className="group bg-white text-brand-600 px-8 py-3.5 rounded-full text-sm font-semibold shadow-[0_0_20px_rgba(93,184,186,0.18)] transition-all duration-300 hover:shadow-[0_0_28px_rgba(93,184,186,0.34)] hover:scale-[1.02] active:scale-[0.98]"
           >
             {t('hero.joinWaitlist')}
           </button>

@@ -138,7 +138,7 @@ const Navbar: React.FC<NavbarProps> = ({ onOpenWaitlist }) => {
                       onClick={() => setIsToolsOpen((open) => !open)}
                       aria-expanded={isToolsOpen}
                       aria-haspopup="menu"
-                      className={`inline-flex items-center gap-1 text-sm font-medium transition-colors ${isScrolled ? 'text-slate-600 hover:text-brand-600' : 'text-white/80 hover:text-white'
+                      className={`inline-flex min-h-12 items-center gap-1 leading-none text-sm font-medium transition-colors ${isScrolled ? 'text-slate-600 hover:text-brand-600' : 'text-white/80 hover:text-white'
                         } ${language === 'bn' ? 'tracking-wide' : ''}`}
                     >
                       {link.label}
@@ -177,7 +177,7 @@ const Navbar: React.FC<NavbarProps> = ({ onOpenWaitlist }) => {
                     key={link.href}
                     href={link.href}
                     onClick={(e) => scrollToSection(e, link.href, link.id)}
-                    className={`text-sm font-medium transition-colors ${isScrolled ? 'text-slate-600 hover:text-brand-600' : 'text-white/80 hover:text-white'
+                    className={`inline-flex min-h-12 items-center leading-none text-sm font-medium transition-colors ${isScrolled ? 'text-slate-600 hover:text-brand-600' : 'text-white/80 hover:text-white'
                       } ${language === 'bn' ? 'tracking-wide' : ''}`}
                   >
                     {link.label}
@@ -187,7 +187,7 @@ const Navbar: React.FC<NavbarProps> = ({ onOpenWaitlist }) => {
                     key={link.href}
                     to={link.href}
                     onClick={() => handlePageNavClick(link.id, link.href)}
-                    className={`text-sm font-medium transition-colors ${isScrolled ? 'text-slate-600 hover:text-brand-600' : 'text-white/80 hover:text-white'
+                    className={`inline-flex min-h-12 items-center leading-none text-sm font-medium transition-colors ${isScrolled ? 'text-slate-600 hover:text-brand-600' : 'text-white/80 hover:text-white'
                       } ${language === 'bn' ? 'tracking-wide' : ''}`}
                   >
                     {link.label}
@@ -201,7 +201,7 @@ const Navbar: React.FC<NavbarProps> = ({ onOpenWaitlist }) => {
               {/* Language Toggle */}
               <button
                 onClick={toggleLanguage}
-                className={`hidden sm:flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium transition-all ${isScrolled
+                className={`hidden sm:flex h-12 items-center gap-1.5 px-3 rounded-full text-xs font-medium transition-all ${isScrolled
                   ? 'bg-slate-100 text-slate-600 hover:bg-slate-200'
                   : 'bg-white/10 text-white/80 hover:bg-white/20'
                   }`}
@@ -216,9 +216,9 @@ const Navbar: React.FC<NavbarProps> = ({ onOpenWaitlist }) => {
                 target="_blank"
                 rel="noopener noreferrer"
                 onClick={() => handleGetStartedClick('navbar')}
-                className={`hidden sm:flex items-center px-5 py-2 rounded-full text-sm font-semibold transition-all hover:scale-105 active:scale-95 ${isScrolled
-                  ? 'bg-brand-600 text-white hover:bg-brand-700'
-                  : 'bg-white text-brand-600 hover:bg-white/90'
+                className={`hidden sm:flex h-12 items-center px-5 rounded-full text-sm font-semibold transition-all hover:scale-105 active:scale-95 ${isScrolled
+                  ? 'bg-brand-600 text-white hover:bg-brand-700 hover:shadow-[0_0_22px_rgba(5,80,86,0.24)]'
+                  : 'bg-white text-brand-600 shadow-[0_0_18px_rgba(93,184,186,0.16)] hover:bg-white/90 hover:shadow-[0_0_26px_rgba(93,184,186,0.3)]'
                   }`}
               >
                 {t('nav.getStarted')}
