@@ -4,6 +4,7 @@ import { SpeedInsights } from '@vercel/speed-insights/react';
 import { LanguageProvider } from './contexts/LanguageContext';
 import Navbar from './components/Navbar';
 import HeroLanding from './components/HeroLanding';
+import InspiredSection from './components/InspiredSection';
 import { initializeAnalytics, trackWaitlistOpen, trackWaitlistClose, trackBackToTop, trackJoinWaitlistClick } from './lib/analytics';
 
 // Lazy load below-fold components to reduce initial bundle
@@ -97,6 +98,7 @@ const AppContent: React.FC = () => {
       
       <main>
         <HeroLanding onOpenWaitlist={() => openWaitlist('hero')} />
+        <InspiredSection />
         <Suspense fallback={<SectionLoader />}>
           <ServicesSection />
           <HowItWorks />
