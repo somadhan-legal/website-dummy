@@ -91,7 +91,11 @@ const CrowdCanvas = ({ src, rows = 15, cols = 7 }: CrowdCanvasProps) => {
           context.save();
           context.translate(peep.x, peep.y);
           context.scale(peep.scaleX, 1);
-          context.drawImage(peep.image, ...peep.rect, 0, 0, peep.width, peep.height);
+          context.drawImage(
+            peep.image,
+            peep.rect[0], peep.rect[1], peep.rect[2], peep.rect[3],
+            0, 0, peep.width, peep.height,
+          );
           context.restore();
         },
       };
