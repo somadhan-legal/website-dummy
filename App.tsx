@@ -7,7 +7,7 @@ import HeroLanding from './components/HeroLanding';
 import InspiredSection from './components/InspiredSection';
 import { initializeAnalytics, trackWaitlistOpen, trackWaitlistClose, trackBackToTop, trackJoinWaitlistClick } from './lib/analytics';
 
-// Lazy load below-fold components to reduce initial bundle
+// Lazy load below-fold components to reduce initial bundlee
 const ServicesSection = lazy(() => import('./components/ServicesSection'));
 const HowItWorks = lazy(() => import('./components/HowItWorks'));
 const TrustSection = lazy(() => import('./components/TrustSection'));
