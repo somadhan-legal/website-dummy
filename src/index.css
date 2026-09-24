@@ -290,6 +290,22 @@ html[lang="bn"] .font-serif span {
   will-change: transform;
 }
 
+.services-marquee-track {
+  animation: marquee-smooth 52s linear infinite;
+  will-change: transform;
+}
+
+.services-marquee:hover .services-marquee-track {
+  animation-play-state: paused;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .services-marquee-track {
+    animation: none;
+    transform: none;
+  }
+}
+
 /* CSS animations for hero - reduces TBT vs framer-motion */
 @keyframes fadeInUp {
   from {
