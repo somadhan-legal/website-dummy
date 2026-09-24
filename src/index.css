@@ -295,6 +295,16 @@ html[lang="bn"] .font-serif span {
   will-change: transform;
 }
 
+.property-service-photo-overlay {
+  background: linear-gradient(
+    to top,
+    rgba(1, 16, 17, 0.98) 0%,
+    rgba(2, 48, 52, 0.94) 25%,
+    rgba(5, 80, 86, 0.68) 42%,
+    transparent 58%
+  );
+}
+
 .services-marquee:hover .services-marquee-track {
   animation-play-state: paused;
 }

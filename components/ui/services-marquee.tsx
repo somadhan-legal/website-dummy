@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { AnimatePresence, motion } from 'framer-motion';
 import { ArrowDownRight, X, type LucideIcon } from 'lucide-react';
@@ -11,6 +11,7 @@ export interface ServiceMarqueeItem {
   description: string;
   examples: string[];
   icon: LucideIcon;
+  image?: string;
 }
 
 interface ServicesMarqueeProps {
@@ -28,6 +29,58 @@ const cardStyles = [
 
 const ServicesMarquee: React.FC<ServicesMarqueeProps> = ({ items, language, onItemHover }) => {
   const [activeItem, setActiveItem] = useState<ServiceMarqueeItem | null>(null);
+  const [isDragging, setIsDragging] = useState(false);
+  const marqueeRef = useRef<HTMLDivElement>(null);
+  const dragRef = useRef<{ pointerId: number; startX: number; startScrollLeft: number; didDrag: boolean } | null>(null);
+  const suppressClickRef = useRef(false);
+  const removeDragListenersRef = useRef<(() => void) | null>(null);
+
+  const handlePointerDown = (event: React.PointerEvent<HTMLDivElement>) => {
+    if (event.pointerType === 'mouse' && event.button !== 0) return;
+    dragRef.current = {
+      pointerId: event.pointerId,
+      startX: event.clientX,
+      startScrollLeft: marqueeRef.current?.scrollLeft ?? 0,
+      didDrag: false,
+    };
+
+    const handlePointerMove = (moveEvent: PointerEvent) => {
+      const drag = dragRef.current;
+      if (!drag || moveEvent.pointerId !== drag.pointerId || !marqueeRef.current) return;
+      const distance = moveEvent.clientX - drag.startX;
+      if (Math.abs(distance) > 5) {
+        drag.didDrag = true;
+        suppressClickRef.current = true;
+        setIsDragging(true);
+      }
+      if (drag.didDrag) {
+        marqueeRef.current.scrollLeft = drag.startScrollLeft - distance;
+        moveEvent.preventDefault();
+      }
+    };
+
+    const finishPointer = (finishEvent: PointerEvent) => {
+      if (dragRef.current?.pointerId !== finishEvent.pointerId) return;
+      dragRef.current = null;
+      setIsDragging(false);
+      window.removeEventListener('pointermove', handlePointerMove);
+      window.removeEventListener('pointerup', finishPointer);
+      window.removeEventListener('pointercancel', finishPointer);
+      removeDragListenersRef.current = null;
+    };
+
+    removeDragListenersRef.current?.();
+    window.addEventListener('pointermove', handlePointerMove, { passive: false });
+    window.addEventListener('pointerup', finishPointer);
+    window.addEventListener('pointercancel', finishPointer);
+    removeDragListenersRef.current = () => {
+      window.removeEventListener('pointermove', handlePointerMove);
+      window.removeEventListener('pointerup', finishPointer);
+      window.removeEventListener('pointercancel', finishPointer);
+    };
+  };
+
+  useEffect(() => () => removeDragListenersRef.current?.(), []);
 
   useEffect(() => {
     if (!activeItem) return;
@@ -44,8 +97,14 @@ const ServicesMarquee: React.FC<ServicesMarqueeProps> = ({ items, language, onIt
 
   return (
     <>
-      <div className="services-marquee relative left-1/2 w-screen -translate-x-1/2 overflow-hidden py-2" aria-label={language === 'bn' ? 'আইনি সেবাসমূহ' : 'Legal services'}>
-        <div className="services-marquee-track flex w-max">
+      <div
+        ref={marqueeRef}
+        onPointerDown={handlePointerDown}
+        className={`services-marquee relative left-1/2 w-screen -translate-x-1/2 overflow-hidden py-2 ${isDragging ? 'cursor-grabbing' : 'cursor-grab'} select-none`}
+        style={{ touchAction: 'pan-y' }}
+        aria-label={language === 'bn' ? 'আইনি সেবাসমূহ' : 'Legal services'}
+      >
+        <div className="services-marquee-track flex w-max" style={{ animationPlayState: isDragging ? 'paused' : undefined }}>
           {[0, 1].map((copy) => (
             <div key={copy} className="services-marquee-group flex shrink-0 gap-4 pr-4" aria-hidden={copy === 1}>
               {items.map((item, index) => {
@@ -56,17 +115,24 @@ const ServicesMarquee: React.FC<ServicesMarqueeProps> = ({ items, language, onIt
                     type="button"
                     whileHover={{ y: -5 }}
                     whileTap={{ scale: 0.985 }}
-                    onClick={() => setActiveItem(item)}
+                    onClick={(event) => {
+                      if (suppressClickRef.current) {
+                        event.preventDefault();
+                        suppressClickRef.current = false;
+                        return;
+                      }
+                      setActiveItem(item);
+                    }}
                     onMouseEnter={() => onItemHover?.(item)}
                     aria-label={`${language === 'bn' ? 'বিস্তারিত দেখুন:' : 'View details:'} ${item.title}`}
                     tabIndex={copy === 0 ? 0 : -1}
-                    className={`group relative flex h-[410px] w-[320px] shrink-0 flex-col overflow-hidden rounded-[2rem] bg-gradient-to-br ${cardStyles[index % cardStyles.length]} p-6 text-left text-white sm:h-[470px] sm:w-[360px] sm:p-8`}
+                    className={`group relative flex h-[410px] w-[320px] shrink-0 flex-col overflow-hidden rounded-[2rem] ${item.image ? 'bg-brand-900' : `bg-gradient-to-br ${cardStyles[index % cardStyles.length]}`} p-6 text-left text-white sm:h-[470px] sm:w-[360px] sm:p-8`}
                   >
-                <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_75%_20%,rgba(255,255,255,0.22),transparent_42%)]" />
-                <Icon className="absolute right-5 top-20 h-48 w-48 text-white/[0.13] transition-transform duration-700 group-hover:rotate-6 group-hover:scale-105 sm:right-8 sm:top-24 sm:h-56 sm:w-56" strokeWidth={0.8} aria-hidden="true" />
+                {item.image && <img src={item.image} alt="Lawyers advising clients about property matters" className="absolute inset-0 h-full w-full object-cover transition-transform duration-700 group-hover:scale-105" />}
+                <div className={`absolute inset-0 ${item.image ? 'property-service-photo-overlay' : 'bg-[radial-gradient(ellipse_at_75%_20%,rgba(255,255,255,0.22),transparent_42%)]'}`} />
+                {!item.image && <Icon className="absolute right-5 top-20 h-48 w-48 text-white/[0.13] transition-transform duration-700 group-hover:rotate-6 group-hover:scale-105 sm:right-8 sm:top-24 sm:h-56 sm:w-56" strokeWidth={0.8} aria-hidden="true" />}
 
-                <div className="relative z-10 flex items-start justify-between gap-3">
-                  <span className="rounded-full border border-white/25 bg-white/10 px-3.5 py-1.5 text-xs font-medium tracking-wide text-white/90 backdrop-blur-sm">{item.category}</span>
+                <div className="relative z-10 flex items-start justify-end gap-3">
                   <span className="font-mono text-sm tracking-widest text-white/65">{item.number}</span>
                 </div>
 
