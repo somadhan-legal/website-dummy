@@ -105,11 +105,6 @@ export const CinematicFooter: React.FC<CinematicFooterProps> = ({ onOpenWaitlist
               </MagneticButton>
             </div>
 
-            <div className="flex w-full flex-wrap justify-center gap-3 md:gap-5">
-              <a href="/privacy" className="cinematic-footer-pill rounded-full px-5 py-3 text-sm font-medium">{language === 'bn' ? 'গোপনীয়তা নীতি' : 'Privacy Policy'}</a>
-              <a href="/terms" className="cinematic-footer-pill rounded-full px-5 py-3 text-sm font-medium">{language === 'bn' ? 'শর্তাবলী' : 'Terms & Conditions'}</a>
-              <a href="mailto:info@somadhan.com" className="cinematic-footer-pill rounded-full px-5 py-3 text-sm font-medium">{language === 'bn' ? 'যোগাযোগ' : 'Contact'}</a>
-            </div>
           </div>
         </div>
 
