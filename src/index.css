@@ -48,39 +48,6 @@
   }
 }
 
-.hero-headline-window {
-  display: inline-flex;
-  vertical-align: baseline;
-  overflow: hidden;
-  height: 1.2em;
-  max-width: 100%;
-  line-height: 1.2em;
-  justify-content: center;
-  text-align: center;
-}
-
-.hero-headline-track {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  white-space: nowrap;
-  transition: transform 700ms cubic-bezier(0.22, 1, 0.36, 1);
-  will-change: transform;
-}
-
-.hero-headline-slide {
-  display: block;
-  height: 1.2em;
-  line-height: 1.2em;
-  flex: 0 0 1.2em;
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .hero-headline-track {
-    transition: none;
-  }
-}
-
 /* Playfair Display - English Headline */
 @font-face {
   font-family: "Playfair Display";

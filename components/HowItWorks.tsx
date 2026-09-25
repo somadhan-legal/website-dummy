@@ -21,7 +21,7 @@ const HowItWorks: React.FC = () => {
       <div className="max-w-6xl mx-auto px-4 sm:px-6">
         {/* Header */}
         <div className="text-center mb-10 md:mb-12">
-          <span className="inline-flex items-center px-4 py-1.5 rounded-full bg-brand-100 text-brand-700 text-xs font-bold uppercase tracking-wider mb-4">
+          <span className="mb-4 inline-flex items-center rounded-full border border-brand-200 bg-brand-50 px-3 py-1.5 text-xs font-bold uppercase tracking-[0.12em] text-brand-700">
             {t('process.badge')}
           </span>
           <h2 className={`font-serif text-3xl md:text-4xl text-slate-900 ${language === 'bn' ? 'leading-[1.4]' : ''}`}>

@@ -15,7 +15,7 @@ const HeroLanding: React.FC<HeroLandingProps> = ({ onOpenWaitlist }) => {
   const [waitlistCount, setWaitlistCount] = useState(0);
   const [headlineSlide, setHeadlineSlide] = useState(0);
   const headlineSlides = language === 'bn'
-    ? ['হাতের মুঠোয়', 'এক ক্লিকেই', 'যেখানেই যান']
+    ? ['আপনার হাতের মুঠোয়', 'এক ট্যাপেই', 'যেখানেই থাকুন']
     : ['right in your hand.', 'one tap away.', 'wherever you go.'];
 
   const refreshWaitlistCount = useCallback(() => {
@@ -103,17 +103,12 @@ const HeroLanding: React.FC<HeroLandingProps> = ({ onOpenWaitlist }) => {
         >
           {t('hero.headline')}
           <br />
-          <span className="hero-headline-window italic text-white/60" aria-live="polite">
-            <span
-              className="hero-headline-track"
-              style={{ transform: `translateY(-${headlineSlide * 1.2}em)` }}
-            >
-              {headlineSlides.map((slide) => (
-                <span key={`${language}-${slide}`} className="hero-headline-slide">
-                  {slide}
-                </span>
-              ))}
-            </span>
+          <span
+            key={`${language}-${headlineSlide}`}
+            className="inline-block italic text-white/60 animate-[fadeIn_0.6s_ease-out]"
+            aria-live="polite"
+          >
+            {headlineSlides[headlineSlide]}
           </span>
         </h1>
 
@@ -135,9 +130,9 @@ const HeroLanding: React.FC<HeroLandingProps> = ({ onOpenWaitlist }) => {
             <p className="mt-5 text-sm text-white/45 animate-[fadeIn_0.6s_ease-out_0.6s_both]">
               {language === 'bn' ? '' : 'Join '}
               <span className="text-white/70 font-semibold">{waitlistCount}</span>
-              {language === 'bn' ? ' জনের সাথে যোগ দিন' : ' others'}
+              {language === 'bn' ? ' জনের সঙ্গে যোগ দিন' : ' others'}
               <span className="mx-2 text-white/20">·</span>
-              {language === 'bn' ? 'আপনার স্পট ' : 'Your spot: '}
+              {language === 'bn' ? 'আপনার সিরিয়াল ' : 'Your spot: '}
               <span className="text-emerald-400 font-bold">#{waitlistCount + 1}</span>
             </p>
           )}

@@ -41,12 +41,12 @@ const translations: Record<Language, Record<string, string>> = {
     'waitlist.successSubtext': "We'll reach out soon with early access.",
     
     'services.title': 'Legal Services',
-    'services.subtitle': 'Comprehensive legal support across all major practice areas.',
+    'services.subtitle': 'Fast, secure, and straightforward access to lawyers for every legal concern.',
     'services.startingFrom': 'Starting from',
     'services.explore': 'Explore',
     
-    'process.badge': 'How it Works',
-    'process.title': 'Simple. Transparent. Effective.',
+    'process.badge': 'Get Started in Minutes',
+    'process.title': 'Your legal app, just a few taps away.',
     
     'trust.badge': 'Why Somadhan?',
     'trust.title': 'Built for trust.',
@@ -90,8 +90,8 @@ const translations: Record<Language, Record<string, string>> = {
     'hero.badge': '#১ এআই-চালিত আইনি প্ল্যাটফর্ম',
     'hero.headline': 'মুহূর্তেই আইনি সমাধান,',
     'hero.headlineNext': 'যেকোনো জায়গায়',
-    'hero.headlineAccent': 'তাৎক্ষণিক আইনি সমাধান',
-    'hero.subtext': 'স্মার্ট এআই দিয়ে ভেরিফাইড আইনজীবী ও রিয়েল-টাইম কেস আপডেট',
+    'hero.headlineAccent': 'আপনার হাতের মুঠোয়',
+    'hero.subtext': 'স্মার্ট এআই আপনাকে যাচাইকৃত আইনজীবীর সঙ্গে যুক্ত করবে এবং দেবে মামলার তাৎক্ষণিক আপডেট।',
     'hero.joinWaitlist': 'ওয়েটলিস্টে যোগ দিন',
     'hero.trustedBy': 'যাদের আস্থায় আমরা',
     
@@ -115,13 +115,13 @@ const translations: Record<Language, Record<string, string>> = {
     'services.startingFrom': 'শুরু',
     'services.explore': 'বিস্তারিত',
     
-    'process.badge': 'কিভাবে কাজ করে',
-    'process.title': 'সহজ। স্বচ্ছ। কার্যকর।',
+    'process.badge': 'কয়েক মিনিটেই শুরু করুন',
+    'process.title': 'আপনার আইনি সেবা, এখন হাতের মুঠোয়',
     
     'trust.badge': 'কেন সমাধান?',
     'trust.title': 'বিশ্বাসের ভিত্তিতে গড়া',
     'trust.titleAccent': 'আপনার জন্যই তৈরি',
-    'trust.desc1': 'আইনি সমস্যাগুলো অনেক সময় জটিল ও বিভ্রান্তিকর মনে হয়। সবার জন্য আইনি সাহায্য সহজ ও বোধগম্য করতেই "সমাধান"-এর যাত্রা।',
+    'trust.desc1': 'আইনি সমস্যাগুলো অনেক সময় জটিল ও বিভ্রান্তিকর মনে হয়। সবার জন্য আইনি সাহায্য সহজ ও বোধগম্য করতেই "সমাধান"-এর যাত্রা',
     'trust.desc2': 'জটিল আইনি ভাষা বা আদালতে ছোটাছুটির ঝামেলা নেই। যাচাইকৃত আইনজীবীদের সাথে নিরাপদে ও সহজে পরামর্শ নিন।',
     'trust.verifiedCounsel': 'যাচাইকৃত আইনজীবী',
     'trust.verifiedCounselDesc': 'প্রতিটি আইনজীবী বাংলাদেশ বার কাউন্সিলের তালিকাভুক্ত ও যাচাইকৃত।',
