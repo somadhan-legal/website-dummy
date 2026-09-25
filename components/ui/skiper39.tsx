@@ -109,6 +109,7 @@ const CrowdCanvas = ({ src, rows = 15, cols = 7 }: CrowdCanvasProps) => {
     const allPeeps: Peep[] = [];
     const availablePeeps: Peep[] = [];
     const crowd: Peep[] = [];
+    let disposed = false;
 
     const addPeepToCrowd = () => {
       const peep = removeRandomFromArray(availablePeeps);
@@ -159,6 +160,7 @@ const CrowdCanvas = ({ src, rows = 15, cols = 7 }: CrowdCanvasProps) => {
     };
 
     const init = () => {
+      if (disposed) return;
       const rectWidth = image.naturalWidth / rows;
       const rectHeight = image.naturalHeight / cols;
 
@@ -185,6 +187,9 @@ const CrowdCanvas = ({ src, rows = 15, cols = 7 }: CrowdCanvasProps) => {
     window.addEventListener("resize", resize);
 
     return () => {
+      disposed = true;
+      image.onload = null;
+      image.onerror = null;
       window.removeEventListener("resize", resize);
       gsap.ticker.remove(render);
       crowd.forEach((peep) => peep.walk?.kill());

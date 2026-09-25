@@ -112,7 +112,7 @@ const HeroLanding: React.FC<HeroLandingProps> = ({ onOpenWaitlist }) => {
           <span className="hero-headline-window italic text-white/60" aria-live="polite">
             <span
               className="hero-headline-track"
-              style={{ transform: `translateY(-${headlineSlide}em)` }}
+              style={{ transform: `translateY(-${headlineSlide * 1.2}em)` }}
             >
               {headlineSlides.map((slide) => (
                 <span key={`${language}-${slide}`} className="hero-headline-slide">
