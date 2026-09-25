@@ -102,12 +102,6 @@ const HeroLanding: React.FC<HeroLandingProps> = ({ onOpenWaitlist }) => {
           style={language === 'bn' ? { wordSpacing: '0.12em' } : undefined}
         >
           {t('hero.headline')}
-          {language === 'bn' && (
-            <>
-              <br />
-              {t('hero.headlineNext')}
-            </>
-          )}
           <br />
           <span className="hero-headline-window italic text-white/60" aria-live="polite">
             <span
