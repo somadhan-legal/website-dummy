@@ -56,7 +56,7 @@ export default function LegalProcessMarquee({ onOpenWaitlist }: { onOpenWaitlist
   };
 
   return (
-    <div className="grid grid-cols-1 items-center gap-4 bg-transparent px-0 py-4 lg:grid-cols-[0.85fr_1.15fr] lg:gap-0">
+    <div className="grid grid-cols-1 items-center gap-4 bg-transparent px-0 pt-4 pb-0 lg:grid-cols-[0.85fr_1.15fr] lg:gap-0">
       <div>
         <div className="relative h-[300px] overflow-hidden sm:h-[350px]">
           <div ref={trackRef} className="absolute inset-x-0 top-1/2 will-change-transform">
@@ -83,13 +83,13 @@ export default function LegalProcessMarquee({ onOpenWaitlist }: { onOpenWaitlist
           </div>
         </div>
       </div>
-      <div className="min-w-0 overflow-hidden lg:-my-8">
+      <div className="relative z-0 min-w-0 overflow-hidden">
         <PhoneMockupBasic
           activeIndex={activeIndex}
           onActiveIndexChange={selectStep}
         />
       </div>
-      <div className="mt-6 w-full min-w-0 sm:mt-10 lg:col-span-2">
+      <div className="relative z-20 -mt-24 w-full min-w-0 sm:-mt-32 lg:col-span-2">
         <AppStoreComingSoon onOpenWaitlist={onOpenWaitlist} />
       </div>
     </div>

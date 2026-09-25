@@ -48,14 +48,14 @@ export function PhoneCarousel({
 
   return (
     <div className="mx-auto w-full max-w-[900px] px-2 sm:px-6">
-      <div className="relative flex h-[430px] items-end justify-center sm:h-[680px]">
+      <div className="relative flex h-[min(68svh,580px)] items-end justify-center sm:h-[min(78svh,700px)]">
         {sideItems.map(({ offset, image }) => (
           <motion.div
             key={image.src}
             initial={{ x: offset * sideDistance * 0.72, opacity: 0, scale: 0.82, rotateY: offset * -8 }}
             animate={{ x: offset * sideDistance, opacity: 0.36, scale: 0.84, rotateY: offset * -5 }}
             transition={motionTransition}
-            className={`${phoneClass} z-10 h-[310px] w-[190px] grayscale sm:h-[500px] sm:w-[300px]`}
+            className={`${phoneClass} z-10 h-[min(56svh,470px)] w-auto aspect-[0.462] grayscale sm:h-[min(64svh,580px)]`}
             aria-hidden="true"
           >
             <PhoneScreen image={image} />
@@ -76,7 +76,7 @@ export function PhoneCarousel({
             exit="exit"
             transition={motionTransition}
             style={{ transformPerspective: 1000, transformStyle: "preserve-3d" }}
-            className={`${phoneClass} z-20 h-[390px] w-[220px] sm:h-[600px] sm:w-[340px]`}
+            className={`${phoneClass} z-20 h-[min(68svh,580px)] w-auto aspect-[0.462] sm:h-[min(78svh,700px)]`}
           >
             <PhoneScreen image={images[activeIndex]} />
           </motion.div>
@@ -93,7 +93,7 @@ function PhoneScreen({ image }: { image: ImageItem }) {
         src={image.src}
         alt={image.alt}
         draggable={false}
-        className="h-full w-full select-none bg-white object-cover object-top"
+        className="h-full w-full select-none bg-white object-contain object-top"
       />
     );
   }
