@@ -124,6 +124,14 @@
   font-display: swap;
 }
 
+@font-face {
+  font-family: "Open Sans";
+  src: url('/fonts/english/OpenSans-VariableFont_wdth,wght.ttf') format('truetype');
+  font-weight: 300 800;
+  font-style: normal;
+  font-display: swap;
+}
+
 /* Custom theme variables for Tailwind v4 */
 @theme {
   --text-xs: 0.875rem;
@@ -157,6 +165,7 @@
   /* Fonts */
   --font-serif: "Playfair Display", "Anek Bangla", serif;
   --font-sans: "DM Sans", "Inter", sans-serif;
+  --font-open-sans: "Open Sans", sans-serif;
   --font-bengali: "Anek Bangla", sans-serif;
 
   /* Custom shadows */

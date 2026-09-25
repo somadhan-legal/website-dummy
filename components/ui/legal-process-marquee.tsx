@@ -68,10 +68,10 @@ export default function LegalProcessMarquee() {
                     onClick={() => selectStep(index)}
                     aria-current={activeIndex === index}
                     tabIndex={copy === 0 ? 0 : -1}
-                    className={`flex h-[76px] w-full items-center border-0 text-left font-serif leading-snug transition-[opacity,color] duration-500 ${activeIndex === index ? "text-2xl text-slate-900 sm:text-3xl" : "text-xl text-slate-500 sm:text-2xl"}`}
+                    className={`flex h-[76px] w-full items-center border-0 text-left font-open-sans font-medium leading-snug transition-[opacity,color] duration-500 ${activeIndex === index ? "text-3xl text-slate-900 sm:text-4xl" : "text-2xl text-slate-500 sm:text-3xl"}`}
                     style={{ opacity: activeIndex === index ? 1 : Math.max(0.3, 1 - Math.abs(activeIndex - index) * 0.22) }}
                   >
-                    <span className="mr-4 text-sm font-sans font-bold tracking-widest text-brand-500 sm:mr-6">
+                    <span className="mr-4 font-open-sans text-lg font-bold tracking-widest text-brand-500 sm:mr-6 sm:text-xl">
                       {index + 1}
                     </span>
                     {item}
