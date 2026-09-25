@@ -87,7 +87,7 @@ const AppContent: React.FC = () => {
         <InspiredSection />
         <Suspense fallback={<SectionLoader />}>
           <ServicesSection />
-          <HowItWorks />
+          <HowItWorks onOpenWaitlist={() => openWaitlist('how_it_works_app_store')} />
           <TrustSection />
           <FAQ />
         </Suspense>

@@ -4,7 +4,7 @@ import { useLanguage } from '../contexts/LanguageContext';
 import { trackSectionView } from '../lib/analytics';
 import LegalProcessMarquee from '@/components/ui/legal-process-marquee';
 
-const HowItWorks: React.FC = () => {
+const HowItWorks: React.FC<{ onOpenWaitlist: () => void }> = ({ onOpenWaitlist }) => {
   const { language, t } = useLanguage();
   const sectionRef = useRef<HTMLElement | null>(null);
   const isSectionInView = useInView(sectionRef, { once: true, margin: "-20%" });
@@ -30,7 +30,7 @@ const HowItWorks: React.FC = () => {
         </div>
 
         <div className="mt-10 md:mt-14">
-          <LegalProcessMarquee />
+          <LegalProcessMarquee onOpenWaitlist={onOpenWaitlist} />
         </div>
       </div>
     </section>

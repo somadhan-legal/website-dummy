@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import PhoneMockupBasic from "@/components/ui/phone-mockups-1";
+import AppStoreComingSoon from "@/components/ui/app-store-coming-soon";
 import { useLanguage } from "@/contexts/LanguageContext";
 
 const messages = {
@@ -19,7 +20,7 @@ const messages = {
   ],
 };
 
-export default function LegalProcessMarquee() {
+export default function LegalProcessMarquee({ onOpenWaitlist }: { onOpenWaitlist: () => void }) {
   const { language } = useLanguage();
   const trackRef = useRef<HTMLDivElement>(null);
   const cycleStartRef = useRef(0);
@@ -55,7 +56,7 @@ export default function LegalProcessMarquee() {
   };
 
   return (
-    <div className="grid grid-cols-1 items-center gap-4 overflow-hidden bg-transparent px-0 py-4 lg:grid-cols-[0.85fr_1.15fr] lg:gap-0">
+    <div className="grid grid-cols-1 items-center gap-4 bg-transparent px-0 py-4 lg:grid-cols-[0.85fr_1.15fr] lg:gap-0">
       <div>
         <div className="relative h-[300px] overflow-hidden sm:h-[350px]">
           <div ref={trackRef} className="absolute inset-x-0 top-1/2 will-change-transform">
@@ -87,6 +88,9 @@ export default function LegalProcessMarquee() {
           activeIndex={activeIndex}
           onActiveIndexChange={selectStep}
         />
+      </div>
+      <div className="mt-6 w-full min-w-0 sm:mt-10 lg:col-span-2">
+        <AppStoreComingSoon onOpenWaitlist={onOpenWaitlist} />
       </div>
     </div>
   );

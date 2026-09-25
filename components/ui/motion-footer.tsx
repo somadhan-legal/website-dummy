@@ -2,6 +2,7 @@ import React, { useEffect, useRef } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { ArrowUp, Play } from 'lucide-react';
+import { Spotlight } from '@/components/ui/spotlight';
 import { useLanguage } from '../../contexts/LanguageContext';
 
 if (typeof window !== 'undefined') gsap.registerPlugin(ScrollTrigger);
@@ -64,6 +65,7 @@ export const CinematicFooter: React.FC<CinematicFooterProps> = ({ onOpenWaitlist
   return (
     <div ref={wrapperRef} className="cinematic-footer-curtain relative h-[100svh] min-h-[620px] w-full" style={{ clipPath: 'polygon(0 0, 100% 0, 100% 100%, 0 100%)' }}>
       <footer className="cinematic-footer fixed bottom-0 left-0 flex h-[100svh] min-h-[620px] w-full flex-col justify-between overflow-hidden">
+        <Spotlight size={620} className="from-brand-300/35 via-brand-200/20 to-transparent blur-3xl" />
         <div className="cinematic-footer-aurora pointer-events-none absolute left-1/2 top-1/2 z-0 h-[60vh] w-[80vw] -translate-x-1/2 -translate-y-1/2 rounded-[50%] blur-[80px]" />
         <div className="cinematic-footer-grid pointer-events-none absolute inset-0 z-0" />
 
