@@ -28,7 +28,7 @@ const CrowdCanvas = ({ src, rows = 15, cols = 7 }: CrowdCanvasProps) => {
 
     const resetPeep = ({ stage, peep }: { stage: { width: number; height: number }; peep: Peep }) => {
       const direction = Math.random() > 0.5 ? 1 : -1;
-      const offsetY = 100 - 250 * gsap.parseEase("power2.in")(Math.random());
+      const offsetY = (100 - 250 * gsap.parseEase("power2.in")(Math.random())) * spriteScale;
       const startY = stage.height - peep.height + offsetY;
       const startX = direction === 1 ? -peep.width : stage.width + peep.width;
       const endX = direction === 1 ? stage.width : 0;
@@ -50,7 +50,7 @@ const CrowdCanvas = ({ src, rows = 15, cols = 7 }: CrowdCanvasProps) => {
       timeline.to(peep, { duration: xDuration, x: props.endX, ease: "none" }, 0);
       timeline.to(
         peep,
-        { duration: yDuration, repeat: xDuration / yDuration, yoyo: true, y: props.startY - 10 },
+        { duration: yDuration, repeat: xDuration / yDuration, yoyo: true, y: props.startY - 10 * spriteScale },
         0,
       );
 
@@ -84,8 +84,8 @@ const CrowdCanvas = ({ src, rows = 15, cols = 7 }: CrowdCanvasProps) => {
         walk: null,
         setRect: (nextRect) => {
           peep.rect = nextRect;
-          peep.width = nextRect[2];
-          peep.height = nextRect[3];
+          peep.width = nextRect[2] * spriteScale;
+          peep.height = nextRect[3] * spriteScale;
         },
         render: (context) => {
           context.save();
@@ -106,6 +106,7 @@ const CrowdCanvas = ({ src, rows = 15, cols = 7 }: CrowdCanvasProps) => {
 
     const image = document.createElement("img");
     const stage = { width: 0, height: 0 };
+    let spriteScale = 1;
     const allPeeps: Peep[] = [];
     const availablePeeps: Peep[] = [];
     const crowd: Peep[] = [];
@@ -127,7 +128,8 @@ const CrowdCanvas = ({ src, rows = 15, cols = 7 }: CrowdCanvasProps) => {
     };
 
     const initCrowd = () => {
-      while (availablePeeps.length) {
+      const crowdLimit = stage.width < 640 ? 24 : stage.width < 1024 ? 48 : availablePeeps.length;
+      while (availablePeeps.length && crowd.length < crowdLimit) {
         addPeepToCrowd();
         crowd[crowd.length - 1]?.walk?.progress(Math.random());
       }
@@ -149,12 +151,14 @@ const CrowdCanvas = ({ src, rows = 15, cols = 7 }: CrowdCanvasProps) => {
     const resize = () => {
       stage.width = canvas.clientWidth;
       stage.height = canvas.clientHeight;
+      spriteScale = stage.width < 640 ? 0.38 : stage.width < 1024 ? 0.65 : 1;
       canvas.width = stage.width * window.devicePixelRatio;
       canvas.height = stage.height * window.devicePixelRatio;
 
       crowd.forEach((peep) => peep.walk?.kill());
       crowd.length = 0;
       availablePeeps.length = 0;
+      allPeeps.forEach((peep) => peep.setRect(peep.rect));
       availablePeeps.push(...allPeeps);
       initCrowd();
     };

@@ -126,22 +126,22 @@ const ServicesMarquee: React.FC<ServicesMarqueeProps> = ({ items, language, onIt
                     onMouseEnter={() => onItemHover?.(item)}
                     aria-label={`${language === 'bn' ? 'বিস্তারিত দেখুন:' : 'View details:'} ${item.title}`}
                     tabIndex={copy === 0 ? 0 : -1}
-                    className={`group relative flex h-[410px] w-[320px] shrink-0 flex-col overflow-hidden rounded-[2rem] ${item.image ? 'bg-brand-900' : `bg-gradient-to-br ${cardStyles[index % cardStyles.length]}`} p-6 text-left text-white sm:h-[470px] sm:w-[360px] sm:p-8`}
+                    className={`group relative flex h-[360px] w-[min(78vw,280px)] shrink-0 flex-col overflow-hidden rounded-[1.5rem] ${item.image ? 'bg-brand-900' : `bg-gradient-to-br ${cardStyles[index % cardStyles.length]}`} p-5 text-left text-white sm:h-[470px] sm:w-[360px] sm:rounded-[2rem] sm:p-8`}
                   >
                 {item.image && <img src={item.image} alt="Lawyers advising clients about property matters" className="absolute inset-0 h-full w-full object-cover transition-transform duration-700 group-hover:scale-105" />}
                 <div className={`absolute inset-0 ${item.image ? 'property-service-photo-overlay' : 'bg-[radial-gradient(ellipse_at_75%_20%,rgba(255,255,255,0.22),transparent_42%)]'}`} />
-                {!item.image && <Icon className="absolute right-5 top-20 h-48 w-48 text-white/[0.13] transition-transform duration-700 group-hover:rotate-6 group-hover:scale-105 sm:right-8 sm:top-24 sm:h-56 sm:w-56" strokeWidth={0.8} aria-hidden="true" />}
+                {!item.image && <Icon className="absolute right-5 top-16 h-40 w-40 text-white/[0.13] transition-transform duration-700 group-hover:rotate-6 group-hover:scale-105 sm:right-8 sm:top-24 sm:h-56 sm:w-56" strokeWidth={0.8} aria-hidden="true" />}
 
                 <div className="relative z-10 flex items-start justify-end gap-3">
                   <span className="font-mono text-sm tracking-widest text-white/65">{item.number}</span>
                 </div>
 
                 <div className="relative z-10 mt-auto">
-                  <p className="mb-3 max-w-[18rem] text-sm leading-relaxed text-white/75">{item.description}</p>
+                  <p className="mb-2 max-w-[18rem] text-xs leading-relaxed text-white/75 sm:mb-3 sm:text-sm">{item.description}</p>
                   <div className="flex items-end justify-between gap-3">
-                    <h3 className={`mb-4 text-2xl font-semibold leading-tight tracking-tight sm:text-3xl ${language === 'bn' ? 'leading-[1.35]' : ''}`}>{item.title}</h3>
-                    <span className="mb-4 flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-white text-brand-800 transition-transform duration-300 group-hover:rotate-45">
-                      <ArrowDownRight className="h-6 w-6" aria-hidden="true" />
+                    <h3 className={`mb-3 text-xl font-semibold leading-tight tracking-tight sm:mb-4 sm:text-3xl ${language === 'bn' ? 'leading-[1.35]' : ''}`}>{item.title}</h3>
+                    <span className="mb-3 flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-white text-brand-800 transition-transform duration-300 group-hover:rotate-45 sm:mb-4 sm:h-12 sm:w-12">
+                      <ArrowDownRight className="h-5 w-5 sm:h-6 sm:w-6" aria-hidden="true" />
                     </span>
                   </div>
                 </div>
