@@ -72,7 +72,7 @@ export const CinematicFooter: React.FC<CinematicFooterProps> = ({ onOpenWaitlist
           src={language === 'bn' ? '/Somadhan BLW.svg' : '/Somadhan ELW.svg'}
           alt=""
           aria-hidden="true"
-          className="cinematic-footer-watermark pointer-events-none absolute -bottom-[3vh] left-1/2 z-0 w-[110vw] max-w-[1600px] -translate-x-1/2 select-none"
+          className="cinematic-footer-watermark pointer-events-none absolute -bottom-[3vh] left-1/2 z-0 h-[28vh] w-auto max-w-[90vw] -translate-x-1/2 select-none"
         />
 
         <div className="relative z-10 mx-auto mt-20 flex w-full max-w-none flex-1 flex-col items-center justify-center px-4 text-center sm:px-6">

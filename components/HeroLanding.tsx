@@ -16,7 +16,7 @@ const HeroLanding: React.FC<HeroLandingProps> = ({ onOpenWaitlist }) => {
   const [headlineSlide, setHeadlineSlide] = useState(0);
   const headlineSlides = language === 'bn'
     ? ['হাতের মুঠোয়', 'এক ক্লিকেই', 'যেখানেই যান']
-    : ['right in your hand.', 'one tap away', 'wherever you go'];
+    : ['right in your hand.', 'one tap away.', 'wherever you go.'];
 
   const refreshWaitlistCount = useCallback(() => {
     getWaitlistCount().then(setWaitlistCount);
@@ -90,8 +90,8 @@ const HeroLanding: React.FC<HeroLandingProps> = ({ onOpenWaitlist }) => {
         style={{ opacity: contentOpacity }}
       >
         {/* Badge - CSS animation */}
-        <div className="hero-glitter-badge relative isolate inline-flex items-center gap-2.5 px-4 py-2 rounded-full bg-white/10 backdrop-blur-sm border border-white/15 mb-6 animate-[fadeIn_0.4s_ease-out_both]">
-          <span className="hero-pulse-dot h-3.5 w-3.5 rounded-full bg-emerald-400" />
+        <div className="inline-flex items-center gap-2.5 px-4 py-2 rounded-full bg-white/10 backdrop-blur-sm border border-white/15 mb-6 animate-[fadeIn_0.4s_ease-out_both]">
+          <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
           <span className="text-sm text-white/90 font-medium tracking-wide">{t('hero.badge')}</span>
         </div>
 
@@ -102,11 +102,17 @@ const HeroLanding: React.FC<HeroLandingProps> = ({ onOpenWaitlist }) => {
           style={language === 'bn' ? { wordSpacing: '0.12em' } : undefined}
         >
           {t('hero.headline')}
+          {language === 'bn' && (
+            <>
+              <br />
+              {t('hero.headlineNext')}
+            </>
+          )}
           <br />
-          <span className={`hero-headline-window ${language === 'en' ? 'italic' : ''} text-white/60`} aria-live="polite">
+          <span className="hero-headline-window italic text-white/60" aria-live="polite">
             <span
               className="hero-headline-track"
-              style={{ transform: `translateY(-${headlineSlide * 1.2}em)` }}
+              style={{ transform: `translateY(-${headlineSlide}em)` }}
             >
               {headlineSlides.map((slide) => (
                 <span key={`${language}-${slide}`} className="hero-headline-slide">
@@ -118,7 +124,7 @@ const HeroLanding: React.FC<HeroLandingProps> = ({ onOpenWaitlist }) => {
         </h1>
 
         {/* Subtext - CSS animation */}
-        <p className="mt-4 md:mt-6 text-base md:text-lg text-white/60 leading-relaxed max-w-xl mx-auto mb-8 animate-[fadeInUp_0.6s_ease-out_0.2s_both]">
+        <p className="text-base md:text-lg text-white/60 leading-relaxed max-w-xl mx-auto mb-8 animate-[fadeInUp_0.6s_ease-out_0.2s_both]">
           {t('hero.subtext')}
         </p>
 
@@ -126,7 +132,7 @@ const HeroLanding: React.FC<HeroLandingProps> = ({ onOpenWaitlist }) => {
         <div className="animate-[fadeInUp_0.5s_ease-out_0.25s_both] flex flex-col items-center">
           <button
             onClick={onOpenWaitlist}
-            className="group bg-white text-brand-600 px-8 py-3.5 rounded-full text-sm font-semibold shadow-[0_0_20px_rgba(93,184,186,0.18)] transition-all duration-300 hover:shadow-[0_0_28px_rgba(93,184,186,0.34)] hover:scale-[1.02] active:scale-[0.98]"
+            className="group bg-white text-brand-600 px-8 py-3.5 rounded-full text-sm font-semibold transition-all duration-300 hover:shadow-lg hover:shadow-white/20 hover:scale-[1.02] active:scale-[0.98]"
           >
             {t('hero.joinWaitlist')}
           </button>
