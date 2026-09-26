@@ -93,7 +93,7 @@ function PhoneScreen({ image }: { image: ImageItem }) {
         src={image.src}
         alt={image.alt}
         draggable={false}
-        className="h-full w-full select-none bg-white object-contain object-top"
+        className={`absolute inset-0 h-full w-full select-none bg-white ${image.src.includes("categories") ? "object-cover object-top" : "object-contain object-top"}`}
       />
     );
   }
