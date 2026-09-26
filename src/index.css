@@ -222,23 +222,17 @@ html[lang="bn"] .font-serif span {
   letter-spacing: 0.02em;
 }
 
-/* Custom scrollbar */
+/* Keep page scrolling available without visible right/bottom scrollbar rails. */
+html,
+body {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
 ::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
-}
-
-::-webkit-scrollbar-track {
-  background: transparent;
-}
-
-::-webkit-scrollbar-thumb {
-  background: #CBD5E1;
-  border-radius: 3px;
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background: #94A3B8;
+  display: none;
+  width: 0;
+  height: 0;
 }
 
 .hide-scrollbar::-webkit-scrollbar {
