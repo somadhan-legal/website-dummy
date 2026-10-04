@@ -1,5 +1,5 @@
 import assert from 'node:assert/strict';
-import { readFileSync, statSync } from 'node:fs';
+import { readFileSync, readdirSync, statSync } from 'node:fs';
 import { gzipSync } from 'node:zlib';
 import { fileURLToPath } from 'node:url';
 import path from 'node:path';
@@ -32,6 +32,11 @@ const compressedBytes = (files) => [...files].reduce((sum, file) => sum + gzipSy
 const assetBytes = (files) => files.reduce((sum, file) => sum + statSync(path.join(root, 'public', file)).size, 0);
 
 check('Initial JavaScript (gzip, excluding dynamic imports)', compressedBytes(scripts), 105);
+const crowdWorkers = readdirSync(path.join(dist, 'assets'))
+  .filter((file) => /^crowd-canvas\.worker-.+\.js$/.test(file))
+  .map((file) => `assets/${file}`);
+assert.equal(crowdWorkers.length, 1, 'Expected one bundled crowd renderer worker.');
+check('Crowd renderer worker (gzip)', compressedBytes(crowdWorkers), 4);
 check('Initial CSS (gzip)', compressedBytes(styles), 16);
 check('Three first-screen English font faces', assetBytes([
   'fonts/optimized/dm-sans-normal-latin.woff2',

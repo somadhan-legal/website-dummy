@@ -1,8 +1,9 @@
 "use client";
 
-import React, { useEffect, useRef, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import type { gsap as Gsap } from "gsap";
 import { useAnimationActivity } from "../../hooks/useAnimationActivity";
+import type { CrowdRenderFrame, CrowdWorkerReply } from "./crowd-canvas.protocol";
 
 interface CrowdCanvasProps {
   src: string;
@@ -13,15 +14,13 @@ interface CrowdCanvasProps {
 }
 
 const CrowdCanvas = ({ src, mobileSrc, rows = 15, cols = 7 }: CrowdCanvasProps) => {
-  const canvasRef = useRef<HTMLCanvasElement>(null);
+  const [useFallback, setUseFallback] = useState(false);
   const [isMobileViewport, setIsMobileViewport] = useState(() =>
     typeof window !== "undefined" && !window.matchMedia("(min-width: 640px)").matches,
   );
   const useMobileSprite = Boolean(mobileSrc && isMobileViewport);
   const spriteSrc = mobileSrc && isMobileViewport ? mobileSrc : src;
-  const { isActive, prefersReducedMotion } = useAnimationActivity(canvasRef);
-  const activityRef = useRef({ isActive, prefersReducedMotion });
-  const updateAnimationRef = useRef<(() => void) | null>(null);
+  const handleWorkerFailure = useCallback(() => setUseFallback(true), []);
 
   useEffect(() => {
     if (!mobileSrc) return;
@@ -32,6 +31,36 @@ const CrowdCanvas = ({ src, mobileSrc, rows = 15, cols = 7 }: CrowdCanvasProps) 
     return () => desktopViewport.removeEventListener("change", updateViewport);
   }, [mobileSrc]);
 
+  return (
+    <CrowdCanvasRenderer
+      key={`${src}:${spriteSrc}:${rows}:${cols}:${useMobileSprite}:${useFallback}`}
+      src={src}
+      spriteSrc={spriteSrc}
+      useMobileSprite={useMobileSprite}
+      rows={rows}
+      cols={cols}
+      useFallback={useFallback}
+      onWorkerFailure={handleWorkerFailure}
+    />
+  );
+};
+
+interface CrowdCanvasRendererProps {
+  src: string;
+  spriteSrc: string;
+  useMobileSprite: boolean;
+  rows: number;
+  cols: number;
+  useFallback: boolean;
+  onWorkerFailure: () => void;
+}
+
+const CrowdCanvasRenderer = ({ src, spriteSrc, useMobileSprite, rows, cols, useFallback, onWorkerFailure }: CrowdCanvasRendererProps) => {
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+  const { isActive, prefersReducedMotion } = useAnimationActivity(canvasRef);
+  const activityRef = useRef({ isActive, prefersReducedMotion });
+  const updateAnimationRef = useRef<(() => void) | null>(null);
+
   useEffect(() => {
     activityRef.current = { isActive, prefersReducedMotion };
     updateAnimationRef.current?.();
@@ -40,11 +69,17 @@ const CrowdCanvas = ({ src, mobileSrc, rows = 15, cols = 7 }: CrowdCanvasProps) 
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
-    const ctx = canvas.getContext("2d");
-    if (!ctx) return;
+    const useWorker = !useFallback
+      && typeof Worker !== "undefined"
+      && typeof OffscreenCanvas !== "undefined"
+      && typeof createImageBitmap === "function"
+      && typeof canvas.transferControlToOffscreen === "function";
+    const ctx = useWorker ? null : canvas.getContext("2d");
+    if (!useWorker && !ctx) return;
 
     type WalkProps = { startX: number; startY: number; endX: number };
     type Peep = {
+      index: number;
       rect: [number, number, number, number];
       width: number;
       height: number;
@@ -71,6 +106,18 @@ const CrowdCanvas = ({ src, mobileSrc, rows = 15, cols = 7 }: CrowdCanvasProps) 
     let pixelRatio = 1;
     let disposed = false;
     let imageReady = false;
+    let rendererReady = !useWorker;
+    let hasPainted = false;
+    let workerFailed = false;
+    let worker: Worker | null = null;
+    let workerReady = false;
+    let bitmapPending = false;
+    let workerTransferred = false;
+    let workerTimeout: number | null = null;
+    let frameSequence = 0;
+    let inFlightSequence: number | null = null;
+    let pendingFrame: CrowdRenderFrame | null = null;
+    let pendingFrameIsStatic = false;
     let gsap: typeof Gsap | null = null;
     let importPending = false;
     let tickerAttached = false;
@@ -84,12 +131,38 @@ const CrowdCanvas = ({ src, mobileSrc, rows = 15, cols = 7 }: CrowdCanvasProps) 
 
     const canAnimate = () => {
       const activity = activityRef.current;
-      return imageReady && activity.isActive && !activity.prefersReducedMotion && !disposed;
+      return imageReady && rendererReady && hasPainted && activity.isActive && !activity.prefersReducedMotion && !disposed && !workerFailed;
     };
 
     const canCacheSprites = () => spriteScale * sourceResolutionScale * pixelRatio === 1;
 
-    const render = () => {
+    const render = (staticDraw = false) => {
+      if (useWorker) {
+        if (!rendererReady || workerFailed || disposed) return;
+        const positions = new Float64Array(crowd.length * 6);
+        crowd.forEach((peep, index) => {
+          const offset = index * 6;
+          positions[offset] = peep.index;
+          positions[offset + 1] = peep.x;
+          positions[offset + 2] = peep.y;
+          positions[offset + 3] = peep.width;
+          positions[offset + 4] = peep.height;
+          positions[offset + 5] = peep.scaleX;
+        });
+        pendingFrame = {
+          type: "frame",
+          sequence: ++frameSequence,
+          width: Math.round(stage.width * pixelRatio),
+          height: Math.round(stage.height * pixelRatio),
+          pixelRatio,
+          cacheSprites: canCacheSprites() && hasPainted && activityRef.current.isActive && !activityRef.current.prefersReducedMotion,
+          positions,
+        };
+        pendingFrameIsStatic = staticDraw || pendingFrameIsStatic;
+        flushWorkerFrame();
+        return;
+      }
+      if (!ctx) return;
       ctx.clearRect(0, 0, canvas.width, canvas.height);
       for (const peep of crowd) {
         if (canCacheSprites() && peep.sprite && peep.spriteDirection === peep.scaleX) {
@@ -102,6 +175,70 @@ const CrowdCanvas = ({ src, mobileSrc, rows = 15, cols = 7 }: CrowdCanvasProps) 
         }
       }
       ctx.resetTransform();
+      hasPainted = true;
+    };
+
+    const clearWorkerTimeout = () => {
+      if (workerTimeout !== null) window.clearTimeout(workerTimeout);
+      workerTimeout = null;
+    };
+
+    const failWorker = () => {
+      if (disposed || workerFailed) return;
+      workerFailed = true;
+      clearWorkerTimeout();
+      worker?.terminate();
+      worker = null;
+      pendingFrame = null;
+      updateAnimation();
+      // A transferred HTML canvas cannot acquire a 2D context again.
+      onWorkerFailure();
+    };
+
+    const armWorkerTimeout = () => {
+      clearWorkerTimeout();
+      workerTimeout = window.setTimeout(() => {
+        workerTimeout = null;
+        if (disposed || workerFailed) return;
+        if (document.hidden || !activityRef.current.isActive) armWorkerTimeout();
+        else failWorker();
+      }, 10000);
+    };
+
+    const flushWorkerFrame = () => {
+      if (!worker || !rendererReady || !pendingFrame || inFlightSequence !== null || disposed || workerFailed) return;
+      const frame = pendingFrame;
+      pendingFrame = null;
+      pendingFrameIsStatic = false;
+      inFlightSequence = frame.sequence;
+      try {
+        worker.postMessage(frame, [frame.positions.buffer]);
+        armWorkerTimeout();
+      } catch {
+        failWorker();
+      }
+    };
+
+    const initializeWorker = () => {
+      if (!worker || !workerReady || !imageReady || bitmapPending || workerTransferred || disposed || workerFailed) return;
+      bitmapPending = true;
+      armWorkerTimeout();
+      void createImageBitmap(image).then((bitmap) => {
+        if (disposed || workerFailed || !worker) {
+          bitmap.close();
+          return;
+        }
+        try {
+          // Startup is asynchronous, so StrictMode cleanup runs before ownership is transferred.
+          const offscreen = canvas.transferControlToOffscreen();
+          workerTransferred = true;
+          worker.postMessage({ type: "init", canvas: offscreen, image: bitmap, rects: allPeeps.map((peep) => peep.rect) }, [offscreen, bitmap]);
+          armWorkerTimeout();
+        } catch {
+          bitmap.close();
+          failWorker();
+        }
+      }).catch(failWorker);
     };
 
     const releaseSprite = (peep: Peep) => {
@@ -136,7 +273,7 @@ const CrowdCanvas = ({ src, mobileSrc, rows = 15, cols = 7 }: CrowdCanvasProps) 
     };
 
     const scheduleSpriteCache = () => {
-      if (!canAnimate() || !canCacheSprites() || !pendingSprites.size || spriteCacheTask !== null || spriteCacheFrame !== null) return;
+      if (useWorker || !canAnimate() || !canCacheSprites() || !pendingSprites.size || spriteCacheTask !== null || spriteCacheFrame !== null) return;
       const buildSprites = (deadline?: IdleDeadline) => {
         spriteCacheTask = null;
         spriteCacheFrame = null;
@@ -186,7 +323,7 @@ const CrowdCanvas = ({ src, mobileSrc, rows = 15, cols = 7 }: CrowdCanvasProps) 
       resetPeep(peep, initialProgress);
       crowd.push(peep);
       crowd.sort((first, second) => first.anchorY - second.anchorY);
-      if (canCacheSprites() && !peep.sprite) pendingSprites.add(peep);
+      if (!useWorker && canCacheSprites() && !peep.sprite) pendingSprites.add(peep);
       scheduleSpriteCache();
       if (gsap) startWalk(peep);
     };
@@ -263,6 +400,7 @@ const CrowdCanvas = ({ src, mobileSrc, rows = 15, cols = 7 }: CrowdCanvasProps) 
     const updateAnimation = () => {
       if (disposed) return;
       if (!canAnimate()) {
+        if (!pendingFrameIsStatic) pendingFrame = null;
         cancelScheduledStart();
         cancelSpriteCache();
         crowd.forEach((peep) => peep.walk?.pause());
@@ -272,6 +410,7 @@ const CrowdCanvas = ({ src, mobileSrc, rows = 15, cols = 7 }: CrowdCanvasProps) 
         }
         return;
       }
+      if (inFlightSequence !== null && workerTimeout === null) armWorkerTimeout();
       scheduleSpriteCache();
       if (!gsap) {
         scheduleAnimation();
@@ -289,13 +428,15 @@ const CrowdCanvas = ({ src, mobileSrc, rows = 15, cols = 7 }: CrowdCanvasProps) 
     };
 
     const resize = () => {
-      if (disposed || !imageReady) return;
+      if (disposed || !imageReady || !rendererReady || workerFailed) return;
       stage.width = canvas.clientWidth;
       stage.height = canvas.clientHeight;
       spriteScale = stage.width < 640 ? 0.38 : stage.width < 1024 ? 0.65 : 1;
       pixelRatio = Math.min(window.devicePixelRatio || 1, 1.5);
-      canvas.width = Math.round(stage.width * pixelRatio);
-      canvas.height = Math.round(stage.height * pixelRatio);
+      if (!useWorker) {
+        canvas.width = Math.round(stage.width * pixelRatio);
+        canvas.height = Math.round(stage.height * pixelRatio);
+      }
 
       crowd.forEach((peep) => peep.walk?.kill());
       crowd.length = 0;
@@ -310,7 +451,7 @@ const CrowdCanvas = ({ src, mobileSrc, rows = 15, cols = 7 }: CrowdCanvasProps) 
       availablePeeps.push(...allPeeps);
       const crowdLimit = stage.width < 640 ? 24 : stage.width < 1024 ? 48 : allPeeps.length;
       while (availablePeeps.length && crowd.length < crowdLimit) addPeepToCrowd(Math.random());
-      render();
+      render(true);
       updateAnimation();
     };
 
@@ -329,6 +470,7 @@ const CrowdCanvas = ({ src, mobileSrc, rows = 15, cols = 7 }: CrowdCanvasProps) 
       const rectHeight = image.naturalHeight / cols;
       for (let index = 0; index < rows * cols; index += 1) {
         allPeeps.push({
+          index,
           rect: [(index % rows) * rectWidth, Math.floor(index / rows) * rectHeight, rectWidth, rectHeight],
           width: 0,
           height: 0,
@@ -343,7 +485,8 @@ const CrowdCanvas = ({ src, mobileSrc, rows = 15, cols = 7 }: CrowdCanvasProps) 
           spriteDirection: 0,
         });
       }
-      resize();
+      if (useWorker) initializeWorker();
+      else resize();
     };
     image.onerror = () => {
       if (disposed || sourceResolutionScale === 1) return;
@@ -351,12 +494,53 @@ const CrowdCanvas = ({ src, mobileSrc, rows = 15, cols = 7 }: CrowdCanvasProps) 
       image.src = src;
     };
     image.decoding = "async";
-    image.src = spriteSrc;
     updateAnimationRef.current = updateAnimation;
     window.addEventListener("resize", scheduleResize);
 
+    if (useWorker) {
+      try {
+        worker = new Worker(new URL("./crowd-canvas.worker.ts", import.meta.url), { type: "module" });
+        worker.onerror = failWorker;
+        worker.onmessageerror = failWorker;
+        worker.onmessage = ({ data }: MessageEvent<CrowdWorkerReply>) => {
+          if (disposed || workerFailed) return;
+          if (data.type === "ready") {
+            workerReady = true;
+            clearWorkerTimeout();
+            initializeWorker();
+          } else if (data.type === "initialized") {
+            clearWorkerTimeout();
+            rendererReady = true;
+            resize();
+          } else if (data.type === "drawn" && data.sequence === inFlightSequence) {
+            clearWorkerTimeout();
+            inFlightSequence = null;
+            const firstPaint = !hasPainted;
+            hasPainted = true;
+            flushWorkerFrame();
+            if (firstPaint) updateAnimation();
+          } else if (data.type === "error") {
+            failWorker();
+          }
+        };
+        armWorkerTimeout();
+      } catch {
+        failWorker();
+      }
+    }
+    image.src = spriteSrc;
+
     return () => {
       disposed = true;
+      clearWorkerTimeout();
+      if (worker) {
+        worker.onmessage = null;
+        worker.onerror = null;
+        worker.onmessageerror = null;
+        worker.terminate();
+        worker = null;
+      }
+      pendingFrame = null;
       updateAnimationRef.current = null;
       image.onload = null;
       image.onerror = null;
@@ -370,7 +554,7 @@ const CrowdCanvas = ({ src, mobileSrc, rows = 15, cols = 7 }: CrowdCanvasProps) 
       crowd.forEach((peep) => peep.walk?.kill());
       allPeeps.forEach(releaseSprite);
     };
-  }, [cols, rows, src, spriteSrc, useMobileSprite]);
+  }, [cols, rows, src, spriteSrc, useMobileSprite, useFallback, onWorkerFailure]);
 
   return <canvas ref={canvasRef} className="absolute bottom-0 h-[90vh] w-full" aria-hidden="true" />;
 };
