@@ -37,7 +37,7 @@ check('Three first-screen English font faces', assetBytes([
   'fonts/optimized/dm-sans-normal-latin.woff2',
   'fonts/optimized/playfair-display-normal-latin.woff2',
   'fonts/optimized/playfair-display-italic-latin.woff2',
-]), 180);
+]), 140);
 check('Mobile crowd sprite', assetBytes(['images/optimized/hero-crowd-mobile.webp']), 250);
 check('Bangla semi-condensed font', assetBytes(['fonts/optimized/anek-bangla-semicondensed.woff2']), 250);
 check('Eight service images at 480px', assetBytes([

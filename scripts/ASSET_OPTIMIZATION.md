@@ -32,6 +32,11 @@ full font for English while preserving access to all original characters.
 Latin faces retain only required name metadata, variation names, and licensing;
 the generator also verifies face metrics and every retained character's advance
 and left side bearing against the original font.
+DM Sans normal and both Playfair Latin faces keep FontTools' default layout
+features plus `tnum`, matching the current UI while reducing unused alternate
+glyphs. All variation axes remain intact. Future optional styling such as small
+caps or stylistic sets needs its feature tag added to these Latin subsets;
+unsupported features do not automatically select the full fallback face.
 
 Anek Bangla is downloaded from the Google Fonts source repository under its
 included SIL Open Font License. Only its width axis is fixed at 87.5 percent;

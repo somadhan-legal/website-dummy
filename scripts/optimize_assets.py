@@ -45,6 +45,9 @@ FONTS = {
     "Inter-VariableFont_opsz,wght.ttf": "inter-normal",
     "Inter-Italic-VariableFont_opsz,wght.ttf": "inter-italic",
 }
+UI_FEATURE_SUBSETS = {
+    "dm-sans-normal", "playfair-display-normal", "playfair-display-italic",
+}
 LATIN_RANGES = (
     (0x0000, 0x00FF), (0x0131, 0x0131), (0x0152, 0x0153),
     (0x02BB, 0x02BC), (0x02C6, 0x02C6), (0x02DA, 0x02DA),
@@ -220,7 +223,10 @@ def convert_font(source: Path | io.BytesIO, name: str, *, anek: bool = False) ->
         original_face_metrics = face_metrics(latin_font)
         original_character_metrics = character_metrics(latin_font, codepoints)
         options = subset.Options()
-        options.layout_features = ["*"]
+        if name in UI_FEATURE_SUBSETS:
+            options.layout_features.append("tnum")
+        else:
+            options.layout_features = ["*"]
         # FontTools retains referenced variation names; also retain licensing.
         options.name_IDs.extend([13, 14])
         subsetter = subset.Subsetter(options=options)
