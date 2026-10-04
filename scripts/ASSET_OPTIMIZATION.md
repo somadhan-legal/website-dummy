@@ -45,3 +45,9 @@ and returns the original path for any asset without an optimized replacement.
 Run `npm run verify` to build, type-check, and enforce first-screen JavaScript,
 CSS, font, and image size budgets. These checks catch payload regressions; they
 do not replace mobile/desktop Lighthouse measurements or interaction tests.
+
+The production build also pre-renders `/`, `/about`, `/terms`, and `/privacy`
+from the same React components. The browser hydrates this HTML; the Vite dev
+server still uses normal client rendering. `dist-ssr` is a build-only artifact
+and is not deployed. Vercel serves the HTML files through extensionless URLs
+and redirects `.html` and trailing-slash aliases to the canonical page URLs.

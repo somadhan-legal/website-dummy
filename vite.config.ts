@@ -11,6 +11,12 @@ export default defineConfig({
   build: {
     manifest: true,
   },
+  ssr: {
+    noExternal: ['react-router', 'react-router-dom'],
+    resolve: {
+      conditions: ['module', 'browser', 'development|production'],
+    },
+  },
   resolve: {
     alias: {
       '@': path.resolve(__dirname, '.'),

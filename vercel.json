@@ -1,22 +1,10 @@
 {
+  "cleanUrls": true,
+  "trailingSlash": false,
   "crons": [
     {
       "path": "/api/keep-alive",
       "schedule": "0 6 * * *"
-    }
-  ],
-  "rewrites": [
-    {
-      "source": "/about",
-      "destination": "/index.html"
-    },
-    {
-      "source": "/terms",
-      "destination": "/index.html"
-    },
-    {
-      "source": "/privacy",
-      "destination": "/index.html"
     }
   ],
   "redirects": [

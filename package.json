@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "vite build",
+    "build": "vite build && vite build --ssr scripts/entry-server.tsx --outDir dist-ssr && node scripts/prerender.mjs",
     "preview": "vite preview",
     "check:performance": "node scripts/check-performance-budget.mjs",
     "verify": "npm run build && tsc --noEmit && npm run check:performance"
