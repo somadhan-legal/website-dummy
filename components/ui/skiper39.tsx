@@ -55,6 +55,8 @@ const CrowdCanvas = ({ src, mobileSrc, rows = 15, cols = 7 }: CrowdCanvasProps) 
       initialProgress: number;
       props: WalkProps;
       walk: ReturnType<typeof Gsap.timeline> | null;
+      sprite: HTMLCanvasElement | null;
+      spriteDirection: number;
     };
 
     const image = document.createElement("img");
@@ -76,24 +78,83 @@ const CrowdCanvas = ({ src, mobileSrc, rows = 15, cols = 7 }: CrowdCanvasProps) 
     let idleTask: number | null = null;
     let paintFrame: number | null = null;
     let resizeFrame: number | null = null;
+    let spriteCacheTask: number | null = null;
+    let spriteCacheFrame: number | null = null;
+    const pendingSprites = new Set<Peep>();
 
     const canAnimate = () => {
       const activity = activityRef.current;
       return imageReady && activity.isActive && !activity.prefersReducedMotion && !disposed;
     };
 
+    const canCacheSprites = () => spriteScale * sourceResolutionScale * pixelRatio === 1;
+
     const render = () => {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
-      ctx.save();
-      ctx.scale(pixelRatio, pixelRatio);
       for (const peep of crowd) {
-        ctx.save();
-        ctx.translate(peep.x, peep.y);
-        ctx.scale(peep.scaleX, 1);
-        ctx.drawImage(image, ...peep.rect, 0, 0, peep.width, peep.height);
-        ctx.restore();
+        if (canCacheSprites() && peep.sprite && peep.spriteDirection === peep.scaleX) {
+          const left = peep.scaleX === 1 ? peep.x : peep.x - peep.width;
+          ctx.setTransform(pixelRatio, 0, 0, pixelRatio, left * pixelRatio, peep.y * pixelRatio);
+          ctx.drawImage(peep.sprite, 0, 0, peep.width, peep.height);
+        } else {
+          ctx.setTransform(pixelRatio * peep.scaleX, 0, 0, pixelRatio, peep.x * pixelRatio, peep.y * pixelRatio);
+          ctx.drawImage(image, ...peep.rect, 0, 0, peep.width, peep.height);
+        }
       }
-      ctx.restore();
+      ctx.resetTransform();
+    };
+
+    const releaseSprite = (peep: Peep) => {
+      if (!peep.sprite) return;
+      peep.sprite.width = 0;
+      peep.sprite.height = 0;
+      peep.sprite = null;
+    };
+
+    const cacheSprite = (peep: Peep) => {
+      if (peep.sprite && peep.spriteDirection === peep.scaleX) return;
+      releaseSprite(peep);
+      const sprite = document.createElement("canvas");
+      sprite.width = Math.ceil(peep.rect[2]);
+      sprite.height = Math.ceil(peep.rect[3]);
+      const spriteContext = sprite.getContext("2d");
+      if (!spriteContext) return;
+      if (peep.scaleX === -1) {
+        spriteContext.translate(sprite.width, 0);
+        spriteContext.scale(-1, 1);
+      }
+      spriteContext.drawImage(image, ...peep.rect, 0, 0, sprite.width, sprite.height);
+      peep.sprite = sprite;
+      peep.spriteDirection = peep.scaleX;
+    };
+
+    const cancelSpriteCache = () => {
+      if (spriteCacheTask !== null) window.cancelIdleCallback(spriteCacheTask);
+      if (spriteCacheFrame !== null) cancelAnimationFrame(spriteCacheFrame);
+      spriteCacheTask = null;
+      spriteCacheFrame = null;
+    };
+
+    const scheduleSpriteCache = () => {
+      if (!canAnimate() || !canCacheSprites() || !pendingSprites.size || spriteCacheTask !== null || spriteCacheFrame !== null) return;
+      const buildSprites = (deadline?: IdleDeadline) => {
+        spriteCacheTask = null;
+        spriteCacheFrame = null;
+        if (!canAnimate() || !canCacheSprites()) return;
+        const start = performance.now();
+        // Bake the flip for the native-size fast path; scaled drawing keeps the atlas's original filtering.
+        while (pendingSprites.size && performance.now() - start < 4 && (!deadline || deadline.timeRemaining() > 0)) {
+          const peep = pendingSprites.values().next().value!;
+          pendingSprites.delete(peep);
+          cacheSprite(peep);
+        }
+        scheduleSpriteCache();
+      };
+      if ("requestIdleCallback" in window) {
+        spriteCacheTask = window.requestIdleCallback(buildSprites);
+      } else {
+        spriteCacheFrame = requestAnimationFrame(() => buildSprites());
+      }
     };
 
     const renderFrame = () => {
@@ -110,6 +171,7 @@ const CrowdCanvas = ({ src, mobileSrc, rows = 15, cols = 7 }: CrowdCanvasProps) 
       const startX = direction === 1 ? -peep.width : stage.width + peep.width;
       const endX = direction === 1 ? stage.width : 0;
       peep.scaleX = direction;
+      if (peep.spriteDirection !== direction) releaseSprite(peep);
       peep.anchorY = startY;
       peep.initialProgress = initialProgress;
       peep.props = { startX, startY, endX };
@@ -124,6 +186,8 @@ const CrowdCanvas = ({ src, mobileSrc, rows = 15, cols = 7 }: CrowdCanvasProps) 
       resetPeep(peep, initialProgress);
       crowd.push(peep);
       crowd.sort((first, second) => first.anchorY - second.anchorY);
+      if (canCacheSprites() && !peep.sprite) pendingSprites.add(peep);
+      scheduleSpriteCache();
       if (gsap) startWalk(peep);
     };
 
@@ -200,6 +264,7 @@ const CrowdCanvas = ({ src, mobileSrc, rows = 15, cols = 7 }: CrowdCanvasProps) 
       if (disposed) return;
       if (!canAnimate()) {
         cancelScheduledStart();
+        cancelSpriteCache();
         crowd.forEach((peep) => peep.walk?.pause());
         if (tickerAttached && gsap) {
           gsap.ticker.remove(renderFrame);
@@ -207,6 +272,7 @@ const CrowdCanvas = ({ src, mobileSrc, rows = 15, cols = 7 }: CrowdCanvasProps) 
         }
         return;
       }
+      scheduleSpriteCache();
       if (!gsap) {
         scheduleAnimation();
         return;
@@ -234,7 +300,9 @@ const CrowdCanvas = ({ src, mobileSrc, rows = 15, cols = 7 }: CrowdCanvasProps) 
       crowd.forEach((peep) => peep.walk?.kill());
       crowd.length = 0;
       availablePeeps.length = 0;
+      pendingSprites.clear();
       for (const peep of allPeeps) {
+        if (!canCacheSprites()) releaseSprite(peep);
         peep.width = peep.rect[2] * spriteScale * sourceResolutionScale;
         peep.height = peep.rect[3] * spriteScale * sourceResolutionScale;
         peep.walk = null;
@@ -271,6 +339,8 @@ const CrowdCanvas = ({ src, mobileSrc, rows = 15, cols = 7 }: CrowdCanvasProps) 
           initialProgress: 0,
           props: { startX: 0, startY: 0, endX: 0 },
           walk: null,
+          sprite: null,
+          spriteDirection: 0,
         });
       }
       resize();
@@ -292,10 +362,13 @@ const CrowdCanvas = ({ src, mobileSrc, rows = 15, cols = 7 }: CrowdCanvasProps) 
       image.onerror = null;
       image.removeAttribute("src");
       cancelScheduledStart();
+      cancelSpriteCache();
+      pendingSprites.clear();
       if (resizeFrame !== null) cancelAnimationFrame(resizeFrame);
       window.removeEventListener("resize", scheduleResize);
       if (tickerAttached && gsap) gsap.ticker.remove(renderFrame);
       crowd.forEach((peep) => peep.walk?.kill());
+      allPeeps.forEach(releaseSprite);
     };
   }, [cols, rows, src, spriteSrc, useMobileSprite]);
 
