@@ -1,10 +1,11 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
-import { motion, AnimatePresence } from 'framer-motion';
 import { Menu, X, Globe, ChevronRight, ChevronDown, ExternalLink } from 'lucide-react';
 import { useLanguage } from '../contexts/LanguageContext';
 import { trackNavClick, trackMobileMenuOpen, trackMobileMenuClose, trackLogoClick, trackLanguageChange, trackCTAClick } from '../lib/analytics';
 import { companyInfo } from '../lib/companyInfo';
+import { getOptimizedImage } from '../lib/optimizedAssets';
+import { cancelSectionNavigation, scrollToSection as navigateToSection } from '../lib/sectionNavigation';
 
 interface NavbarProps {
   onOpenWaitlist: () => void;
@@ -27,7 +28,7 @@ const Navbar: React.FC<NavbarProps> = ({ onOpenWaitlist }) => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 20);
     };
-    window.addEventListener('scroll', handleScroll);
+    window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
@@ -61,19 +62,14 @@ const Navbar: React.FC<NavbarProps> = ({ onOpenWaitlist }) => {
   const scrollToSection = (e: React.MouseEvent<HTMLAnchorElement>, href: string, linkId: string) => {
     e.preventDefault();
     trackNavClick(linkId, href);
-    const id = href.replace('#', '');
-    const element = document.getElementById(id);
-    if (element) {
-      const offset = 80;
-      const elementPosition = element.getBoundingClientRect().top + window.scrollY;
-      window.scrollTo({ top: elementPosition - offset, behavior: 'smooth' });
-    }
+    void navigateToSection(href.replace('#', ''));
     setIsMobileMenuOpen(false);
     setIsToolsOpen(false);
   };
 
   const handleLogoClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
     e.preventDefault();
+    cancelSectionNavigation();
     trackLogoClick();
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
@@ -102,16 +98,15 @@ const Navbar: React.FC<NavbarProps> = ({ onOpenWaitlist }) => {
   };
 
   const handlePageNavClick = (linkId: string, href: string) => {
+    cancelSectionNavigation();
     trackNavClick(linkId, href);
     setIsMobileMenuOpen(false);
   };
 
   return (
     <>
-      <motion.nav
-        initial={{ y: -100 }}
-        animate={{ y: 0 }}
-        transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+      <nav
+        data-nav
         className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${isScrolled
           ? 'bg-white/90 backdrop-blur-xl shadow-sm border-b border-slate-100'
           : 'bg-transparent'
@@ -122,7 +117,9 @@ const Navbar: React.FC<NavbarProps> = ({ onOpenWaitlist }) => {
             {/* Logo */}
             <a href="#hero" onClick={handleLogoClick} className="flex items-center">
               <img
-                src={language === 'bn' ? (isScrolled ? '/Somadhan BLT.svg' : '/Somadhan BLW.svg') : (isScrolled ? '/Somadhan ELT.svg' : '/Somadhan ELW.svg')}
+                {...getOptimizedImage(language === 'bn' ? (isScrolled ? '/Somadhan BLT.svg' : '/Somadhan BLW.svg') : (isScrolled ? '/Somadhan ELT.svg' : '/Somadhan ELW.svg'))}
+                sizes="156px"
+                decoding="async"
                 alt="Somadhan"
                 className="h-5 sm:h-6 w-auto transition-all duration-300"
               />
@@ -144,15 +141,10 @@ const Navbar: React.FC<NavbarProps> = ({ onOpenWaitlist }) => {
                       {link.label}
                       <ChevronDown className={`w-3.5 h-3.5 transition-transform duration-200 ${isToolsOpen ? 'rotate-180' : ''}`} />
                     </button>
-                    <AnimatePresence>
                       {isToolsOpen && (
-                        <motion.div
-                          initial={{ opacity: 0, y: -4 }}
-                          animate={{ opacity: 1, y: 0 }}
-                          exit={{ opacity: 0, y: -4 }}
-                          transition={{ duration: 0.15 }}
+                        <div
                           role="menu"
-                          className="absolute top-full left-1/2 mt-2.5 w-40 -translate-x-1/2 overflow-hidden rounded-full bg-white shadow-[0_8px_24px_rgba(15,23,42,0.14)] ring-1 ring-slate-900/5"
+                          className="nav-menu-enter absolute top-full left-1/2 mt-2.5 w-40 -translate-x-1/2 overflow-hidden rounded-full bg-white shadow-[0_8px_24px_rgba(15,23,42,0.14)] ring-1 ring-slate-900/5"
                         >
                           <a
                             href={companyInfo.somadhanSignUrl}
@@ -168,9 +160,8 @@ const Navbar: React.FC<NavbarProps> = ({ onOpenWaitlist }) => {
                             <span>Somadhan Sign</span>
                             <ExternalLink className="w-3.5 h-3.5 text-slate-400" aria-hidden="true" />
                           </a>
-                        </motion.div>
+                        </div>
                       )}
-                    </AnimatePresence>
                   </div>
                 ) : link.type === 'section' ? (
                   <a
@@ -237,39 +228,33 @@ const Navbar: React.FC<NavbarProps> = ({ onOpenWaitlist }) => {
             </div>
           </div>
         </div>
-      </motion.nav>
+      </nav>
 
       {/* Modern Full-Screen Mobile Menu */}
-      <AnimatePresence>
         {isMobileMenuOpen && (
           <>
             {/* Backdrop */}
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 0.2 }}
+            <div
               onClick={() => { trackMobileMenuClose(); setIsMobileMenuOpen(false); setIsToolsOpen(false); }}
-              className="fixed inset-0 z-40 bg-black/20 backdrop-blur-sm md:hidden"
+              className="nav-backdrop-enter fixed inset-0 z-40 bg-black/20 backdrop-blur-sm md:hidden"
             />
 
             {/* Menu Panel - Slide from right */}
-            <motion.div
-              initial={{ x: '100%' }}
-              animate={{ x: 0 }}
-              exit={{ x: '100%' }}
-              transition={{ duration: 0.3, ease: [0.32, 0.72, 0, 1] }}
-              className="fixed top-0 right-0 bottom-0 w-[280px] z-50 bg-white shadow-2xl md:hidden"
+            <div
+              className="nav-drawer-enter fixed top-0 right-0 bottom-0 w-[280px] z-50 bg-white shadow-2xl md:hidden"
             >
               {/* Header */}
               <div className="flex items-center justify-between p-5 border-b border-slate-100">
                 <img
-                  src={language === 'bn' ? '/Somadhan BLT.svg' : '/Somadhan ELT.svg'}
+                  {...getOptimizedImage(language === 'bn' ? '/Somadhan BLT.svg' : '/Somadhan ELT.svg')}
+                  sizes="156px"
+                  decoding="async"
                   alt="Somadhan"
                   className="h-5 sm:h-5 w-auto"
                 />
                 <button
                   onClick={() => { trackMobileMenuClose(); setIsMobileMenuOpen(false); setIsToolsOpen(false); }}
+                  aria-label={language === 'bn' ? 'মেনু বন্ধ করুন' : 'Close menu'}
                   className="w-9 h-9 bg-slate-100 hover:bg-slate-200 rounded-full flex items-center justify-center transition-colors"
                 >
                   <X className="w-4 h-4 text-slate-600" />
@@ -294,15 +279,8 @@ const Navbar: React.FC<NavbarProps> = ({ onOpenWaitlist }) => {
                           <span>{link.label}</span>
                           <ChevronDown className={`w-4 h-4 text-slate-400 transition-transform duration-200 ${isToolsOpen ? 'rotate-180' : ''}`} />
                         </button>
-                        <AnimatePresence initial={false}>
                           {isToolsOpen && (
-                            <motion.div
-                              initial={{ height: 0, opacity: 0 }}
-                              animate={{ height: 'auto', opacity: 1 }}
-                              exit={{ height: 0, opacity: 0 }}
-                              transition={{ duration: 0.18 }}
-                              className="overflow-hidden"
-                            >
+                            <div className="nav-menu-enter overflow-hidden">
                               <a
                                 href={companyInfo.somadhanSignUrl}
                                 target="_blank"
@@ -317,9 +295,8 @@ const Navbar: React.FC<NavbarProps> = ({ onOpenWaitlist }) => {
                                 <span>Somadhan Sign</span>
                                 <ExternalLink className="w-3.5 h-3.5 text-slate-400" aria-hidden="true" />
                               </a>
-                            </motion.div>
+                            </div>
                           )}
-                        </AnimatePresence>
                       </div>
                     ) : link.type === 'section' ? (
                       <a
@@ -368,10 +345,9 @@ const Navbar: React.FC<NavbarProps> = ({ onOpenWaitlist }) => {
                   {t('nav.getStarted')}
                 </a>
               </div>
-            </motion.div>
+            </div>
           </>
         )}
-      </AnimatePresence>
     </>
   );
 };

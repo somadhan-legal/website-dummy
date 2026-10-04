@@ -2,6 +2,8 @@ import React, { useEffect, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { AnimatePresence, motion } from 'framer-motion';
 import { ArrowDownRight, X, type LucideIcon } from 'lucide-react';
+import { useAnimationActivity } from '../../hooks/useAnimationActivity';
+import { getOptimizedImage } from '../../lib/optimizedAssets';
 
 export interface ServiceMarqueeItem {
   id: string;
@@ -27,6 +29,46 @@ const cardStyles = [
   'from-brand-900 via-brand-800 to-brand-500',
 ];
 
+function ServicePhoto({ src }: { src: string }) {
+  const imageRef = useRef<HTMLImageElement>(null);
+  const [shouldLoad, setShouldLoad] = useState(false);
+  const image = getOptimizedImage(src);
+
+  useEffect(() => {
+    const element = imageRef.current;
+    if (!element) return;
+    if (typeof IntersectionObserver === 'undefined') {
+      setShouldLoad(true);
+      return;
+    }
+    // Native lazy loading also fetches many horizontally offscreen carousel cards.
+    const observer = new IntersectionObserver(([entry]) => {
+      if (entry.isIntersecting) {
+        setShouldLoad(true);
+        observer.disconnect();
+      }
+    }, { rootMargin: '160px' });
+    observer.observe(element);
+    return () => observer.disconnect();
+  }, []);
+
+  return (
+    <img
+      ref={imageRef}
+      src={shouldLoad ? image.src : undefined}
+      srcSet={shouldLoad ? image.srcSet : undefined}
+      sizes="(min-width: 640px) 360px, (min-width: 359px) 280px, 78vw"
+      width={image.width}
+      height={image.height}
+      alt=""
+      aria-hidden="true"
+      loading="lazy"
+      decoding="async"
+      className="absolute inset-0 h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
+    />
+  );
+}
+
 const ServicesMarquee: React.FC<ServicesMarqueeProps> = ({ items, language, onItemHover }) => {
   const [activeItem, setActiveItem] = useState<ServiceMarqueeItem | null>(null);
   const [isDragging, setIsDragging] = useState(false);
@@ -34,6 +76,7 @@ const ServicesMarquee: React.FC<ServicesMarqueeProps> = ({ items, language, onIt
   const dragRef = useRef<{ pointerId: number; startX: number; startScrollLeft: number; didDrag: boolean } | null>(null);
   const suppressClickRef = useRef(false);
   const removeDragListenersRef = useRef<(() => void) | null>(null);
+  const { isActive, prefersReducedMotion } = useAnimationActivity(marqueeRef);
 
   const handlePointerDown = (event: React.PointerEvent<HTMLDivElement>) => {
     if (event.pointerType === 'mouse' && event.button !== 0) return;
@@ -104,7 +147,7 @@ const ServicesMarquee: React.FC<ServicesMarqueeProps> = ({ items, language, onIt
         style={{ touchAction: 'pan-y' }}
         aria-label={language === 'bn' ? 'আইনি সেবাসমূহ' : 'Legal services'}
       >
-        <div className="services-marquee-track flex w-max" style={{ animationPlayState: isDragging ? 'paused' : undefined }}>
+        <div className="services-marquee-track flex w-max" style={{ animationPlayState: isDragging || !isActive || prefersReducedMotion ? 'paused' : undefined }}>
           {[0, 1].map((copy) => (
             <div key={copy} className="services-marquee-group flex shrink-0 gap-4 pr-4" aria-hidden={copy === 1}>
               {items.map((item, index) => {
@@ -128,7 +171,7 @@ const ServicesMarquee: React.FC<ServicesMarqueeProps> = ({ items, language, onIt
                     tabIndex={copy === 0 ? 0 : -1}
                     className={`group relative flex h-[360px] w-[min(78vw,280px)] shrink-0 flex-col overflow-hidden rounded-[1.5rem] ${item.image ? 'bg-brand-900' : `bg-gradient-to-br ${cardStyles[index % cardStyles.length]}`} p-5 text-left text-white sm:h-[470px] sm:w-[360px] sm:rounded-[2rem] sm:p-8`}
                   >
-                {item.image && <img src={item.image} alt="Lawyers advising clients about property matters" className="absolute inset-0 h-full w-full object-cover transition-transform duration-700 group-hover:scale-105" />}
+                {item.image && <ServicePhoto src={item.image} />}
                 <div className={`absolute inset-0 ${item.image ? 'property-service-photo-overlay' : 'bg-[radial-gradient(ellipse_at_75%_20%,rgba(255,255,255,0.22),transparent_42%)]'}`} />
                 {!item.image && <Icon className="absolute right-5 top-16 h-40 w-40 text-white/[0.13] transition-transform duration-700 group-hover:rotate-6 group-hover:scale-105 sm:right-8 sm:top-24 sm:h-56 sm:w-56" strokeWidth={0.8} aria-hidden="true" />}
 

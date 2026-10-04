@@ -14,6 +14,7 @@ import { motion } from 'framer-motion';
 import { useLanguage } from '../contexts/LanguageContext';
 import { useDocumentMeta } from '../lib/useDocumentMeta';
 import { companyInfo } from '../lib/companyInfo';
+import { getOptimizedImage } from '../lib/optimizedAssets';
 import { trackCTAClick, trackNavClick } from '../lib/analytics';
 
 const AboutPage: React.FC = () => {
@@ -103,7 +104,9 @@ const AboutPage: React.FC = () => {
         <div className="max-w-6xl mx-auto px-4 sm:px-6 flex items-center justify-between h-16">
           <Link to="/" className="flex items-center text-slate-600 hover:text-brand-600 transition-colors">
             <img
-              src={bn ? '/Somadhan BLT.svg' : '/Somadhan ELT.svg'}
+              {...getOptimizedImage(bn ? '/Somadhan BLT.svg' : '/Somadhan ELT.svg')}
+              sizes="130px"
+              decoding="async"
               alt="Somadhan"
               className="h-5 w-auto"
             />

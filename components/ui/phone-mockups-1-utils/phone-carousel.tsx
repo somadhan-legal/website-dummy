@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
+import { getOptimizedImage } from "@/lib/optimizedAssets";
 
 export type ImageItem = {
   src: string;
@@ -20,8 +21,6 @@ export function PhoneCarousel({
   activeIndex: controlledIndex,
   onActiveIndexChange,
 }: PhoneCarouselProps) {
-  const requestedIndex = controlledIndex ?? 0;
-  const activeIndex = ((requestedIndex % images.length) + images.length) % images.length;
   const direction: Direction = 1;
   const [isMobile, setIsMobile] = useState(false);
   const reduceMotion = useReducedMotion();
@@ -33,6 +32,8 @@ export function PhoneCarousel({
     return () => query.removeEventListener("change", update);
   }, []);
   if (!images.length) return null;
+  const requestedIndex = controlledIndex ?? 0;
+  const activeIndex = ((requestedIndex % images.length) + images.length) % images.length;
   const sideDistance = isMobile ? 138 : 250;
   const motionTransition = reduceMotion
     ? { duration: 0.01 }
@@ -47,7 +48,18 @@ export function PhoneCarousel({
     "absolute bottom-0 overflow-hidden rounded-t-[2.6rem] border-[6px] border-b-0 border-[#292a2c] bg-white shadow-[0_18px_55px_rgba(15,23,42,0.16)]";
 
   return (
-    <div className="mx-auto w-full max-w-[900px] px-2 sm:px-6">
+    <div
+      className="mx-auto w-full max-w-[900px] px-2 focus-visible:outline focus-visible:outline-2 focus-visible:outline-brand-500 sm:px-6"
+      role="region"
+      aria-roledescription="carousel"
+      aria-label="Service previews"
+      tabIndex={onActiveIndexChange ? 0 : undefined}
+      onKeyDown={(event) => {
+        if (!onActiveIndexChange || (event.key !== 'ArrowLeft' && event.key !== 'ArrowRight')) return;
+        event.preventDefault();
+        onActiveIndexChange((activeIndex + (event.key === 'ArrowRight' ? 1 : -1) + images.length) % images.length);
+      }}
+    >
       <div className="relative flex h-[min(68svh,580px)] items-end justify-center sm:h-[min(78svh,700px)]">
         {sideItems.map(({ offset, image }) => (
           <motion.div
@@ -87,10 +99,20 @@ export function PhoneCarousel({
 }
 
 function PhoneScreen({ image }: { image: ImageItem }) {
+  const optimized = getOptimizedImage(image.src);
+  const imageProps = {
+    src: optimized.src,
+    srcSet: optimized.srcSet,
+    sizes: '(min-width: 640px) 324px, 268px',
+    width: optimized.width,
+    height: optimized.height,
+    loading: 'lazy' as const,
+    decoding: 'async' as const,
+  };
   if (image.fullScreen) {
     return (
       <img
-        src={image.src}
+        {...imageProps}
         alt={image.alt}
         draggable={false}
         className={`absolute inset-0 h-full w-full select-none bg-white ${image.src.includes("categories") ? "object-cover object-top" : "object-contain object-top"}`}
@@ -106,7 +128,7 @@ function PhoneScreen({ image }: { image: ImageItem }) {
         <span className="flex items-center gap-1 text-[10px]">▮▮▮ ▰</span>
       </div>
       <img
-        src={image.src}
+        {...imageProps}
         alt={image.alt}
         draggable={false}
         className="mt-14 h-[calc(100%-3.5rem)] w-full select-none object-cover object-top sm:mt-16 sm:h-[calc(100%-4rem)]"

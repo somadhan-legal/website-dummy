@@ -1,5 +1,36 @@
 @import "tailwindcss";
 
+.deferred-section-placeholder {
+  height: var(--section-mobile-height);
+}
+
+.nav-menu-enter { animation: nav-menu-enter 150ms ease-out; }
+.nav-backdrop-enter { animation: nav-backdrop-enter 200ms ease-out; }
+.nav-drawer-enter { animation: nav-drawer-enter 300ms cubic-bezier(0.32, 0.72, 0, 1); }
+
+@keyframes nav-menu-enter {
+  from { opacity: 0; transform: translateY(-4px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes nav-backdrop-enter {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+@keyframes nav-drawer-enter {
+  from { transform: translateX(100%); }
+  to { transform: translateX(0); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .nav-menu-enter, .nav-backdrop-enter, .nav-drawer-enter { animation: none; }
+}
+
+@media (min-width: 768px) {
+  .deferred-section-placeholder {
+    height: var(--section-desktop-height);
+  }
+}
+
 .hero-glitter-badge::before {
   content: "";
   position: absolute;
@@ -49,9 +80,11 @@
 }
 
 /* Playfair Display - English Headline */
+/* These English faces have no Bengali glyphs; skip pointless fallback downloads. */
 @font-face {
   font-family: "Playfair Display";
-  src: url('/fonts/english/PlayfairDisplay-VariableFont_wght.ttf') format('truetype');
+  src: url('/fonts/optimized/playfair-display-normal.woff2') format('woff2');
+  unicode-range: U+0000-097F,U+0A00-10FFFF;
   font-weight: 400 900;
   font-style: normal;
   font-display: swap;
@@ -59,7 +92,8 @@
 
 @font-face {
   font-family: "Playfair Display";
-  src: url('/fonts/english/PlayfairDisplay-Italic-VariableFont_wght.ttf') format('truetype');
+  src: url('/fonts/optimized/playfair-display-italic.woff2') format('woff2');
+  unicode-range: U+0000-097F,U+0A00-10FFFF;
   font-weight: 400 900;
   font-style: italic;
   font-display: swap;
@@ -68,7 +102,8 @@
 /* DM Sans - English Primary */
 @font-face {
   font-family: "DM Sans";
-  src: url('/fonts/english/DMSans-VariableFont_opsz,wght.ttf') format('truetype');
+  src: url('/fonts/optimized/dm-sans-normal.woff2') format('woff2');
+  unicode-range: U+0000-097F,U+0A00-10FFFF;
   font-weight: 100 900;
   font-style: normal;
   font-display: swap;
@@ -76,7 +111,8 @@
 
 @font-face {
   font-family: "DM Sans";
-  src: url('/fonts/english/DMSans-Italic-VariableFont_opsz,wght.ttf') format('truetype');
+  src: url('/fonts/optimized/dm-sans-italic.woff2') format('woff2');
+  unicode-range: U+0000-097F,U+0A00-10FFFF;
   font-weight: 100 900;
   font-style: italic;
   font-display: swap;
@@ -85,7 +121,8 @@
 /* Inter - English Backup */
 @font-face {
   font-family: "Inter";
-  src: url('/fonts/english/Inter-VariableFont_opsz,wght.ttf') format('truetype');
+  src: url('/fonts/optimized/inter-normal.woff2') format('woff2');
+  unicode-range: U+0000-097F,U+0A00-10FFFF;
   font-weight: 100 900;
   font-style: normal;
   font-display: swap;
@@ -93,10 +130,70 @@
 
 @font-face {
   font-family: "Open Sans";
-  src: url('/fonts/english/OpenSans-VariableFont_wdth,wght.ttf') format('truetype');
+  src: url('/fonts/optimized/open-sans-normal.woff2') format('woff2');
+  unicode-range: U+0000-097F,U+0A00-10FFFF;
   font-weight: 300 800;
   font-style: normal;
   font-display: swap;
+}
+
+@font-face {
+  font-family: "Anek Bangla";
+  src: url('/fonts/optimized/anek-bangla-semicondensed.woff2') format('woff2');
+  font-weight: 100 800;
+  font-stretch: 87.5%;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Small Latin faces take precedence; full faces preserve extended glyph coverage. */
+@font-face {
+  font-family: "Playfair Display";
+  src: url('/fonts/optimized/playfair-display-normal-latin.woff2') format('woff2');
+  font-weight: 400 900;
+  font-style: normal;
+  font-display: swap;
+  unicode-range: U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+2074,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD;
+}
+@font-face {
+  font-family: "Playfair Display";
+  src: url('/fonts/optimized/playfair-display-italic-latin.woff2') format('woff2');
+  font-weight: 400 900;
+  font-style: italic;
+  font-display: swap;
+  unicode-range: U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+2074,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD;
+}
+@font-face {
+  font-family: "DM Sans";
+  src: url('/fonts/optimized/dm-sans-normal-latin.woff2') format('woff2');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+  unicode-range: U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+2074,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD;
+}
+@font-face {
+  font-family: "DM Sans";
+  src: url('/fonts/optimized/dm-sans-italic-latin.woff2') format('woff2');
+  font-weight: 100 900;
+  font-style: italic;
+  font-display: swap;
+  unicode-range: U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+2074,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD;
+}
+@font-face {
+  font-family: "Open Sans";
+  src: url('/fonts/optimized/open-sans-normal-latin.woff2') format('woff2');
+  font-weight: 300 800;
+  font-style: normal;
+  font-display: swap;
+  unicode-range: U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+2074,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD;
+}
+@font-face {
+  font-family: "Inter";
+  src: url('/fonts/optimized/inter-normal-latin.woff2') format('woff2');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+  unicode-range: U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+2074,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD;
 }
 
 /* Custom theme variables for Tailwind v4 */
@@ -167,6 +264,10 @@
 html {
   scroll-behavior: smooth;
   scroll-padding-top: 80px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
 }
 
 body {

@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import PhoneMockupBasic from "@/components/ui/phone-mockups-1";
 import AppStoreComingSoon from "@/components/ui/app-store-coming-soon";
 import { useLanguage } from "@/contexts/LanguageContext";
+import { useAnimationActivity } from "@/hooks/useAnimationActivity";
 
 const messages = {
   en: [
@@ -22,18 +23,28 @@ const messages = {
 
 export default function LegalProcessMarquee({ onOpenWaitlist }: { onOpenWaitlist: () => void }) {
   const { language } = useLanguage();
+  const wrapperRef = useRef<HTMLDivElement>(null);
   const trackRef = useRef<HTMLDivElement>(null);
-  const cycleStartRef = useRef(0);
+  const elapsedRef = useRef(0);
+  const startedAtRef = useRef(0);
   const [activeIndex, setActiveIndex] = useState(0);
+  const { isActive, prefersReducedMotion } = useAnimationActivity(wrapperRef);
   const items = messages[language];
 
   useEffect(() => {
+    elapsedRef.current = 0;
+    setActiveIndex(0);
+    if (trackRef.current) trackRef.current.style.transform = 'translate3d(0, -38px, 0)';
+  }, [language]);
+
+  useEffect(() => {
+    if (!isActive || prefersReducedMotion) return;
     const stepDuration = 3600;
-    cycleStartRef.current = performance.now();
+    startedAtRef.current = performance.now();
     let frame = 0;
     let previousIndex = -1;
     const animate = (now: number) => {
-      const elapsed = Math.max(0, now - cycleStartRef.current);
+      const elapsed = elapsedRef.current + Math.max(0, now - startedAtRef.current);
       const cyclePosition = (elapsed / stepDuration) % items.length;
       const currentIndex = Math.floor(cyclePosition);
       const track = trackRef.current;
@@ -47,19 +58,24 @@ export default function LegalProcessMarquee({ onOpenWaitlist }: { onOpenWaitlist
       frame = requestAnimationFrame(animate);
     };
     frame = requestAnimationFrame(animate);
-    return () => cancelAnimationFrame(frame);
-  }, [items.length, language]);
+    return () => {
+      elapsedRef.current += Math.max(0, performance.now() - startedAtRef.current);
+      cancelAnimationFrame(frame);
+    };
+  }, [isActive, prefersReducedMotion, items.length, language]);
 
   const selectStep = (index: number) => {
-    cycleStartRef.current = performance.now() - index * 3600;
+    elapsedRef.current = index * 3600;
+    startedAtRef.current = performance.now();
     setActiveIndex(index);
+    if (trackRef.current) trackRef.current.style.transform = `translate3d(0, -${index * 76 + 38}px, 0)`;
   };
 
   return (
-    <div className="grid grid-cols-1 items-center gap-4 bg-transparent px-0 pt-4 pb-0 lg:grid-cols-[0.85fr_1.15fr] lg:gap-0">
+    <div ref={wrapperRef} className="grid grid-cols-1 items-center gap-4 bg-transparent px-0 pt-4 pb-0 lg:grid-cols-[0.85fr_1.15fr] lg:gap-0">
       <div>
         <div className="relative h-[300px] overflow-hidden sm:h-[350px]">
-          <div ref={trackRef} className="absolute inset-x-0 top-1/2 will-change-transform">
+          <div ref={trackRef} className="absolute inset-x-0 top-1/2" style={{ transform: 'translate3d(0, -38px, 0)', willChange: isActive && !prefersReducedMotion ? 'transform' : undefined }}>
             {[0, 1].map((copy) => (
               <div key={copy} aria-hidden={copy === 1} className="h-[380px]">
                 {items.map((item, index) => (

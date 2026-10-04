@@ -5,9 +5,11 @@ import { LanguageProvider } from './contexts/LanguageContext';
 import Navbar from './components/Navbar';
 import HeroLanding from './components/HeroLanding';
 import InspiredSection from './components/InspiredSection';
+import DeferredSection from './components/DeferredSection';
+import { cancelSectionNavigation, scrollToSection } from './lib/sectionNavigation';
 import { initializeAnalytics, trackWaitlistOpen, trackWaitlistClose, trackJoinWaitlistClick } from './lib/analytics';
 
-// Lazy load below-fold components to reduce initial bundlee
+// Load each section only when it is near the viewport or requested by navigation.
 const ServicesSection = lazy(() => import('./components/ServicesSection'));
 const HowItWorks = lazy(() => import('./components/HowItWorks'));
 const TrustSection = lazy(() => import('./components/TrustSection'));
@@ -26,32 +28,15 @@ const HashScroller: React.FC = () => {
   const location = useLocation();
 
   useEffect(() => {
+    cancelSectionNavigation();
     if (!location.hash) return;
-
-    const id = decodeURIComponent(location.hash.slice(1));
-    let attempts = 0;
-    let timeoutId: number | undefined;
-
-    const scrollToHash = () => {
-      const element = document.getElementById(id);
-      if (element) {
-        const offset = 80;
-        const elementPosition = element.getBoundingClientRect().top + window.scrollY;
-        window.scrollTo({ top: elementPosition - offset, behavior: 'smooth' });
-        return;
-      }
-
-      attempts += 1;
-      if (attempts < 20) {
-        timeoutId = window.setTimeout(scrollToHash, 100);
-      }
-    };
-
-    timeoutId = window.setTimeout(scrollToHash, 0);
-
-    return () => {
-      if (timeoutId) window.clearTimeout(timeoutId);
-    };
+    const controller = new AbortController();
+    try {
+      void scrollToSection(decodeURIComponent(location.hash.slice(1)), 'smooth', controller.signal);
+    } catch {
+      // Ignore malformed URL fragments rather than interrupting page rendering.
+    }
+    return () => controller.abort();
   }, [location.pathname, location.hash]);
 
   return null;
@@ -85,30 +70,36 @@ const AppContent: React.FC = () => {
       <main className="relative z-10">
         <HeroLanding onOpenWaitlist={() => openWaitlist('hero')} />
         <InspiredSection />
-        <Suspense fallback={<SectionLoader />}>
+        <DeferredSection id="services" mobileHeight={670} desktopHeight={780} className="bg-white">
           <ServicesSection />
+        </DeferredSection>
+        <DeferredSection id="process" mobileHeight={1150} desktopHeight={880}>
           <HowItWorks onOpenWaitlist={() => openWaitlist('how_it_works_app_store')} />
+        </DeferredSection>
+        <DeferredSection id="trust" mobileHeight={1000} desktopHeight={620} className="bg-white">
           <TrustSection />
+        </DeferredSection>
+        <DeferredSection id="faq" mobileHeight={950} desktopHeight={800}>
           <FAQ />
-        </Suspense>
+        </DeferredSection>
       </main>
 
       <div className="relative z-10">
-        <Suspense fallback={null}>
+        <DeferredSection id="footer" mobileHeight={1500} desktopHeight={850}>
           <Footer onOpenWaitlist={() => openWaitlist('footer')} />
-        </Suspense>
+        </DeferredSection>
       </div>
 
-      <Suspense fallback={null}>
+      <DeferredSection id="cinematic-footer" mobileHeight={823} desktopHeight={900}>
         <CinematicFooter onOpenWaitlist={() => openWaitlist('cinematic_footer')} />
-      </Suspense>
+      </DeferredSection>
       
       <Suspense fallback={null}>
-        <WaitlistPage 
+        {isWaitlistOpen && <WaitlistPage
           isOpen={isWaitlistOpen} 
           onClose={closeWaitlist}
           source={waitlistSource}
-        />
+        />}
       </Suspense>
 
       <SpeedInsights />
@@ -142,21 +133,21 @@ const AboutRoute: React.FC = () => {
         <Suspense fallback={<SectionLoader />}>
           <AboutPage />
         </Suspense>
-        <Suspense fallback={null}>
+        <DeferredSection id="footer" mobileHeight={1500} desktopHeight={850}>
           <Footer onOpenWaitlist={() => openWaitlist('about_footer')} />
-        </Suspense>
+        </DeferredSection>
       </div>
 
-      <Suspense fallback={null}>
+      <DeferredSection id="cinematic-footer" mobileHeight={823} desktopHeight={900}>
         <CinematicFooter onOpenWaitlist={() => openWaitlist('about_cinematic_footer')} />
-      </Suspense>
+      </DeferredSection>
 
       <Suspense fallback={null}>
-        <WaitlistPage
+        {isWaitlistOpen && <WaitlistPage
           isOpen={isWaitlistOpen}
           onClose={closeWaitlist}
           source={waitlistSource}
-        />
+        />}
       </Suspense>
 
       <SpeedInsights />

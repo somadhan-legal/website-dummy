@@ -5,17 +5,13 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <!-- Critical preconnect hints - MUST be before any external resources -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Anek+Bangla:wdth,wght@87.5,100..800&display=swap" rel="stylesheet">
-  <link rel="preconnect" href="https://images.unsplash.com" crossorigin>
+  <!-- Prioritize the fonts and image used in the first viewport. -->
   <link rel="dns-prefetch" href="https://www.googletagmanager.com">
-
-  <!-- Preload hero background image for faster LCP -->
-  <link rel="preload" as="image"
-    href="https://images.unsplash.com/photo-1505664194779-8beaceb93744?q=30&w=1200&auto=format&fit=crop&fm=webp"
-    fetchpriority="high">
+  <link rel="preload" href="/fonts/optimized/dm-sans-normal-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="/fonts/optimized/playfair-display-normal-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="/fonts/optimized/playfair-display-italic-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="/images/optimized/hero-crowd-mobile.webp" as="image" media="(max-width: 639px)" fetchpriority="low">
+  <link rel="preload" href="/images/optimized/hero-crowd.webp" as="image" media="(min-width: 640px)" fetchpriority="low">
 
   <title>Somadhan | AI-Powered Legal Support Platform in Bangladesh</title>
   <meta name="description"

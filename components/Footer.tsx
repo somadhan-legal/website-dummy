@@ -5,6 +5,8 @@ import { BadgeCheck, Bell, Building2, FileText, Mail, MapPin, Phone, Smartphone,
 import { useLanguage } from '../contexts/LanguageContext';
 import { trackCTAClick, trackSocialClick } from '../lib/analytics';
 import { companyInfo } from '../lib/companyInfo';
+import { getOptimizedImage } from '../lib/optimizedAssets';
+import { scrollToSection as navigateToSection } from '../lib/sectionNavigation';
 
 interface FooterProps {
   onOpenWaitlist: () => void;
@@ -29,12 +31,7 @@ const Footer: React.FC<FooterProps> = ({ onOpenWaitlist }) => {
       return;
     }
 
-    const element = document.getElementById(id);
-    if (element) {
-      const offset = 80;
-      const elementPosition = element.getBoundingClientRect().top + window.scrollY;
-      window.scrollTo({ top: elementPosition - offset, behavior: 'smooth' });
-    }
+    void navigateToSection(id);
   };
 
   const handleComingSoonClick = (id: string) => {
@@ -115,7 +112,10 @@ const Footer: React.FC<FooterProps> = ({ onOpenWaitlist }) => {
           {/* Brand Column */}
           <div className="col-span-2 md:col-span-4">
             <img
-              src={language === 'bn' ? '/Somadhan BLT.svg' : '/Somadhan ELT.svg'}
+              {...getOptimizedImage(language === 'bn' ? '/Somadhan BLT.svg' : '/Somadhan ELT.svg')}
+              sizes="156px"
+              loading="lazy"
+              decoding="async"
               alt="Somadhan"
               className="h-6 w-auto mb-4"
             />
