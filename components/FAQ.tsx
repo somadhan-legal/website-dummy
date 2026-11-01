@@ -313,15 +313,16 @@ const FAQ: React.FC<{ standalone?: boolean }> = ({ standalone = false }) => {
   const { language, t } = useLanguage();
   const location = useLocation();
   const navigate = useNavigate();
-  const [selection, setSelection] = useState(defaultSelection);
+  const [localSelection, setLocalSelection] = useState(defaultSelection);
+  const [hasHydrated, setHasHydrated] = useState(false);
+  // Keep the first client render equal to the pre-rendered page, then let the URL own page state.
+  const selection = standalone && hasHydrated ? parseFaqHash(location.hash) : localSelection;
   const bn = language === 'bn';
   const category = faqCategories.find(item => item.id === selection.categoryId) || faqCategories[0];
   const Heading = standalone ? 'h1' : 'h2';
   const QuestionHeading = standalone ? 'h2' : 'h3';
 
-  useEffect(() => {
-    if (standalone) setSelection(parseFaqHash(location.hash));
-  }, [location.hash, standalone]);
+  useEffect(() => { setHasHydrated(true); }, []);
 
   useEffect(() => {
     if (!standalone || !location.hash) return;
@@ -341,10 +342,9 @@ const FAQ: React.FC<{ standalone?: boolean }> = ({ standalone = false }) => {
   }, [location.hash, selection.categoryId, selection.questionId, standalone]);
 
   const select = (categoryId: string, questionId: string | null) => {
-    setSelection({ categoryId, questionId });
     if (standalone) {
       navigate({ pathname: '/faq', search: location.search, hash: `#${categoryId}${questionId ? `/${questionId}` : ''}` }, { preventScrollReset: true });
-    }
+    } else setLocalSelection({ categoryId, questionId });
   };
 
   return (
