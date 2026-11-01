@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import PhoneMockupBasic from "@/components/ui/phone-mockups-1";
-import AppStoreComingSoon from "@/components/ui/app-store-coming-soon";
+import AppDownload from "@/components/ui/app-download";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { useAnimationActivity } from "@/hooks/useAnimationActivity";
 
@@ -21,7 +21,7 @@ const messages = {
   ],
 };
 
-export default function LegalProcessMarquee({ onOpenWaitlist }: { onOpenWaitlist: () => void }) {
+export default function LegalProcessMarquee() {
   const { language } = useLanguage();
   const wrapperRef = useRef<HTMLDivElement>(null);
   const trackRef = useRef<HTMLDivElement>(null);
@@ -106,7 +106,7 @@ export default function LegalProcessMarquee({ onOpenWaitlist }: { onOpenWaitlist
         />
       </div>
       <div className="relative z-20 -mt-24 w-full min-w-0 sm:-mt-32 lg:col-span-2">
-        <AppStoreComingSoon onOpenWaitlist={onOpenWaitlist} />
+        <AppDownload />
       </div>
     </div>
   );

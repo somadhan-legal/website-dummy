@@ -8,7 +8,8 @@
     "build": "vite build && vite build --ssr scripts/entry-server.tsx --outDir dist-ssr && node scripts/prerender.mjs",
     "preview": "vite preview",
     "check:performance": "node scripts/check-performance-budget.mjs",
-    "verify": "npm run build && tsc --noEmit && npm run check:performance"
+    "check:public-pages": "node scripts/check-public-pages.mjs",
+    "verify": "npm run build && tsc --noEmit && npm run check:performance && npm run check:public-pages"
   },
   "dependencies": {
     "@radix-ui/react-slot": "^1.3.3",

@@ -3,10 +3,8 @@ import { ArrowUp, Play } from 'lucide-react';
 import { Spotlight } from '@/components/ui/spotlight';
 import { useLanguage } from '../../contexts/LanguageContext';
 import { useAnimationActivity } from '../../hooks/useAnimationActivity';
-
-interface CinematicFooterProps {
-  onOpenWaitlist: () => void;
-}
+import { companyInfo } from '../../lib/companyInfo';
+import { trackCTAClick } from '../../lib/analytics';
 
 interface MagneticButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   enabled: boolean;
@@ -38,7 +36,7 @@ const MagneticButton: React.FC<MagneticButtonProps> = ({ enabled, className = ''
   return <button ref={buttonRef} className={className} style={{ transitionProperty: 'background, border-color, box-shadow, color, transform, translate', transitionDuration: '350ms', ...style }} {...props}>{children}</button>;
 };
 
-export const CinematicFooter: React.FC<CinematicFooterProps> = ({ onOpenWaitlist }) => {
+export const CinematicFooter: React.FC = () => {
   const { language } = useLanguage();
   const wrapperRef = useRef<HTMLDivElement>(null);
   const logoRef = useRef<HTMLImageElement>(null);
@@ -106,25 +104,21 @@ export const CinematicFooter: React.FC<CinematicFooterProps> = ({ onOpenWaitlist
 
           <div ref={linksRef} className="flex w-full flex-col items-center gap-6">
             <div className="flex w-full flex-wrap justify-center gap-3 sm:gap-4">
-              <MagneticButton enabled={isActive && !prefersReducedMotion} onClick={onOpenWaitlist} className="cinematic-footer-pill flex min-w-[230px] items-center gap-3 rounded-2xl px-5 py-3.5 text-left transition-transform hover:scale-[1.03]">
-                <svg className="h-8 w-8 shrink-0" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-                  <path d="M17.05 20.28c-.98.95-2.05.8-3.08.35-1.09-.46-2.09-.48-3.24 0-1.44.62-2.2.44-3.06-.35C2.79 15.25 3.51 7.59 9.05 7.31c1.35.07 2.29.74 3.08.8 1.18-.04 2.26-.79 3.59-.76 1.56.04 2.87.67 3.55 1.76-3.13 1.77-2.62 5.92.35 7.14-.65 1.58-1.57 3.1-2.57 4.03zm-3.21-14.7c-.55 1.4-1.89 2.37-3.25 2.28.09-1.5 1.05-2.82 2.38-3.4 1.25-.57 2.66-.41 3.25.04-.15.35-.26.72-.38 1.08z" />
-                </svg>
-                <span className="flex flex-col">
-                  <span className="text-[10px] font-medium uppercase tracking-wider text-white/60">{language === 'bn' ? 'শীঘ্রই আসছে' : 'Coming soon'}</span>
-                  <span className="text-base font-semibold">{language === 'bn' ? 'অ্যাপ স্টোর' : 'App Store'}</span>
-                </span>
-              </MagneticButton>
-
-              <MagneticButton enabled={isActive && !prefersReducedMotion} onClick={onOpenWaitlist} className="cinematic-footer-pill flex min-w-[230px] items-center gap-3 rounded-2xl px-5 py-3.5 text-left transition-transform hover:scale-[1.03]">
+              <a
+                href={companyInfo.androidAppUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={() => trackCTAClick('download_android_app', 'cinematic_footer')}
+                className="cinematic-footer-pill flex min-w-[230px] items-center gap-3 rounded-2xl px-5 py-3.5 text-left transition-transform hover:scale-[1.03]"
+              >
                 <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-emerald-400/15 text-emerald-300">
                   <Play className="h-5 w-5 fill-current text-white" aria-hidden="true" />
                 </span>
                 <span className="flex flex-col">
-                  <span className="text-[10px] font-medium uppercase tracking-wider text-white/60">{language === 'bn' ? 'শীঘ্রই আসছে' : 'Coming soon'}</span>
-                  <span className="text-base font-semibold">{language === 'bn' ? 'গুগল প্লে' : 'Google Play'}</span>
+                  <span className="text-[10px] font-medium uppercase tracking-wider text-white/60">{language === 'bn' ? 'ডাউনলোড করুন' : 'Get it on'}</span>
+                  <span className="text-base font-semibold">Google Play</span>
                 </span>
-              </MagneticButton>
+              </a>
             </div>
 
           </div>

@@ -49,6 +49,7 @@ Somadhan is a technology platform. Somadhan is not a law firm and does not direc
 
 - Homepage: https://somadhan.com/
 - About Us: https://somadhan.com/about
+- Frequently Asked Questions: https://somadhan.com/faq
 - Terms and Conditions: https://somadhan.com/terms
 - Privacy Policy: https://somadhan.com/privacy
 - Sitemap: https://somadhan.com/sitemap.xml

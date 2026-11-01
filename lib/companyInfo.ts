@@ -9,6 +9,7 @@ export const companyInfo = {
   privacyEmail: 'privacy@somadhan.com',
   website: 'somadhan.com',
   somadhanSignUrl: 'https://sign.somadhan.com/',
+  androidAppUrl: 'https://play.google.com/store/apps/details?id=legal.somadhan.app',
   phoneDisplay: '01901048710',
   phoneHref: 'tel:+8801901048710',
   address: 'Road-01, House-34/A, Mohammadiya Housing Limited, Mohammadpur, Dhaka-1207, Bangladesh',

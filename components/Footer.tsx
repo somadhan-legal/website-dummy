@@ -1,18 +1,14 @@
 import React, { useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { BadgeCheck, Bell, Building2, FileText, Mail, MapPin, Phone, Smartphone, ArrowRight, ArrowUpRight } from 'lucide-react';
+import { BadgeCheck, Building2, FileText, Mail, MapPin, Phone, Smartphone, ArrowRight, ArrowUpRight } from 'lucide-react';
 import { useLanguage } from '../contexts/LanguageContext';
 import { trackCTAClick, trackSocialClick } from '../lib/analytics';
 import { companyInfo } from '../lib/companyInfo';
 import { getOptimizedImage } from '../lib/optimizedAssets';
 import { scrollToSection as navigateToSection } from '../lib/sectionNavigation';
 
-interface FooterProps {
-  onOpenWaitlist: () => void;
-}
-
-const Footer: React.FC<FooterProps> = ({ onOpenWaitlist }) => {
+const Footer: React.FC = () => {
   const { t, language } = useLanguage();
   const location = useLocation();
   const navigate = useNavigate();
@@ -54,20 +50,20 @@ const Footer: React.FC<FooterProps> = ({ onOpenWaitlist }) => {
               </h2>
               <p className={`text-white/50 text-sm max-w-sm ${language === 'bn' ? 'leading-relaxed' : ''}`}>
                 {language === 'bn'
-                  ? 'ওয়েটলিস্টে যোগ দিন এবং সবার আগে আপডেট পান।'
-                  : 'Join our waitlist for early access.'}
+                  ? 'অ্যান্ড্রয়েড অ্যাপ ডাউনলোড করে সমাধানের সঙ্গে শুরু করুন।'
+                  : 'Download the Android app to get started with Somadhan.'}
               </p>
             </div>
-            <button
-              onClick={() => {
-                trackCTAClick('join_waitlist', 'footer_cta');
-                onOpenWaitlist();
-              }}
+            <a
+              href={companyInfo.androidAppUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              onClick={() => trackCTAClick('download_android_app', 'footer_cta')}
               className="bg-white text-brand-600 px-6 py-3 rounded-full font-semibold text-sm hover:bg-white/90 transition-all hover:scale-105 active:scale-95 flex items-center gap-2 shadow-lg shadow-black/10 flex-shrink-0"
             >
-              {t('hero.joinWaitlist')}
+              {t('app.downloadAndroid')}
               <ArrowRight className="w-4 h-4" />
-            </button>
+            </a>
           </div>
         </div>
       </div>
@@ -166,9 +162,9 @@ const Footer: React.FC<FooterProps> = ({ onOpenWaitlist }) => {
                 </a>
               </li>
               <li>
-                <a href="#faq" onClick={(e) => scrollToSection(e, 'faq')} className={`text-slate-500 hover:text-brand-600 text-sm transition-colors ${language === 'bn' ? 'tracking-wide' : ''}`}>
+                <Link to="/faq" className={`text-slate-500 hover:text-brand-600 text-sm transition-colors ${language === 'bn' ? 'tracking-wide' : ''}`}>
                   {t('nav.faq')}
-                </a>
+                </Link>
               </li>
             </ul>
           </div>
@@ -242,20 +238,20 @@ const Footer: React.FC<FooterProps> = ({ onOpenWaitlist }) => {
                   <Smartphone className="w-5 h-5 text-brand-600" />
                 </div>
                 <div>
-                  <p className={`font-medium text-slate-900 text-sm ${language === 'bn' ? 'leading-relaxed' : ''}`}>{t('footer.appComingSoon')}</p>
-                  <p className="text-slate-600 text-xs">iOS & Android</p>
+                  <p className={`font-medium text-slate-900 text-sm ${language === 'bn' ? 'leading-relaxed' : ''}`}>{language === 'bn' ? 'সমাধান অ্যান্ড্রয়েড অ্যাপ' : 'Somadhan for Android'}</p>
+                  <p className="text-slate-600 text-xs">Google Play</p>
                 </div>
               </div>
-              <button
-                onClick={() => {
-                  trackCTAClick('notify_me', 'footer_app_card');
-                  onOpenWaitlist();
-                }}
-                className="w-full py-2 bg-slate-50 hover:bg-slate-100 text-slate-700 rounded-lg text-xs font-medium transition-colors flex items-center justify-center gap-1.5"
+              <a
+                href={companyInfo.androidAppUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={() => trackCTAClick('download_android_app', 'footer_app_card')}
+                className="w-full min-h-11 py-2 bg-slate-50 hover:bg-slate-100 text-slate-700 rounded-lg text-xs font-medium transition-colors flex items-center justify-center gap-1.5"
               >
-                <Bell className="w-3.5 h-3.5" />
-                {t('footer.notifyMe')}
-              </button>
+                {t('app.googlePlay')}
+                <ArrowUpRight className="w-3.5 h-3.5" aria-hidden="true" />
+              </a>
             </div>
           </div>
         </div>

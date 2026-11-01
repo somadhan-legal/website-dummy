@@ -1,35 +1,20 @@
-import React, { useRef, useState, useEffect, useCallback } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import { useLanguage } from '../contexts/LanguageContext';
-import { getWaitlistCount } from '../lib/supabase';
+import { companyInfo } from '../lib/companyInfo';
+import { trackCTAClick } from '../lib/analytics';
 import { CrowdCanvas } from './ui/skiper39';
 import { useAnimationActivity } from '../hooks/useAnimationActivity';
 
-interface HeroLandingProps {
-  onOpenWaitlist: () => void;
-}
-
-const HeroLanding: React.FC<HeroLandingProps> = ({ onOpenWaitlist }) => {
+const HeroLanding: React.FC = () => {
   const { t, language } = useLanguage();
   const heroRef = useRef<HTMLDivElement>(null);
   const backgroundRef = useRef<HTMLDivElement>(null);
   const contentRef = useRef<HTMLDivElement>(null);
   const { isActive, prefersReducedMotion } = useAnimationActivity(heroRef);
-  const [waitlistCount, setWaitlistCount] = useState(0);
   const [headlineSlide, setHeadlineSlide] = useState(0);
   const headlineSlides = language === 'bn'
     ? ['আপনার হাতের মুঠোয়', 'এক ট্যাপেই', 'যেখানেই থাকুন']
     : ['right in your hand.', 'one tap away.', 'wherever you go.'];
-
-  const refreshWaitlistCount = useCallback(() => {
-    getWaitlistCount().then(setWaitlistCount);
-  }, []);
-
-  // Fetch once on mount, and refetch whenever a submission succeeds
-  useEffect(() => {
-    refreshWaitlistCount();
-    window.addEventListener('waitlist:submitted', refreshWaitlistCount);
-    return () => window.removeEventListener('waitlist:submitted', refreshWaitlistCount);
-  }, [refreshWaitlistCount]);
 
   useEffect(() => {
     if (!isActive || prefersReducedMotion) return;
@@ -113,25 +98,15 @@ const HeroLanding: React.FC<HeroLandingProps> = ({ onOpenWaitlist }) => {
 
         {/* Single CTA - CSS animation */}
         <div className="animate-[fadeInUp_0.5s_ease-out_0.25s_both] flex flex-col items-center">
-          <button
-            onClick={onOpenWaitlist}
-            className="group bg-white text-brand-600 px-8 py-3.5 rounded-full text-sm font-semibold transition-all duration-300 hover:shadow-lg hover:shadow-white/20 hover:scale-[1.02] active:scale-[0.98]"
+          <a
+            href={companyInfo.androidAppUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            onClick={() => trackCTAClick('download_android_app', 'hero')}
+            className="group inline-flex min-h-12 items-center justify-center bg-white text-brand-600 px-8 py-3.5 rounded-full text-sm font-semibold transition-all duration-300 hover:shadow-lg hover:shadow-white/20 hover:scale-[1.02] active:scale-[0.98]"
           >
-            {t('hero.joinWaitlist')}
-          </button>
-
-          <div className="mt-5 min-h-6">
-            {waitlistCount > 0 && (
-              <p className="text-sm text-white/45 animate-[fadeIn_0.6s_ease-out]">
-                {language === 'bn' ? '' : 'Join '}
-                <span className="text-white/70 font-semibold">{waitlistCount}</span>
-                {language === 'bn' ? ' জনের সঙ্গে যোগ দিন' : ' others'}
-                <span className="mx-2 text-white/20">·</span>
-                {language === 'bn' ? 'আপনার সিরিয়াল ' : 'Your spot: '}
-                <span className="text-emerald-400 font-bold">#{waitlistCount + 1}</span>
-              </p>
-            )}
-          </div>
+            {t('hero.downloadApp')}
+          </a>
         </div>
       </div>
 

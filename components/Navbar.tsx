@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { Menu, X, Globe, ChevronRight, ChevronDown, ExternalLink } from 'lucide-react';
 import { useLanguage } from '../contexts/LanguageContext';
 import { trackNavClick, trackMobileMenuOpen, trackMobileMenuClose, trackLogoClick, trackLanguageChange, trackCTAClick } from '../lib/analytics';
@@ -7,13 +7,12 @@ import { companyInfo } from '../lib/companyInfo';
 import { getOptimizedImage } from '../lib/optimizedAssets';
 import { cancelSectionNavigation, scrollToSection as navigateToSection } from '../lib/sectionNavigation';
 
-interface NavbarProps {
-  onOpenWaitlist: () => void;
-}
-
-const Navbar: React.FC<NavbarProps> = ({ onOpenWaitlist }) => {
+const Navbar: React.FC<{ solid?: boolean }> = ({ solid = false }) => {
   const { language, setLanguage, t } = useLanguage();
-  const [isScrolled, setIsScrolled] = useState(false);
+  const location = useLocation();
+  const navigate = useNavigate();
+  const [hasScrolled, setHasScrolled] = useState(false);
+  const isScrolled = solid || hasScrolled;
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isToolsOpen, setIsToolsOpen] = useState(false);
   const toolsMenuRef = useRef<HTMLDivElement>(null);
@@ -25,12 +24,14 @@ const Navbar: React.FC<NavbarProps> = ({ onOpenWaitlist }) => {
   ];
 
   useEffect(() => {
+    if (solid) return;
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 20);
+      setHasScrolled(window.scrollY > 20);
     };
+    handleScroll();
     window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
+  }, [solid]);
 
   useEffect(() => {
     if (isMobileMenuOpen) {
@@ -62,7 +63,8 @@ const Navbar: React.FC<NavbarProps> = ({ onOpenWaitlist }) => {
   const scrollToSection = (e: React.MouseEvent<HTMLAnchorElement>, href: string, linkId: string) => {
     e.preventDefault();
     trackNavClick(linkId, href);
-    void navigateToSection(href.replace('#', ''));
+    if (location.pathname !== '/') navigate(`/${href}`);
+    else void navigateToSection(href.replace('#', ''));
     setIsMobileMenuOpen(false);
     setIsToolsOpen(false);
   };
@@ -71,6 +73,7 @@ const Navbar: React.FC<NavbarProps> = ({ onOpenWaitlist }) => {
     e.preventDefault();
     cancelSectionNavigation();
     trackLogoClick();
+    if (location.pathname !== '/') navigate('/');
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
@@ -79,6 +82,11 @@ const Navbar: React.FC<NavbarProps> = ({ onOpenWaitlist }) => {
     const toLang = language === 'en' ? 'bn' : 'en';
     trackLanguageChange(fromLang, toLang);
     setLanguage(toLang);
+    if (location.pathname === '/faq') {
+      const search = new URLSearchParams(location.search);
+      search.set('lang', toLang);
+      navigate({ pathname: location.pathname, search: search.toString(), hash: location.hash }, { replace: true, preventScrollReset: true });
+    }
   };
 
   const handleMobileMenuToggle = () => {
@@ -115,7 +123,7 @@ const Navbar: React.FC<NavbarProps> = ({ onOpenWaitlist }) => {
         <div className="max-w-6xl mx-auto px-4 sm:px-6">
           <div className="flex items-center justify-between h-16 md:h-18">
             {/* Logo */}
-            <a href="#hero" onClick={handleLogoClick} className="flex items-center">
+            <a href={location.pathname === '/' ? '#hero' : '/'} onClick={handleLogoClick} className="flex items-center">
               <img
                 {...getOptimizedImage(language === 'bn' ? (isScrolled ? '/Somadhan BLT.svg' : '/Somadhan BLW.svg') : (isScrolled ? '/Somadhan ELT.svg' : '/Somadhan ELW.svg'))}
                 sizes="156px"
@@ -166,7 +174,7 @@ const Navbar: React.FC<NavbarProps> = ({ onOpenWaitlist }) => {
                 ) : link.type === 'section' ? (
                   <a
                     key={link.href}
-                    href={link.href}
+                    href={location.pathname === '/' ? link.href : `/${link.href}`}
                     onClick={(e) => scrollToSection(e, link.href, link.id)}
                     className={`inline-flex min-h-12 items-center leading-none text-sm font-medium transition-colors ${isScrolled ? 'text-slate-600 hover:text-brand-600' : 'text-white/80 hover:text-white'
                       } ${language === 'bn' ? 'tracking-wide' : ''}`}
@@ -301,7 +309,7 @@ const Navbar: React.FC<NavbarProps> = ({ onOpenWaitlist }) => {
                     ) : link.type === 'section' ? (
                       <a
                         key={link.href}
-                        href={link.href}
+                        href={location.pathname === '/' ? link.href : `/${link.href}`}
                         onClick={(e) => scrollToSection(e, link.href, link.id)}
                         className={`flex items-center justify-between px-3 py-3 text-slate-700 hover:bg-slate-50 rounded-xl font-medium transition-colors ${language === 'bn' ? 'leading-relaxed' : ''}`}
                       >

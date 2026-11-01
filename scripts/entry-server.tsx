@@ -4,6 +4,8 @@ import { renderToPipeableStream } from 'react-dom/server';
 import { StaticRouter } from 'react-router-dom';
 import App from '../App';
 
+export { faqCategories, parseFaqHash } from '../components/FAQ';
+
 export async function render(url: string): Promise<string> {
   let deadline: ReturnType<typeof setTimeout> | undefined;
   try {
