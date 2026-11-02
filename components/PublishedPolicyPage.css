@@ -3,13 +3,15 @@
   font-stretch: normal;
   overflow-wrap: anywhere;
 }
-.published-policy-content h2,
-.published-policy-content h3 {
-  font-family: "Playfair Display", serif;
+.published-policy-content[lang="en"] h2,
+.published-policy-content[lang="en"] h3 {
+  /* Keep the published English body independent of global Bangla heading overrides. */
+  font-family: "Playfair Display", serif !important;
   font-stretch: normal;
   color: #0f172a;
   font-weight: 500;
-  line-height: 1.4;
+  line-height: 1.4 !important;
+  letter-spacing: 0;
   scroll-margin-top: 104px;
 }
 .published-policy-content h2 { margin: 2.5rem 0 1rem; font-size: 1.5rem; }
@@ -22,5 +24,7 @@
 .published-policy-content ol { list-style: decimal; }
 .published-policy-content li { margin: 0.5rem 0; }
 .published-policy-content li > p { margin: 0; }
+.published-policy-content[lang="en"] p,
+.published-policy-content[lang="en"] li { line-height: inherit; letter-spacing: 0; }
 .published-policy-content strong { color: #334155; font-weight: 600; }
 .published-policy-content a { color: #055056; text-decoration: underline; text-underline-offset: 3px; }
