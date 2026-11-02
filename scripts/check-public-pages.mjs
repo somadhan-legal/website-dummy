@@ -8,6 +8,14 @@ const home = await read('index.html');
 const about = await read('about.html');
 const faq = await read('faq.html');
 const manifest = JSON.parse(await read('.vite/manifest.json'));
+for (const [file, title, route] of [['terms.html', 'Terms and Conditions', '/terms'], ['privacy.html', 'Privacy Policy', '/privacy']]) {
+  const html = await read(file);
+  assert(html.includes(`<title>${title} | Somadhan</title>`));
+  assert(html.includes(`rel="canonical" href="https://somadhan.com${route}"`));
+  assert(html.includes('Loading published policy'));
+  assert.doesNotMatch(html, /Welcome to Somadhan|Cyber Security Act|Last updated:|March 16, 2026|June 6, 2026/);
+  assert.doesNotMatch(html, /<link rel="preload"[^>]*hero-crowd/);
+}
 
 for (const [name, html] of [['home', home], ['about', about], ['faq', faq]]) {
   assert.doesNotMatch(html, /join (?:our |the )?waitlist|ওয়েটলিস্ট|waitlist_submissions/i, `${name} exposes a waitlist entry`);

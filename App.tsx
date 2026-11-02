@@ -30,7 +30,7 @@ const HashScroller: React.FC = () => {
 
   useEffect(() => {
     cancelSectionNavigation();
-    if (!location.hash || location.pathname === '/faq') return;
+    if (!location.hash || ['/faq', '/terms', '/privacy'].includes(location.pathname)) return;
     const controller = new AbortController();
     try {
       void scrollToSection(decodeURIComponent(location.hash.slice(1)), 'smooth', controller.signal);

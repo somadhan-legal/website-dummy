@@ -9,7 +9,8 @@
     "preview": "vite preview",
     "check:performance": "node scripts/check-performance-budget.mjs",
     "check:public-pages": "node scripts/check-public-pages.mjs",
-    "verify": "npm run build && tsc --noEmit && npm run check:performance && npm run check:public-pages"
+    "test:policies": "node --experimental-strip-types --test scripts/public-policies.test.mjs",
+    "verify": "npm run build && tsc --noEmit && npm run check:performance && npm run check:public-pages && npm run test:policies"
   },
   "dependencies": {
     "@radix-ui/react-slot": "^1.3.3",

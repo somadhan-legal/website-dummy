@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, AlertCircle, CheckCircle2, Loader2 } from 'lucide-react';
 import { useLanguage } from '../contexts/LanguageContext';
@@ -99,11 +100,15 @@ const AccountDeletionModal: React.FC<AccountDeletionModalProps> = ({ isOpen, onC
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.95, y: 20 }}
             transition={{ type: "spring", duration: 0.5, bounce: 0.3 }}
-            className="relative w-full max-w-lg bg-white rounded-2xl shadow-2xl overflow-hidden"
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="account-deletion-title"
+            className="relative max-h-[calc(100dvh-2rem)] w-full max-w-lg overflow-y-auto overscroll-contain bg-white rounded-2xl shadow-2xl"
           >
             {/* Close Button */}
             <button
               onClick={onClose}
+              aria-label={bn ? 'বন্ধ করুন' : 'Close'}
               className="absolute top-4 right-4 p-2 text-slate-400 hover:text-slate-600 hover:bg-slate-100 rounded-full transition-colors z-10"
             >
               <X className="w-5 h-5" />
@@ -120,13 +125,15 @@ const AccountDeletionModal: React.FC<AccountDeletionModalProps> = ({ isOpen, onC
                   >
                     <CheckCircle2 className="w-10 h-10 text-green-600" />
                   </motion.div>
-                  <h3 className={`font-serif text-2xl text-slate-900 mb-3 ${bn ? 'leading-[1.4]' : ''}`}>
+                  <h3 id="account-deletion-title" className={`font-serif text-2xl text-slate-900 mb-3 ${bn ? 'leading-[1.4]' : ''}`}>
                     {bn ? 'অনুরোধ সফলভাবে জমা হয়েছে' : 'Request Submitted Successfully'}
                   </h3>
                   <p className="text-slate-500 text-base mb-8 max-w-sm mx-auto leading-relaxed">
                     {bn
-                      ? 'আপনার অ্যাকাউন্ট মুছে ফেলার অনুরোধ গৃহীত হয়েছে। আমরা আপনার পরিচয় যাচাইয়ের পর ৭ কার্যদিবসের মধ্যে প্রক্রিয়া সম্পন্ন করব।'
-                      : 'Your account deletion request has been received. We will complete the process within 7 business days after verifying your identity.'}
+                      ? 'আপনার অ্যাকাউন্ট মুছে ফেলার অনুরোধ গৃহীত হয়েছে।'
+                      : 'Your account deletion request has been received.'}
+                    {' '}
+                    <Link to="/privacy" onClick={onClose} className="text-brand-600 underline underline-offset-4">{bn ? 'প্রক্রিয়ার বিস্তারিত জানতে প্রকাশিত গোপনীয়তা নীতি পড়ুন।' : 'Read the published Privacy Policy for process details.'}</Link>
                   </p>
                   <button
                     onClick={onClose}
@@ -138,13 +145,15 @@ const AccountDeletionModal: React.FC<AccountDeletionModalProps> = ({ isOpen, onC
               ) : (
                 <>
                   <div className="mb-6">
-                    <h3 className={`font-serif text-2xl text-slate-900 mb-2 ${bn ? 'leading-[1.4]' : ''}`}>
+                    <h3 id="account-deletion-title" className={`font-serif text-2xl text-slate-900 mb-2 ${bn ? 'leading-[1.4]' : ''}`}>
                       {bn ? 'অ্যাকাউন্ট মুছে ফেলার অনুরোধ' : 'Account Deletion Request'}
                     </h3>
                     <p className="text-slate-500 text-sm">
                       {bn
-                        ? 'আপনার অ্যাকাউন্ট মুছে ফেলতে নিচের ফর্মটি পূরণ করুন। আমরা ৭ কার্যদিবসের মধ্যে আপনার অনুরোধ প্রক্রিয়া করব।'
-                        : 'Fill out the form below to request account deletion. We will process your request within 7 business days.'}
+                        ? 'আপনার অ্যাকাউন্ট মুছে ফেলার অনুরোধ করতে নিচের ফর্মটি পূরণ করুন।'
+                        : 'Fill out the form below to request account deletion.'}
+                      {' '}
+                      <Link to="/privacy" onClick={onClose} className="text-brand-600 underline underline-offset-4">{bn ? 'প্রক্রিয়ার বিস্তারিত জানতে প্রকাশিত গোপনীয়তা নীতি পড়ুন।' : 'Read the published Privacy Policy for process details.'}</Link>
                     </p>
                   </div>
 
