@@ -19,6 +19,7 @@ for (const [file, title, route] of [['terms.html', 'Terms and Conditions', '/ter
 
 for (const [name, html] of [['home', home], ['about', about], ['faq', faq]]) {
   assert.doesNotMatch(html, /join (?:our |the )?waitlist|ওয়েটলিস্ট|waitlist_submissions/i, `${name} exposes a waitlist entry`);
+  assert.match(html, /<a href="https:\/\/app\.somadhan\.com" target="_blank" rel="noopener noreferrer"[^>]*>Get Started<\/a>/, `${name} navbar Get Started must open the web app in a new tab`);
 }
 assert(!Object.keys(manifest).some(key => /WaitlistPage/.test(key)), 'Waitlist form must not be in the public bundle');
 assert.match(home, /href="https:\/\/play\.google\.com\/store\/apps\/details\?id=legal\.somadhan\.app"/);

@@ -173,7 +173,7 @@ const AboutPage: React.FC = () => {
               {bn ? 'EN' : 'বাং'}
             </button>
             <a
-              href={companyInfo.somadhanSignUrl}
+              href={companyInfo.webAppUrl}
               target="_blank"
               rel="noopener noreferrer"
               onClick={() => trackCTAClick('get_started', 'about_navbar')}
