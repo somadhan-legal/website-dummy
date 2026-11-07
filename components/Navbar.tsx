@@ -211,7 +211,7 @@ const Navbar: React.FC<{ solid?: boolean }> = ({ solid = false }) => {
 
               {/* Primary action */}
               <a
-                href={companyInfo.somadhanSignUrl}
+                href={companyInfo.webAppUrl}
                 target="_blank"
                 rel="noopener noreferrer"
                 onClick={() => handleGetStartedClick('navbar')}
@@ -344,7 +344,7 @@ const Navbar: React.FC<{ solid?: boolean }> = ({ solid = false }) => {
 
                 {/* Primary action */}
                 <a
-                  href={companyInfo.somadhanSignUrl}
+                  href={companyInfo.webAppUrl}
                   target="_blank"
                   rel="noopener noreferrer"
                   onClick={() => handleGetStartedClick('mobile_menu')}

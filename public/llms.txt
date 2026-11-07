@@ -48,6 +48,7 @@ Somadhan is a technology platform. Somadhan is not a law firm and does not direc
 ## Useful URLs
 
 - Homepage: https://somadhan.com/
+- Web app: https://app.somadhan.com
 - About Us: https://somadhan.com/about
 - Frequently Asked Questions: https://somadhan.com/faq
 - Terms and Conditions: https://somadhan.com/terms
@@ -61,4 +62,4 @@ Somadhan is an AI-powered legal support platform in Bangladesh that connects use
 
 ## Last updated
 
-2026-06-06
+2026-11-08
