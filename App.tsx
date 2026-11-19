@@ -21,6 +21,7 @@ const TermsPage = lazy(() => import('./components/TermsPage'));
 const PrivacyPolicyPage = lazy(() => import('./components/PrivacyPolicyPage'));
 const AboutPage = lazy(() => import('./components/AboutPage'));
 const FAQPage = lazy(() => import('./components/FAQPage'));
+const PaymentResultPage = lazy(() => import('./components/PaymentResultPage'));
 
 // Minimal loading placeholder
 const SectionLoader = () => <div className="py-20 bg-white" />;
@@ -130,6 +131,11 @@ const App: React.FC = () => {
         <Route path="/terms" element={
           <Suspense fallback={<SectionLoader />}>
             <TermsPage />
+          </Suspense>
+        } />
+        <Route path="/payment/result" element={
+          <Suspense fallback={<SectionLoader />}>
+            <PaymentResultPage />
           </Suspense>
         } />
         <Route path="/privacy" element={
