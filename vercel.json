@@ -7,9 +7,6 @@
       "schedule": "0 6 * * *"
     }
   ],
-  "rewrites": [
-    { "source": "/payment/result", "destination": "/index.html" }
-  ],
   "redirects": [
     {
       "source": "/(.*)",
