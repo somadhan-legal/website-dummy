@@ -54,6 +54,11 @@ export default function PublishedPolicyPage({ slug }: { slug: PolicySlug }) {
     if (!window.location.hash) window.scrollTo({ top: 0, behavior: 'instant' });
   }, [slug]);
 
+  // The apps link here with ?request=account-deletion to open the request form directly.
+  useEffect(() => {
+    if (slug === 'privacy-policy' && new URLSearchParams(location.search).get('request') === 'account-deletion') setDeletionOpen(true);
+  }, [location.search, slug]);
+
   useEffect(() => {
     if (!location.hash) return;
     let id: string;
