@@ -1,5 +1,5 @@
 import assert from 'node:assert/strict';
-import { readFile, writeFile } from 'node:fs/promises';
+import { mkdir, readFile, writeFile } from 'node:fs/promises';
 import { fileURLToPath } from 'node:url';
 import path from 'node:path';
 
@@ -65,3 +65,12 @@ for (const [url, file] of [['/', 'index.html'], ['/about', 'about.html'], ['/faq
   await writeFile(path.join(root, 'dist', file), page);
   console.log(`Pre-rendered ${url}: ${Buffer.byteLength(html)} bytes of page HTML`);
 }
+
+// Payment result depends on the query string, so it is not pre-rendered.
+// Write an empty shell that React renders in the browser. Keep it out of search results.
+const paymentShell = template
+  .replace(/<title>[^<]*<\/title>/, '<title>Payment Result | Somadhan</title>')
+  .replace('</head>', '  <meta name="robots" content="noindex" />\n  </head>');
+await mkdir(path.join(root, 'dist/payment'), { recursive: true });
+await writeFile(path.join(root, 'dist/payment/result.html'), paymentShell);
+console.log('Wrote /payment/result shell');
