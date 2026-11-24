@@ -30,7 +30,9 @@ export default function PublishedPolicyPage({ slug }: { slug: PolicySlug }) {
   const info = pageInfo[slug];
   const other = pageInfo[info.other];
   const bn = language === 'bn';
-  const requestedLanguage = new URLSearchParams(location.search).get('lang');
+  const searchParams = new URLSearchParams(location.search);
+  const requestedLanguage = searchParams.get('lang');
+  const deletionRequested = slug === 'privacy-policy' && searchParams.get('request') === 'account-deletion';
   const { state, refreshing, retry } = usePublishedPolicy(slug);
   const published = state.status === 'published' ? state : null;
   const toc = published?.body.toc ?? [];
@@ -54,10 +56,9 @@ export default function PublishedPolicyPage({ slug }: { slug: PolicySlug }) {
     if (!window.location.hash) window.scrollTo({ top: 0, behavior: 'instant' });
   }, [slug]);
 
-  // The apps link here with ?request=account-deletion to open the request form directly.
   useEffect(() => {
-    if (slug === 'privacy-policy' && new URLSearchParams(location.search).get('request') === 'account-deletion') setDeletionOpen(true);
-  }, [location.search, slug]);
+    if (deletionRequested) setDeletionOpen(true);
+  }, [deletionRequested]);
 
   useEffect(() => {
     if (!location.hash) return;
